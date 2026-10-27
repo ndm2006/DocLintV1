@@ -4,7 +4,8 @@ Field codes, numbering, text, SDT metadata and all non-formatting nodes remain i
 """
 import re
 import unicodedata
-from .template import SPECIAL_ROLES
+from .template import SPECIAL_ROLES, PROFILE
+from .cover import recognize as recognize_cover, DETAIL_ROLES
 
 W='http://schemas.openxmlformats.org/wordprocessingml/2006/main'
 NS={'w':W};Q='{'+W+'}'
@@ -46,7 +47,9 @@ def role_for_title(text,level=None):
 
 def enrich(analysis,parts,root,parser,context):
     body=root.find('w:body',NS);existing={b['id']:b for b in analysis['blocks']}
-    issues=[];appendix=False;seen_cover_title=False;subject_started=False;cover_closed=False
+    cover_roles,cover_before=recognize_cover(body,context)
+    compact_cover=any(cover_roles.get(i)=='cover_title' for i in cover_before)
+    issues=[];appendix=False
     for index,top in enumerate(body):
         # Only semantically identifiable titles/captions inside SDTs or tables become nested blocks.
         candidates=[top] if top.tag==Q+'p' else top.findall('.//w:p',NS)
@@ -71,12 +74,7 @@ def enrich(analysis,parts,root,parser,context):
             if role in {'assignment_title','toc_title','list_figures_title','list_tables_title'} and (not before_main or numbered_list):role=None
             if role in {'references_title','appendix_title'} and numbered_list:role=None
             if role=='references_title' and level!=1 and not title.isupper():role=None
-            if block is not None and block['role'] in {'acknowledgement_title','abstract_title'} or role in {'assignment_title','toc_title','list_figures_title','list_tables_title'}:cover_closed=True
-            if before_main and not cover_closed:
-                if re.match(r'^(?:trường\s+(?:đại học|đh)|đại học|học viện)\b',capsule) and len(title)<120:role='cover_institution'
-                elif re.match(r'^(?:đồ án|khóa luận) tốt nghiệp(?:\s*[–—-].*)?$',capsule):role='cover_title';seen_cover_title=True
-                elif sid.casefold()=='subtitle' and seen_cover_title:
-                    role='cover_subject_continuation' if subject_started else 'cover_subject';subject_started=True
+            if not path and index in cover_roles:role=cover_roles[index]
             if capsule=='kết luận' and level==1 and block is not None:block['section_kind']='conclusion'
             if role=='appendix_title':appendix=True
             if role=='references_title':appendix=False
@@ -102,6 +100,7 @@ def enrich(analysis,parts,root,parser,context):
             # Never modify actual drawing/math/signature objects, tracked changes or locked controls.
             unsafe=bool(node.xpath('.//w:drawing|.//w:pict|.//w:object|.//w:ins|.//w:del|.//w:footnoteReference|.//w:endnoteReference|.//w:commentReference|.//w:framePr|.//w:sym',namespaces=NS))
             unsafe=unsafe or any('officedocument/2006/math' in str(n.tag).lower() for n in node.iter())
+            unsafe=unsafe or context.property(node,'w:framePr') is not None
             for ancestor in node.iterancestors():
                 if ancestor.tag==Q+'sdt' and ancestor.find('w:sdtPr/w:lock',NS) is not None:unsafe=True
             if unsafe:
@@ -116,6 +115,12 @@ def enrich(analysis,parts,root,parser,context):
             block.update({'role':role,'protected':False,'needs_review':False,'confidence':0.99,
                           'source':'template_title_profile','reason':'Tiêu đề/chú thích nhận diện theo Style và hồ sơ mẫu HUST.',
                           'semantic_kind':role,'level':0})
+            if index in cover_before and not path:block['cover_before_twips']=cover_before[index]
+            if compact_cover and not path and role in {'cover_title','cover_subject','cover_subject_continuation'} and len(title)>24:
+                # A centered narrower text band balances long compact-cover titles
+                # without inserting line breaks, rewriting runs or shrinking type.
+                width=PROFILE['page_twips']['w']-PROFILE['margin_twips']['left']-PROFILE['margin_twips']['right']
+                block['cover_indent_twips']=round(width*.15)
             block['starts_front_page']=role in {'acknowledgement_title','assignment_title','toc_title','list_figures_title','list_tables_title','references_title','appendix_title'}
             # Do not add a second page break when the original paragraph already contains one.
             if node.find('.//w:br[@w:type="page"]',NS) is not None:block['starts_front_page']=False
@@ -126,5 +131,6 @@ def enrich(analysis,parts,root,parser,context):
         analysis['warnings'].append('Tiêu đề bìa dùng ArnoPro theo Style Subtitle trong mẫu. Chưa xác minh phông trên máy mở Word; cần có phông hợp lệ để đối chiếu hiển thị.')
     analysis['statistics'].update({'blocks':len(analysis['blocks']),
         'protected_blocks':sum(b['protected'] for b in analysis['blocks']),
-        'template_title_blocks':sum(b['role'] in SPECIAL_ROLES and b['role'] not in {'acknowledgement','abstract'} and not b['protected'] for b in analysis['blocks'])})
+        'cover_blocks':sum(b['role'].startswith('cover_') and not b['protected'] for b in analysis['blocks']),
+        'template_title_blocks':sum(b['role'] in SPECIAL_ROLES and b['role'] not in {'acknowledgement','abstract'}|DETAIL_ROLES and not b['protected'] for b in analysis['blocks'])})
     return analysis

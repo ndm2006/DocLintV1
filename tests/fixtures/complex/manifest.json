@@ -13,28 +13,28 @@
           "text": "TRƯỜNG ĐẠI HỌC KIỂM THỬ",
           "role": "cover_institution",
           "protected": false,
-          "note": "Tiêu đề trường/loại đồ án theo mẫu; thông tin bìa chưa đủ căn cứ vẫn giữ."
+          "note": "Nhận diện theo nhóm bìa: trường 15, loại đồ án 25, đề tài 23 pt ArnoPro; sinh viên 14 pt TNR; giữ chuỗi chữ."
         },
         {
           "id": "b1",
           "text": "ĐỒ ÁN TỐT NGHIỆP — TÀI LIỆU GIẢ LẬP",
           "role": "cover_title",
           "protected": false,
-          "note": "Tiêu đề trường/loại đồ án theo mẫu; thông tin bìa chưa đủ căn cứ vẫn giữ."
+          "note": "Nhận diện theo nhóm bìa: trường 15, loại đồ án 25, đề tài 23 pt ArnoPro; sinh viên 14 pt TNR; giữ chuỗi chữ."
         },
         {
           "id": "b2",
           "text": "HỆ THỐNG QUẢN LÝ MƯỢN THIẾT BỊ",
-          "role": "keep",
-          "protected": true,
-          "note": "Tiêu đề trường/loại đồ án theo mẫu; thông tin bìa chưa đủ căn cứ vẫn giữ."
+          "role": "cover_subject",
+          "protected": false,
+          "note": "Nhận diện theo nhóm bìa: trường 15, loại đồ án 25, đề tài 23 pt ArnoPro; sinh viên 14 pt TNR; giữ chuỗi chữ."
         },
         {
           "id": "b3",
           "text": "Sinh viên: Người kiểm thử A · Mã: TEST-001",
-          "role": "keep",
-          "protected": true,
-          "note": "Tiêu đề trường/loại đồ án theo mẫu; thông tin bìa chưa đủ căn cứ vẫn giữ."
+          "role": "cover_author",
+          "protected": false,
+          "note": "Nhận diện theo nhóm bìa: trường 15, loại đồ án 25, đề tài 23 pt ArnoPro; sinh viên 14 pt TNR; giữ chuỗi chữ."
         },
         {
           "id": "b4",

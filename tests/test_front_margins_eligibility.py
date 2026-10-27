@@ -54,9 +54,8 @@ def test_front_matter_uses_source_template_format_not_chapter_format():
             if bold:assert run.find('w:rPr/w:b',NS).get(tag('val'))==bold
     assert body[4].find('w:pPr/w:pageBreakBefore',NS).get(tag('val'))=='1'
     assert body[6].find('w:pPr/w:pageBreakBefore',NS).get(tag('val'))=='0'
-    # Cover and TOC field stay intact; only the two supported front sections are edited.
+    # Cover formatting is tested separately; the TOC field must remain unchanged.
     _,before=read_package(source);original=before.find('w:body',NS)
-    for index in (2,3):assert E.tostring(original[index])==E.tostring(body[index])
     assert E.tostring(original[8].find('w:fldSimple',NS))==E.tostring(body[8].find('w:fldSimple',NS))
     assert body[8].find('w:pPr/w:pageBreakBefore',NS).get(tag('val'))=='1'
     assert [g['block_ids'] for g in r['front_matter']]==[['b5'],['b7']]

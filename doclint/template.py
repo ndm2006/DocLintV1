@@ -1,6 +1,6 @@
 """Pinned formatting profile extracted from the user-supplied HUST 2019.1 template."""
 PROFILE = {
-    'id': 'HUST20191_S11', 'version': '0.1.2',
+    'id': 'HUST20191_S11', 'version': '0.1.3',
     'font': 'Times New Roman', 'size_pt': 13, 'line': 1.1,
     'margins_cm': {'left': 3.5, 'right': 2.5, 'top': 2, 'bottom': 2},
     'page_twips': {'w': 11907, 'h': 16840},
@@ -32,6 +32,15 @@ PROFILE['paragraphs'].update({
     'cover_title':title_rule(size=25,font='ArnoPro',label='Tên loại đồ án'),
     'cover_subject':title_rule(before=480,size=23,font='ArnoPro',label='Tên đề tài'),
     'cover_subject_continuation':title_rule(before=0,size=23,font='ArnoPro',label='Tên đề tài (tiếp)'),
+    'cover_faculty':title_rule(size=15,font='ArnoPro',label='Khoa / viện trên bìa'),
+    'cover_author':title_rule(before=360,line=240,size=14,label='Sinh viên thực hiện'),
+    'cover_author_label':title_rule(before=360,line=240,bold=False,label='Nhãn sinh viên thực hiện'),
+    'cover_student_detail':title_rule(before=0,line=240,bold=False,label='Mã số / lớp'),
+    'cover_email':title_rule(line=240,bold=False,label='Email sinh viên'),
+    'cover_major':title_rule(before=240,size=14,label='Ngành'),
+    'cover_specialization':title_rule(size=14,label='Chuyên ngành'),
+    'cover_advisor':title_rule(alignment='left',bold=False,label='Giảng viên hướng dẫn'),
+    'cover_place_date':title_rule(label='Địa điểm / thời gian'),
     'assignment_title':title_rule(before=480,label='Đề tài tốt nghiệp'),
     'toc_title':title_rule(label='Mục lục'),
     'list_figures_title':title_rule(after=160,line=259,label='Danh mục hình vẽ'),

@@ -269,8 +269,8 @@ PARAGRAPHS = [
 def thesis():
     f = Fixture('01_do_an_tong_hop', 'Đồ án tổng hợp: bìa, mục lục, 3 chương, bảng, ảnh và công thức')
     for text in ['TRƯỜNG ĐẠI HỌC KIỂM THỬ', 'ĐỒ ÁN TỐT NGHIỆP — TÀI LIỆU GIẢ LẬP', 'HỆ THỐNG QUẢN LÝ MƯỢN THIẾT BỊ', 'Sinh viên: Người kiểm thử A · Mã: TEST-001']:
-        role='cover_institution' if text.startswith('TRƯỜNG ') else 'cover_title' if text.startswith('ĐỒ ÁN ') else 'keep'
-        f.paragraph(text,role,protected=role=='keep',size=18,bold=True,note='Tiêu đề trường/loại đồ án theo mẫu; thông tin bìa chưa đủ căn cứ vẫn giữ.')
+        role='cover_institution' if text.startswith('TRƯỜNG ') else 'cover_title' if text.startswith('ĐỒ ÁN ') else 'cover_author' if text.startswith('Sinh viên:') else 'cover_subject'
+        f.paragraph(text,role,protected=role=='keep',size=18,bold=True,note='Nhận diện theo nhóm bìa: trường 15, loại đồ án 25, đề tài 23 pt ArnoPro; sinh viên 14 pt TNR; giữ chuỗi chữ.')
     f.paragraph('LỜI CẢM ƠN', 'acknowledgement_title', note='TNR 13, đậm, căn giữa, trước 24 pt theo mẫu.')
     f.paragraph(PARAGRAPHS[0], 'acknowledgement')
     f.paragraph('TÓM TẮT', 'abstract_title', note='TNR 13, đậm, căn giữa, trước 48 pt theo mẫu.')

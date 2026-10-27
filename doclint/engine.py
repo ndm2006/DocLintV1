@@ -145,7 +145,14 @@ def edit(data,analysis,decisions):
         if b['protected'] or role=='keep': continue
         ppr=properties(node,'pPr')
         rules=TEMPLATE['paragraphs']['heading4' if role=='heading' and b['level']==4 else role]
+        if 'cover_before_twips' in b:rules={**rules,'before':b['cover_before_twips']}
+        if 'cover_indent_twips' in b:rules={**rules,'indent':{'left':b['cover_indent_twips'],'right':b['cover_indent_twips']}}
         setprop(ppr,'spacing',{k:rules[k] for k in ('line','lineRule','before','after')})
+        if role.startswith('cover_'):
+            # Word's automatic/line-based spacing overrides explicit twips.
+            spacing=ppr.find('w:spacing',NS)
+            for key in ('beforeAutospacing','afterAutospacing','beforeLines','afterLines'):spacing.attrib.pop(tag(key),None)
+            setprop(ppr,'keepLines',{'val':1})
         setprop(ppr,'jc',{'val':rules['alignment']})
         if role in front_roles:
             if not rules.get('preserve_numbering') or not b.get('has_numbering'):
@@ -177,6 +184,10 @@ def edit(data,analysis,decisions):
                     if key != tag('val'): del color.attrib[key]
             if role=='chapter': setprop(rpr,'caps',{'val':1})
             elif role in front_roles:setprop(rpr,'caps',{'val':0})
+            if role.startswith('cover_'):
+                setprop(rpr,'bCs',{'val':int(rules.get('bold',True))})
+                setprop(rpr,'iCs',{'val':int(rules.get('italic',False))})
+                for name,value in [('smallCaps',0),('spacing',0),('position',0),('w',100)]:setprop(rpr,name,{'val':value})
             order_properties(rpr,R_ORDER)
         order_properties(ppr,P_ORDER)
         (allowed_nested if b.get('path') else allowed).add((b['index'],tuple(tuple(p) for p in b['path'])) if b.get('path') else b['index']); changes.append({'block_id':b['id'],'body_index':b['index'],'path':b.get('path',[]),'role':role,'rules':['FRONT05–08' if role in front_roles else 'BODY01–05' if role=='body' else 'HEAD01–07'],'before_sha256':fingerprint(canonical(locate(before.find('w:body',NS),b['index'],b.get('path',[])))),'after_sha256':fingerprint(canonical(node)),'format_after':{'font':rules.get('font',TEMPLATE['font']),'size_pt':rules.get('size_pt',13),'line':rules['line']/240,'alignment':rules['alignment'],'before_pt':rules['before']/20,'after_pt':rules['after']/20}})

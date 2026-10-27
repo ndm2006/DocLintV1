@@ -55,18 +55,24 @@ const path=require('node:path');
  assert(await page.locator('#run-view').isHidden());assert(await page.locator('#start').isDisabled());
  assert.equal(await page.locator('#file-title').innerText(),'Kéo thả tài liệu vào đây');
  assert.equal(await page.evaluate(()=>sessionStorage.getItem('doclint-session')),null);
- await page.screenshot({path:'.runtime/ui-rejected-v012.png',fullPage:true});
+ await page.screenshot({path:'.runtime/ui-rejected-v013.png',fullPage:true});
  // Verify front-matter recognition and both landscape/portrait margin plans via real downloads.
  for (const [name,kind] of [['01_do_an_tong_hop.docx','front'],['03_bang_gop_section_ngang.docx','tables']]) {
   await page.locator('#file').setInputFiles(path.join(__dirname,'fixtures/complex',name));
   await page.locator('#start').click();await page.locator('#results').waitFor({state:'visible'});
   const jsonDownload=page.waitForEvent('download');await page.locator('#report').click();
-  const jsonFile=await jsonDownload;const jsonPath=path.join(__dirname,'../.runtime/browser-'+kind+'-v012.json');
+  const jsonFile=await jsonDownload;const jsonPath=path.join(__dirname,'../.runtime/browser-'+kind+'-v013.json');
   await jsonFile.saveAs(jsonPath);const report=JSON.parse(require('node:fs').readFileSync(jsonPath,'utf8'));
-  if(kind==='front') {assert.equal(report.recognition.front_matter_blocks,4);assert.equal(report.front_matter.length,2);assert((await page.locator('#front-matter-summary').innerText()).includes('Lời cảm ơn'));assert((await page.locator('#front-matter-summary').innerText()).includes('Tóm tắt'))}
+  if(kind==='front') {
+   assert.equal(report.recognition.front_matter_blocks,4);assert.equal(report.front_matter.length,2);
+   assert((await page.locator('#front-matter-summary').innerText()).includes('Lời cảm ơn'));assert((await page.locator('#front-matter-summary').innerText()).includes('Tóm tắt'));
+   const topic=report.changes.find(c=>c.role==='cover_subject');assert.equal(topic.format_after.font,'ArnoPro');assert.equal(topic.format_after.size_pt,23);
+   const author=report.changes.find(c=>c.role==='cover_author');assert.equal(author.format_after.font,'Times New Roman');assert.equal(author.format_after.size_pt,14);
+   assert.equal(report.changes.find(c=>c.role==='cover_title').format_after.before_pt,160);
+  }
   else {assert.deepEqual(report.page_sections_applied,[0,1]);assert.equal(report.table_geometry_changes[0].after_width_twips,8504)}
   const wordDownload=page.waitForEvent('download');await page.locator('#download').click();
-  await(await wordDownload).saveAs('.runtime/browser-'+kind+'-v012.docx');
+  await(await wordDownload).saveAs('.runtime/browser-'+kind+'-v013.docx');
   page.once('dialog',dialog=>dialog.accept());await page.locator('#delete').click();await page.locator('#upload-view').waitFor({state:'visible'});
  }
  await page.setViewportSize({width:390,height:844});

@@ -300,7 +300,7 @@ def analyze(parts, root, parser):
                      'Chưa dựng PDF hoặc xác minh phân trang, mục lục và trường trên Microsoft Word.',
                      'Nhận diện kết hợp cấu trúc Word, quy tắc quan hệ và ML nội bộ; chưa có số đo trên tập đồ án độc lập.'])
     return {'blocks': result, 'model_revision': REVISION,
-            'recognizer_revision': 'structure-context-0.3', 'front_matter':front_groups, 'warnings': warnings,
+            'recognizer_revision': 'structure-context-0.4', 'front_matter':front_groups, 'warnings': warnings,
             'statistics': {'blocks': len(result), 'auto_chapters': sum(b['role']=='chapter' and not b['needs_review'] for b in result),
                            'auto_headings': sum(b['role']=='heading' and not b['needs_review'] for b in result),
                            'review_blocks': sum(b['needs_review'] for b in result),

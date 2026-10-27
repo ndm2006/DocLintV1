@@ -23,6 +23,10 @@ Nguồn yêu cầu: phần V0.1 người dùng gửi trong hội thoại và đ�
 - Kiểm kê đủ 51 tiêu đề/chú thích không rỗng của mẫu: bìa, đề tài, chương/đề mục, lời cảm ơn/tóm tắt, mục lục/danh mục, tham khảo/phụ lục và caption; định dạng hiệu lực được đối chiếu từng khối. Heading4 được định nghĩa nhưng không có đoạn không rỗng trong mẫu, kiểm bằng fixture tổng hợp. Xem [bảng kiểm](TEMPLATE_HEADINGS.md). Nhận biết danh mục bảng ghi nhầm nhãn từ nội dung Bảng theo sau; cảnh báo và giữ chuỗi chữ.
 - Hồ sơ hiện tại: `docs/validation-v0.1.2.json`. Hồ sơ 0.1.1 giữ làm mốc lịch sử; các thống kê trước đó không tự đại diện bản mới.
 
+## Bổ sung V0.1.3: bìa mẫu tổng hợp
+
+Tên đề tài không còn cần Style Subtitle; sinh viên và các trường có nhãn được nhận diện trong nhóm bìa. Áp phông/cỡ theo vai trò, căn giữa, chuẩn hóa khoảng trường–tiêu đề cho bìa ngắn; bìa sẵn đoạn đệm không nhận thêm khoảng đó. Giữ chữ, mã, đối tượng và cấu trúc gốc. Có hồi quy nhận diện, font/cỡ, ranh giới phần đầu, khoảng đệm, thuộc tính chữ xung đột và chạy hai lần; có dựng thử bổ sung ngoài ứng dụng. [Chi tiết](COVER_V013.md), [hồ sơ hiện tại](validation-v0.1.3.json). Hồ sơ 0.1.2 và báo cáo quá trình 0.1.2 giữ nguyên như mốc lịch sử.
+
 ## Điều gì không thuộc P0 của V0.1?
 
 Tài liệu phạm vi ban đầu cho phép hoãn PDF xem trước, tự tạo bìa/mục lục, bố cục bảng/ảnh phức tạp, đo precision 98%, mục tiêu p95 và vòng đời hoàn chỉnh V1.0. Quyền truy cập tệp và giới hạn upload phải có nếu đưa lên mạng; ứng dụng đã có quyền phiên/TTL/giới hạn nhưng chưa phải cấu hình Internet production đã nghiệm thu.

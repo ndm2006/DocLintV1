@@ -4,7 +4,7 @@
     "sha256": "5003fc2fab89b7fc1bead02e9d004607610cf8984e32230e12a0c903470917d5",
     "note": "Extracted docDefaults, Heading1–4 inheritance, section geometry, cover/front matter, lists, references, appendix and caption formatting; original document is not redistributed."
   },
-  "app_version": "0.1.2",
+  "app_version": "0.1.3",
   "expected_titles": 51,
   "recognized_titles": 51,
   "formats_matching_source": 51,
