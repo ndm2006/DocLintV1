@@ -5,12 +5,14 @@ import posixpath
 import re
 import zipfile
 from lxml import etree as ET
-from .recognizer import predict, REVISION, ROLES
+from .recognizer import REVISION, ROLES
+from .structure import analyze
+from .template import PROFILE
+from .styles import ensure_heading_styles, validate_style_parts
 
 W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
 NS = {'w': W}
-TEMPLATE = {'id': 'HUST20191_S11', 'version': '0.1.0', 'font': 'Times New Roman', 'size_pt': 13, 'line': 1.1,
-            'margins_cm': {'left': 3.5, 'right': 2.5, 'top': 2, 'bottom': 2}}
+TEMPLATE = PROFILE
 class DocumentError(Exception):
     def __init__(self, message, code='INVALID_DOCX'):
         self.code, self.message = code, message
@@ -54,6 +56,12 @@ def read_package(data):
                 if n.endswith(('.xml','.rels')):
                     total_nodes+=sum(1 for _ in parse(b).iter())
                     if total_nodes>200000: raise DocumentError('Gói vượt 200.000 nút XML.', 'RESOURCE_LIMIT')
+            types=parse(parts['[Content_Types].xml'])
+            if types.tag!='{http://schemas.openxmlformats.org/package/2006/content-types}Types' or not any(n.get('PartName')=='/word/document.xml' and n.get('ContentType')=='application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml' for n in types):
+                raise DocumentError('Content Types không mô tả tài liệu DOCX hợp lệ.')
+            root_rels=parse(parts['_rels/.rels'])
+            if root_rels.tag!='{http://schemas.openxmlformats.org/package/2006/relationships}Relationships' or not any(n.get('Type')=='http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument' and n.get('Target','').lstrip('/')=='word/document.xml' and n.get('TargetMode')!='External' for n in root_rels):
+                raise DocumentError('Thiếu quan hệ chính của tài liệu DOCX.')
             root=parse(parts['word/document.xml'])
             if root.tag!=tag('document') or root.find('w:body',NS) is None:
                 raise DocumentError('Không có nội dung Word hợp lệ.')
@@ -76,47 +84,10 @@ def canonical(el): return ET.tostring(el,method='c14n')
 def fingerprint(data): return hashlib.sha256(data).hexdigest()
 def inspect(data):
     parts,root=read_package(data)
-    styles={}
-    if 'word/styles.xml' in parts:
-        styles={n.get(tag('styleId')):n for n in parse(parts['word/styles.xml']).findall('w:style',NS)}
-    def style_protected(style_id):
-        visited=set()
-        while style_id in styles and style_id not in visited:
-            visited.add(style_id); node=styles[style_id]
-            if node.find('w:pPr/w:numPr',NS) is not None or node.find('w:pPr/w:framePr',NS) is not None:return True
-            base=node.find('w:basedOn',NS);style_id=base.get(tag('val')) if base is not None else None
-        return False
-    blocks=[]; started=False; special=False
-    multicolumn=any(c.get(tag('num'),'1')!='1' for c in root.findall('.//w:sectPr/w:cols',NS))
-    for i,node in enumerate(root.find('w:body',NS)):
-        if node.tag!=tag('p'): continue
-        text=''.join(node.xpath('.//w:t/text()',namespaces=NS))
-        if not text.strip(): continue
-        chapter=bool(re.match(r'^chương\s+[\dIVX]+',text,re.I))
-        style=node.find('w:pPr/w:pStyle',NS)
-        style_id=style.get(tag('val'),'') if style is not None else ''
-        if chapter: started=True; special=False
-        if re.match(r'^(tài liệu tham khảo|phụ lục|mục lục|danh mục|lời cảm|tóm tắt|abstract|kết luận)\b',text,re.I): special=True
-        complex_node=bool(node.xpath('.//w:drawing|.//w:pict|.//w:object|.//w:fldChar|.//w:fldSimple|.//w:instrText|.//w:hyperlink|.//w:sdt|.//w:ins|.//w:del|.//w:sectPr|.//w:numPr|.//w:footnoteReference|.//w:endnoteReference|.//w:commentReference|.//w:framePr|.//w:bookmarkStart|.//w:sym|.//w:customXml|.//w:altChunk',namespaces=NS))
-        complex_node=complex_node or any('officedocument/2006/math' in str(x.tag).lower() for x in node.iter())
-        bold=bool(node.xpath('.//w:b[not(@w:val="0")]',namespaces=NS))
-        size_node=node.find('.//w:sz',NS)
-        try:size=float(size_node.get(tag('val')))/2 if size_node is not None else 13
-        except (ValueError,TypeError):size=13
-        role,conf=predict(text,bold,size)
-        numbered_heading=re.match(r'^(\d+(?:\.\d+)+)(?:[.)]?\s|$)',text)
-        level=min(4,len(numbered_heading.group(1).split('.'))) if numbered_heading else 1 if role=='chapter' else 2
-        protected=multicolumn or complex_node or style_protected(style_id) or special or not started or style_id.lower().startswith(('toc','caption')) or level>3
-        if protected: role='keep'
-        needs_review=not protected and (role in {'heading','chapter'} or conf<0.85 or (bold and len(text)<120))
-        blocks.append({'id':f'b{i}', 'index':i,'text':text,'role':role,'confidence':conf,'level':level,
-                       'protected':protected,'needs_review':needs_review,
-                       'reason':'Vùng đặc biệt, phần đầu hoặc cấu trúc cần giữ nguyên' if protected else 'Xác nhận vai trò trước khi sửa' if needs_review else 'Phân loại nội bộ'})
-    return {'fingerprint':fingerprint(data),'model_revision':REVISION,'blocks':blocks,
-            'tables':len(root.findall('.//w:tbl',NS)), 'images':sum(n.startswith('word/media/') for n in parts),
-            'warnings':['Mô hình thử nghiệm học từ dữ liệu tổng hợp; chưa có số đo chất lượng trên đồ án độc lập.',
-                        'Giữ nguyên bìa, bảng, ảnh, công thức, danh sách, trường và vùng phức tạp.',
-                        'Chưa dựng PDF, chưa xác minh bố cục, mục lục và số trang trên Microsoft Word.']}
+    analysis=analyze(parts,root,parse)
+    analysis.update({'fingerprint':fingerprint(data), 'tables':len(root.findall('.//w:tbl',NS)),
+                     'images':sum(n.startswith('word/media/') for n in parts)})
+    return analysis
 
 def setprop(parent,name,attrs):
     el=parent.find('w:'+name,NS)
@@ -139,15 +110,20 @@ S_ORDER='headerReference footerReference footnotePr endnotePr type pgSz pgMar pa
 
 def edit(data,analysis,decisions):
     if analysis['fingerprint']!=fingerprint(data): raise DocumentError('Bản phân tích không khớp bản gốc.','AI_OUTPUT_INVALID')
+    fresh=inspect(data)
+    if analysis != fresh: raise DocumentError('Phân tích đã thay đổi hoặc không hợp lệ.','AI_OUTPUT_INVALID')
     parts,root=read_package(data); before=copy.deepcopy(root)
     body=root.find('w:body',NS); changes=[]; allowed=set(); seen=set()
     chapter_seen=False; heading_seen=False
+    effective_roles={b['id']:decisions.get(b['id'],'keep' if b['needs_review'] else b['role']) for b in analysis['blocks']}
+    style_levels=[(1 if effective_roles[b['id']]=='chapter' else b['level']) for b in analysis['blocks'] if not b['protected'] and effective_roles[b['id']] in {'chapter','heading'} and not b.get('has_numbering')]
+    heading_styles,style_additions=ensure_heading_styles(parts,style_levels,parse)
     for b in analysis['blocks']:
         role=decisions.get(b['id'],'keep' if b['needs_review'] else b['role'])
         if b['protected'] or role=='keep': continue
         if role=='chapter':chapter_seen=True;heading_seen=False
         if role=='heading':
-            if not chapter_seen or (b['level']==3 and not heading_seen):
+            if not chapter_seen or (b['level']==3 and not heading_seen) or (b.get('parent_block_id') and effective_roles.get(b['parent_block_id']) not in {'chapter','heading'}) or (b['needs_review'] and b.get('number_path') and b.get('parent_block_id') is None):
                 raise DocumentError('Đề mục cần có chương và cấp cha được xác nhận trước đó.', 'AI_OUTPUT_INVALID')
             if b['level']==2:heading_seen=True
     for b in analysis['blocks']:
@@ -160,46 +136,73 @@ def edit(data,analysis,decisions):
         if role not in ROLES: raise DocumentError('Vai trò không hợp lệ.','AI_OUTPUT_INVALID')
         if b['protected'] or role=='keep': continue
         ppr=properties(node,'pPr')
-        setprop(ppr,'spacing',{'line':264,'lineRule':'auto','before':60 if role=='body' else 120,'after':0 if role=='body' else 240})
-        setprop(ppr,'jc',{'val':'both' if role=='body' else 'center' if role=='chapter' else 'left'})
+        rules=TEMPLATE['paragraphs'][role]
+        setprop(ppr,'spacing',{k:rules[k] for k in ('line','lineRule','before','after')})
+        setprop(ppr,'jc',{'val':rules['alignment']})
         if role!='body':
+            if not b.get('has_numbering'):
+                setprop(ppr,'pStyle',{'val':heading_styles[1 if role=='chapter' else b['level']]})
             setprop(ppr,'outlineLvl',{'val':0 if role=='chapter' else b['level']-1})
             setprop(ppr,'keepNext',{'val':1})
             if role=='chapter': setprop(ppr,'pageBreakBefore',{'val':1})
         for run in node.findall('w:r',NS):
             rpr=properties(run,'rPr')
-            setprop(rpr,'rFonts',{'ascii':'Times New Roman','hAnsi':'Times New Roman','eastAsia':'Times New Roman','cs':'Times New Roman'})
+            fonts=setprop(rpr,'rFonts',{'ascii':'Times New Roman','hAnsi':'Times New Roman','eastAsia':'Times New Roman','cs':'Times New Roman'})
+            for key in list(fonts.attrib):
+                if key.lower().endswith('theme'): del fonts.attrib[key]
             setprop(rpr,'sz',{'val':26}); setprop(rpr,'szCs',{'val':26})
-            if role!='body': setprop(rpr,'b',{'val':1})
+            if role!='body':
+                setprop(rpr,'b',{'val':1}); setprop(rpr,'i',{'val':0})
+                color=setprop(rpr,'color',{'val':'000000'})
+                for key in list(color.attrib):
+                    if key != tag('val'): del color.attrib[key]
             if role=='chapter': setprop(rpr,'caps',{'val':1})
             order_properties(rpr,R_ORDER)
         order_properties(ppr,P_ORDER)
-        allowed.add(b['index']); changes.append({'block_id':b['id'],'role':role,'rules':['BODY01–05' if role=='body' else 'HEAD01–07'],'before_sha256':fingerprint(canonical(before.find('w:body',NS)[b['index']])),'after_sha256':fingerprint(canonical(node))})
-    # Conservatively change page geometry only for a simple single-section document without front matter.
-    # Shared section properties affect protected content; preserve them in all other cases.
-    page_changed=False
+        allowed.add(b['index']); changes.append({'block_id':b['id'],'role':role,'rules':['BODY01–05' if role=='body' else 'HEAD01–07'],'before_sha256':fingerprint(canonical(before.find('w:body',NS)[b['index']])),'after_sha256':fingerprint(canonical(node)),'format_after':{'font':TEMPLATE['font'],'size_pt':13,'line':1.1,'alignment':rules['alignment'],'before_pt':rules['before']/20,'after_pt':rules['after']/20}})
+    # Page geometry is an explicit plan operation; body objects retain their XML/data.
+    # Freeze landscape, multicolumn and unsupported floating/merged layouts.
+    page_sections=[]
     sections=root.findall('.//w:sectPr',NS)
-    if len(sections)==1 and all(n.tag==tag('sectPr') or (n.tag==tag('p') and i in allowed) for i,n in enumerate(body)) and analysis['blocks'] and not any(b['protected'] or decisions.get(b['id'])=='keep' or (b['needs_review'] and b['id'] not in decisions) for b in analysis['blocks']):
-        sec=sections[0]; size=sec.find('w:pgSz',NS); cols=sec.find('w:cols',NS)
-        if (size is None or size.get(tag('orient'))!='landscape') and (cols is None or cols.get(tag('num'),'1')=='1'):
-            setprop(sec,'pgSz',{'w':11906,'h':16838}); setprop(sec,'pgMar',{'left':1984,'right':1417,'top':1134,'bottom':1134,'gutter':0}); order_properties(sec,S_ORDER); page_changed=True
+    ranges=[]; first=0
+    for index,node in enumerate(body):
+        section=node.find('w:pPr/w:sectPr',NS) if node.tag==tag('p') else node if node.tag==tag('sectPr') else None
+        if section is not None:
+            ranges.append((first,index,section)); first=index+1
+    for section_index,(first,last,section) in enumerate(ranges):
+        nodes=list(body)[first:last+1]
+        size=section.find('w:pgSz',NS); cols=section.find('w:cols',NS)
+        has_body=any(b['id'] in {f'b{i}' for i in range(first,last+1)} and b['role'] in {'body','chapter','heading'} and not b['protected'] for b in analysis['blocks'])
+        unsafe=any(n.tag not in {tag('p'),tag('tbl'),tag('sectPr')} or n.xpath('.//w:tblpPr|.//w:framePr|.//w:pict|.//w:object|.//w:txbxContent|.//w:gridSpan|.//w:vMerge|.//w:tbl//w:tbl',namespaces=NS) or any(str(c.tag).endswith('}anchor') for c in n.iter()) for n in nodes)
+        if has_body and not unsafe and (size is None or size.get(tag('orient'))!='landscape') and (cols is None or cols.get(tag('num'),'1')=='1'):
+            setprop(section,'pgSz',TEMPLATE['page_twips'])
+            setprop(section,'pgMar',TEMPLATE['margin_twips'])
+            order_properties(section,S_ORDER); page_sections.append(section_index)
+    page_changed=bool(page_sections)
     parts['word/document.xml']=ET.tostring(root,xml_declaration=True,encoding='UTF-8',standalone=True)
     out=io.BytesIO()
     with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as z:
         for n,b in parts.items(): z.writestr(n,b)
     result=out.getvalue()
-    validate_integrity(data,result,allowed,page_changed)
+    validate_integrity(data,result,allowed,page_changed,style_additions=style_additions,page_sections=page_sections)
     return result, {'template':TEMPLATE,'model_revision':REVISION,'source_sha256':fingerprint(data),'output_sha256':fingerprint(result),
                     'status':'PARTIAL','integrity':'PASS','changes':changes,'page_geometry_applied':page_changed,
-                    'checks':{'content_structure':'PASS','other_package_parts':'PASS','protected_regions':'PASS','layout':'NOT_CHECKED','word_fields':'NOT_CHECKED'},
-                    'warnings':analysis['warnings']+([] if page_changed else ['Giữ hình học trang: section có vùng bảo vệ hoặc bố cục đặc biệt.']),
-                    'kept_blocks':len(analysis['blocks'])-len(changes)}
+                    'page_sections_applied':page_sections,'heading_styles_added':style_additions,
+                    'recognition':analysis['statistics'],'recognizer_revision':analysis['recognizer_revision'],
+                    'checks':{'content_structure':'PASS','other_package_parts':'PASS','shared_styles':'PASS','protected_regions':'PASS','layout':'NOT_CHECKED','word_fields':'NOT_CHECKED'},
+                    'warnings':analysis['warnings']+([] if page_changed else ['Không đổi hình học trang: không có thân bài nhận diện được hoặc section có bố cục đặc biệt.']),
+                    'kept_blocks':len(analysis['blocks'])-len(changes),
+                    'kept':[{'block_id':b['id'],'reason':b['reason'] if b['protected'] else 'Người dùng chọn giữ nguyên hoặc chưa xác nhận.'} for b in analysis['blocks'] if b['index'] not in allowed]}
 
 
-def validate_integrity(source,candidate,allowed,page_changed=False):
+def validate_integrity(source,candidate,allowed,page_changed=False,*,style_additions=None,page_sections=None):
     """Verify serialized output against source, with an explicit formatting allowlist."""
     original,before=read_package(source); checked,after=read_package(candidate)
-    if original.keys()!=checked.keys() or any(checked[n]!=v for n,v in original.items() if n!='word/document.xml'):
+    try:
+        permitted=validate_style_parts(original,checked,style_additions or {},parse)
+    except (ValueError,KeyError) as error:
+        raise DocumentError('Style hoặc quan hệ đã thay đổi ngoài kế hoạch.','INTEGRITY_FAILED') from error
+    if (set(checked)-set(original))-permitted or set(original)-set(checked) or any(checked[n]!=v for n,v in original.items() if n!='word/document.xml' and n not in permitted):
         raise DocumentError('Tài nguyên đã thay đổi.','INTEGRITY_FAILED')
     def stripped(tree):
         tree=copy.deepcopy(tree); body=tree.find('w:body',NS)
@@ -209,7 +212,8 @@ def validate_integrity(source,candidate,allowed,page_changed=False):
             for path in ('w:pPr','w:r/w:rPr'):
                 for n in body[i].findall(path,NS): n.getparent().remove(n)
         if page_changed:
-            for sec in tree.findall('.//w:sectPr',NS):
+            for si,sec in enumerate(tree.findall('.//w:sectPr',NS)):
+                if page_sections is not None and si not in page_sections: continue
                 for name in ('pgSz','pgMar'):
                     for n in sec.findall('w:'+name,NS): sec.remove(n)
         return canonical(tree)

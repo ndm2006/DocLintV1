@@ -14,7 +14,10 @@ def client():
     with TestClient(service.app) as c: yield c
     with service.lock: service.sessions.clear(); service.runs.clear()
 
-def upload(c,data=None):
+def upload(c,data=None,review=False):
+    if review:
+        from scripts.make_complex_fixtures import ambiguous
+        data=ambiguous()[0]
     response=c.post('/api/v1/sessions',files={'file':('thesis.docx',demo_bytes() if data is None else data)})
     assert response.status_code==202,response.text
     s=response.json(); return s,{'Authorization':'Bearer '+s['access_token']}
@@ -26,10 +29,13 @@ def wait(c,rid,h,target):
         time.sleep(.01)
     pytest.fail('worker did not reach target state')
 def approved(c,s,h):
-    r=wait(c,s['run_id'],h,{'REVIEW_WAIT','FAILED'}); assert r['state']=='REVIEW_WAIT',r
-    payload={'fingerprint':r['analysis']['fingerprint'],'decisions':{b['id']:b['role'] for b in r['analysis']['blocks'] if b['needs_review']}}
-    assert c.post('/api/v1/runs/'+s['run_id']+'/decisions',headers=h,json=payload).status_code==202
-    return wait(c,s['run_id'],h,{'PARTIAL','FAILED'})
+    r=wait(c,s['run_id'],h,{'REVIEW_WAIT','PARTIAL','FAILED'})
+    if r['state']=='REVIEW_WAIT':
+        payload={'fingerprint':r['analysis']['fingerprint'],'decisions':{}}
+        assert c.post('/api/v1/runs/'+s['run_id']+'/decisions',headers=h,json=payload).status_code==202
+        r=wait(c,s['run_id'],h,{'PARTIAL','FAILED'})
+    return r
+
 def repack(parts):
     out=io.BytesIO()
     with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as z:
@@ -46,13 +52,14 @@ def test_end_to_end(client):
     assert canonical(root.find('.//w:tbl',NS))==canonical(edited.find('.//w:tbl',NS))
     assert canonical(root.find('.//{http://schemas.openxmlformats.org/officeDocument/2006/math}oMath'))==canonical(edited.find('.//{http://schemas.openxmlformats.org/officeDocument/2006/math}oMath'))
     for n in original:
-        if n!='word/document.xml': assert original[n]==output[n]
+        if n not in {'word/document.xml','[Content_Types].xml','word/_rels/document.xml.rels'}: assert original[n]==output[n]
     body=edited.find('w:body',NS)
     assert body[2].find('w:pPr/w:spacing',NS).get(tag('line'))=='264'
     assert body[2].find('w:r/w:rPr/w:sz',NS).get(tag('val'))=='26'
     assert body[2].find('w:r/w:rPr/w:rFonts',NS).get(tag('ascii'))=='Times New Roman'
     assert body[3].find('w:pPr/w:outlineLvl',NS).get(tag('val'))=='2'
-    assert r['report']['page_geometry_applied'] is False
+    assert r['report']['page_geometry_applied'] is True
+    assert r['analysis']['statistics']['review_blocks']==0
     report=client.get('/api/v1/runs/'+s['run_id']+'/artifacts/report',headers=h).json()
     assert report['checks']['layout']=='NOT_CHECKED'
     assert result.headers['cache-control']=='no-store'
@@ -71,7 +78,7 @@ def test_auth_delete_and_rerun(client):
     assert client.get('/api/v1/runs/'+s['run_id']+'/artifacts/docx',headers=h).status_code==404
 
 def test_cancel_and_no_early_download(client):
-    s,h=upload(client); wait(client,s['run_id'],h,{'REVIEW_WAIT'})
+    s,h=upload(client,review=True); wait(client,s['run_id'],h,{'REVIEW_WAIT'})
     assert client.get('/api/v1/runs/'+s['run_id']+'/artifacts/docx',headers=h).status_code==409
     assert client.post('/api/v1/runs/'+s['run_id']+'/cancel',headers=h).json()['state']=='CANCELLED'
     assert client.get('/api/v1/runs/'+s['run_id']+'/artifacts/docx',headers=h).status_code==409
@@ -83,14 +90,14 @@ def test_expiry(client):
     assert s['session_id'] not in service.sessions
 
 def test_decision_schema(client):
-    s,h=upload(client); r=wait(client,s['run_id'],h,{'REVIEW_WAIT'})
+    s,h=upload(client,review=True); r=wait(client,s['run_id'],h,{'REVIEW_WAIT'})
     path='/api/v1/runs/'+s['run_id']+'/decisions'
-    for data in [{'fingerprint':'wrong','decisions':{}},{'fingerprint':r['analysis']['fingerprint'],'decisions':{'unknown':'body'}},{'fingerprint':r['analysis']['fingerprint'],'decisions':{'b0':'invented'}}]:
+    for data in [{'fingerprint':'wrong','decisions':{}},{'fingerprint':r['analysis']['fingerprint'],'decisions':{'unknown':'body'}},{'fingerprint':r['analysis']['fingerprint'],'decisions':{'b4':'invented'}}]:
         assert client.post(path,headers=h,json=data).status_code==422
     assert client.post(path,headers=h,json={'fingerprint':r['analysis']['fingerprint'],'decisions':{}}).status_code==202
     result=wait(client,s['run_id'],h,{'PARTIAL','FAILED'})
     assert result['state']=='PARTIAL'
-    assert all(c['block_id']!='b0' for c in result['report']['changes'])
+    assert all(c['block_id'] not in {'b4','b11'} for c in result['report']['changes'])
 
 @pytest.mark.parametrize('mutation',['traversal','macro','dtd','missing_relationship','broken_xml','signature'])
 def test_bad_packages(mutation):
@@ -127,7 +134,7 @@ def test_simple_page_geometry():
     result,report=edit(data,a,{b['id']:b['role'] for b in a['blocks'] if b['needs_review']})
     assert report['page_geometry_applied']
     _,root=read_package(result)
-    assert root.find('.//w:pgMar',NS).get(tag('left'))=='1984'
+    assert root.find('.//w:pgMar',NS).get(tag('left'))=='1985'
 
 def test_protected_and_landscape():
     parts,root=read_package(demo_bytes());root.find('.//w:pgSz',NS).set(tag('orient'),'landscape')
@@ -166,7 +173,7 @@ def test_delete_while_worker_runs(client,monkeypatch):
     def slow(*args,**kwargs):
         entered.set();assert release.wait(3);return original(*args,**kwargs)
     monkeypatch.setattr(service,'edit',slow)
-    s,h=upload(client);r=wait(client,s['run_id'],h,{'REVIEW_WAIT'})
+    s,h=upload(client,review=True);r=wait(client,s['run_id'],h,{'REVIEW_WAIT'})
     payload={'fingerprint':r['analysis']['fingerprint'],'decisions':{}}
     assert client.post('/api/v1/runs/'+s['run_id']+'/decisions',headers=h,json=payload).status_code==202
     assert entered.wait(2)
@@ -181,7 +188,7 @@ def test_cancel_while_worker_runs(client,monkeypatch):
     entered=threading.Event();release=threading.Event();original=service.edit
     def slow(*args,**kwargs):entered.set();assert release.wait(3);return original(*args,**kwargs)
     monkeypatch.setattr(service,'edit',slow)
-    s,h=upload(client);r=wait(client,s['run_id'],h,{'REVIEW_WAIT'})
+    s,h=upload(client,review=True);r=wait(client,s['run_id'],h,{'REVIEW_WAIT'})
     assert client.post('/api/v1/runs/'+s['run_id']+'/decisions',headers=h,json={'fingerprint':r['analysis']['fingerprint'],'decisions':{}}).status_code==202
     assert entered.wait(2)
     assert client.post('/api/v1/runs/'+s['run_id']+'/cancel',headers=h).status_code==200

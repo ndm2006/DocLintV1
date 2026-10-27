@@ -1,0 +1,127 @@
+{
+  "scope": "Synthetic fixture regression, not independent AI acceptance or Microsoft Word validation.",
+  "profile_source_sha256": "5003fc2fab89b7fc1bead02e9d004607610cf8984e32230e12a0c903470917d5",
+  "recognizer_revision": "structure-context-0.2",
+  "fixtures": [
+    {
+      "file": "01_do_an_tong_hop.docx",
+      "input_sha256": "dbc063028679a4ee35eb830d0ce4df291750cfcffe009cef39f5263972563e99",
+      "blocks": 81,
+      "auto_chapters": 3,
+      "auto_headings": 9,
+      "review_blocks": 0,
+      "protected_blocks": 15,
+      "changed_blocks": 66,
+      "integrity": "PASS",
+      "sections_applied": [
+        0
+      ],
+      "auto_label_disagreements_with_authored_fixture": [],
+      "seconds_this_run": 0.0818,
+      "before_review_blocks": 12
+    },
+    {
+      "file": "02_de_muc_mo_ho.docx",
+      "input_sha256": "54d940c336bf0580f14aa16f1130c586f3883478b8192bd75dfe27917c3bfd89",
+      "blocks": 14,
+      "auto_chapters": 2,
+      "auto_headings": 3,
+      "review_blocks": 2,
+      "protected_blocks": 4,
+      "changed_blocks": 7,
+      "integrity": "PASS",
+      "sections_applied": [
+        0
+      ],
+      "auto_label_disagreements_with_authored_fixture": [],
+      "seconds_this_run": 0.0277,
+      "before_review_blocks": 7
+    },
+    {
+      "file": "03_bang_gop_section_ngang.docx",
+      "input_sha256": "a2f89ac7bbe4a34e0adac6f509cf9dd7707285faf6031e42bf7e53d45d0a877d",
+      "blocks": 8,
+      "auto_chapters": 2,
+      "auto_headings": 2,
+      "review_blocks": 0,
+      "protected_blocks": 2,
+      "changed_blocks": 6,
+      "integrity": "PASS",
+      "sections_applied": [],
+      "auto_label_disagreements_with_authored_fixture": [],
+      "seconds_this_run": 0.0274,
+      "before_review_blocks": 4
+    },
+    {
+      "file": "04_tham_chieu_cong_thuc.docx",
+      "input_sha256": "735dd846560cb250186eb0b871dfbda0840bfc877a99b7cb19c20c39ac2b46dc",
+      "blocks": 12,
+      "auto_chapters": 1,
+      "auto_headings": 1,
+      "review_blocks": 0,
+      "protected_blocks": 9,
+      "changed_blocks": 3,
+      "integrity": "PASS",
+      "sections_applied": [
+        0
+      ],
+      "auto_label_disagreements_with_authored_fixture": [],
+      "seconds_this_run": 0.0153,
+      "before_review_blocks": 2
+    },
+    {
+      "file": "05_khong_phai_do_an.docx",
+      "input_sha256": "c77d01319244140f587abed52c6a929d875e59031a95a742d8eb6b3dda054c37",
+      "blocks": 8,
+      "auto_chapters": 0,
+      "auto_headings": 0,
+      "review_blocks": 0,
+      "protected_blocks": 8,
+      "changed_blocks": 0,
+      "integrity": "PASS",
+      "sections_applied": [],
+      "auto_label_disagreements_with_authored_fixture": [],
+      "seconds_this_run": 0.0079,
+      "before_review_blocks": 0
+    },
+    {
+      "file": "06_than_bai_sai_dinh_dang.docx",
+      "input_sha256": "4462a9293e0531643cef1c7348b97af6cb921f64f9a0b94668bf780f26a82e39",
+      "blocks": 66,
+      "auto_chapters": 2,
+      "auto_headings": 4,
+      "review_blocks": 0,
+      "protected_blocks": 0,
+      "changed_blocks": 66,
+      "integrity": "PASS",
+      "sections_applied": [
+        0
+      ],
+      "auto_label_disagreements_with_authored_fixture": [],
+      "seconds_this_run": 0.0605,
+      "before_review_blocks": 6
+    }
+  ],
+  "provided_template_package": {
+    "note": "Template is a formatting guide, not an independent thesis benchmark. Ambiguous blocks kept unchanged.",
+    "blocks": 222,
+    "auto_chapters": 3,
+    "auto_headings": 25,
+    "review_blocks": 1,
+    "protected_blocks": 130,
+    "changed_blocks": 91,
+    "integrity": "PASS",
+    "layout": "NOT_CHECKED"
+  },
+  "browser": "Automatic demo, 2-block review, file reset and delayed old-response isolation checked with Chromium.",
+  "word": "Not tested with Microsoft Word.",
+  "verification": {
+    "pytest_passed": 57,
+    "pytest_failed": 0,
+    "browser": "PASS",
+    "complex_api_runs_passed": 6,
+    "libreoffice_read_render_outputs": 7,
+    "microsoft_word": "NOT_CHECKED",
+    "note": "LibreOffice checks six synthetic outputs plus the provided template output; no layout conformance claim."
+  }
+}

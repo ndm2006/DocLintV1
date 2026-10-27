@@ -39,7 +39,7 @@ async def lifespan(app):
     yield
     task.cancel()
 
-app=FastAPI(title='DocLint',version='0.1.0',lifespan=lifespan)
+app=FastAPI(title='DocLint',version='0.1.1',lifespan=lifespan)
 @app.middleware('http')
 async def safety(request:Request, call_next):
     if request.headers.get('content-length','0').isdigit() and int(request.headers.get('content-length','0'))>21*1024**2:
@@ -126,7 +126,7 @@ def public(r):
 
 @app.get('/api/v1/capabilities')
 def capabilities():
-    return {'ai':{'available':True,'revision':REVISION,'experimental':True,'evaluated':False},'renderer':False,'max_upload_mib':20,'ttl_seconds':TTL,'max_sessions':5}
+    return {'ai':{'available':True,'revision':REVISION,'recognizer_revision':'structure-context-0.2','mode':'word-structure-rules-ml','experimental':True,'evaluated':False},'renderer':False,'max_upload_mib':20,'ttl_seconds':TTL,'max_sessions':5}
 @app.get('/api/v1/template')
 def template(): return TEMPLATE
 @app.post('/api/v1/sessions',status_code=202)

@@ -36,9 +36,9 @@ def test_complex_package_preserves_authored_invariants(case):
     assert report['status'] == 'PARTIAL'
     assert report['checks']['layout'] == 'NOT_CHECKED'
     assert before.xpath('//w:t/text()', namespaces=NS) == after.xpath('//w:t/text()', namespaces=NS)
-    assert original.keys() == candidate.keys()
+    assert set(candidate)-set(original) <= {'word/styles.xml','word/_rels/document.xml.rels'}
     for name, data in original.items():
-        if name != 'word/document.xml':
+        if name not in {'word/document.xml','word/styles.xml','word/_rels/document.xml.rels','[Content_Types].xml'}:
             assert data == candidate[name], name
     for path in ['.//w:tbl', './/{http://schemas.openxmlformats.org/officeDocument/2006/math}oMath']:
         assert [canonical(n) for n in before.findall(path, NS)] == [canonical(n) for n in after.findall(path, NS)]
@@ -57,10 +57,21 @@ def test_complex_package_preserves_authored_invariants(case):
                 p = after_body[int(label['id'][1:])]
                 assert p.find('w:pPr/w:spacing', NS).get(tag('line')) == '264'
                 assert p.find('w:r/w:rPr/w:sz', NS).get(tag('val')) == '26'
-        assert after.find('.//w:pgMar', NS).get(tag('left')) == '1984'
-    else:
+        assert after.find('.//w:pgMar', NS).get(tag('left')) == '1985'
+    elif case['file'].startswith('03_'):
         assert not report['page_geometry_applied']
         assert [canonical(n) for n in before.findall('.//w:sectPr', NS)] == [canonical(n) for n in after.findall('.//w:sectPr', NS)]
+    elif not case['file'].startswith('05_'):
+        assert report['page_geometry_applied']
+    # Original shared styles stay intact; only isolated, approved style definitions append.
+    old_styles=E.fromstring(original['word/styles.xml'])
+    new_styles=E.fromstring(candidate['word/styles.xml'])
+    additions=report['heading_styles_added']
+    for child in list(new_styles):
+        if child.get(tag('styleId')) in additions:new_styles.remove(child)
+    assert canonical(old_styles)==canonical(new_styles)
+    assert analysis['statistics']['review_blocks']==(2 if case['file'].startswith('02_') else 0)
+
 
 
 @pytest.mark.parametrize('builder', BUILDERS, ids=lambda fn: fn.__name__)
@@ -70,17 +81,17 @@ def test_committed_inputs_are_reproducible(builder):
 
 
 def test_math_guard_does_not_depend_on_classifier(monkeypatch):
-    from doclint import engine
+    from doclint import engine, structure
     source = (DEST / '04_tham_chieu_cong_thuc.docx').read_bytes()
-    monkeypatch.setattr(engine, 'predict', lambda *args: ('body', 0.99))
+    monkeypatch.setattr(structure, 'predict', lambda *args: ('body', 0.99))
     analysis = engine.inspect(source)
     math_block = next(b for b in analysis['blocks'] if b['text'].startswith('Sai số được tính'))
     assert math_block['protected'] and math_block['role'] == 'keep'
 
 
 def test_deep_heading_guard_does_not_depend_on_classifier(monkeypatch):
-    from doclint import engine
+    from doclint import engine, structure
     source = (DEST / '02_de_muc_mo_ho.docx').read_bytes()
-    monkeypatch.setattr(engine, 'predict', lambda *args: ('body', 0.99))
+    monkeypatch.setattr(structure, 'predict', lambda *args: ('body', 0.99))
     block = next(b for b in engine.inspect(source)['blocks'] if b['text'].startswith('1.1.1.1'))
     assert block['level'] == 4 and block['protected']

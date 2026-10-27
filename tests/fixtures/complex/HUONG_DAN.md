@@ -7,7 +7,7 @@
 - Giải nén `DocLint-bo-mau-phuc-tap.zip`: có 6 DOCX gốc, hướng dẫn này và `manifest.json`.
 - Nếu muốn đối chiếu ngay, tải `DocLint-cap-goc-ket-qua.zip`: mỗi thư mục có sẵn `01_GOC.docx` và `02_DA_XU_LY.docx`. Đây là ảnh chụp kết quả của engine lúc tạo gói, KHÔNG phải đáp án chuẩn độc lập; đọc báo cáo JSON và tiêu chí bên dưới. Gói này không thay cho việc chạy lại trên mã mới.
 - Có thể mở ngay DOCX trong Word rồi tải lên web. DOCX không chứa macro.
-- Nếu đang dùng bản mã nguồn tải trước lần cập nhật này, hãy tải bản ZIP repo mới từ GitHub → Code → Download ZIP, giải nén vào **thư mục mới**, rồi cài môi trường Python 3.12 theo README. Bộ mẫu đã phát hiện hai lỗi bảo vệ công thức/đề mục sâu; bản cập nhật sửa các lỗi đó, không chỉ thêm tài liệu.
+- Nếu đang dùng bản mã nguồn tải trước lần cập nhật này, hãy tải bản ZIP repo mới từ GitHub → Code → Download ZIP, giải nén vào **thư mục mới**, rồi cài môi trường Python 3.12 theo README. V0.1.1 đã bổ sung nhận diện tự động theo Style/numbering/cây cha–con và sửa lỗi xóa/chọn tệp. Cần chạy bản mã mới để thấy hành vi này.
 - Không lưu đè file gốc khi mở Word. Word có thể cập nhật field hoặc chuyển đổi nội bộ khi lưu; hãy so sánh hai bản trước khi tự lưu lại.
 
 ## Tạo sẵn cặp gốc / kết quả — Windows
@@ -37,15 +37,15 @@ Lệnh chạy API/worker trong một tiến trình kiểm thử riêng, không c
 ### 01 — Đồ án tổng hợp
 
 - Bìa giả, lời cảm ơn, tóm tắt, mục lục dạng field, 3 chương, 9 đề mục, 54 đoạn thân bài; phông/cỡ chữ cố ý lộn xộn, một bảng dữ liệu, ảnh sơ đồ, công thức phân số OMML, header/footer.
-- Duyệt: chọn Chương cho dòng `CHƯƠNG n...`, Đề mục cho `n.m ...`; phần chưa chắc giữ nguyên. Xem toàn bộ nhãn trong manifest.
+- Kỳ vọng tự nhận **3 chương, 9 đề mục**, không cần màn hình duyệt. Có thể đối chiếu các nhãn được viết thủ công trong manifest.
 - Thân bài được sửa: TNR 13 pt, căn đều, Multiple 1.1, trước 3 pt. Chương đậm/căn giữa/ngắt trang; các số nhập tay không được nhân đôi.
 - Bìa phải giữ cỡ lớn; mục lục/field, ảnh, công thức, bảng, header/footer và dữ liệu trong chúng giữ nguyên.
-- **Lề chưa được sửa trong mẫu này** do có vùng bảo vệ; báo cáo phải nói rõ. Không được báo bố cục hoặc mục lục đã được xác minh.
+- Lề section dọc đơn giản được chuẩn hóa theo mẫu; các đối tượng vẫn giữ nguyên dữ liệu/XML. Việc thay lề có thể đổi xuống dòng/phân trang, không được báo bố cục hoặc mục lục đã được xác minh.
 
 ### 02 — Đề mục mơ hồ
 
 - Có chương 1/2, đề mục `1.1`, `1.1.1`, mức sâu `1.1.1.1`, dòng in đậm `Lưu ý quan trọng`, danh sách nhập tay và danh sách đánh số tự động.
-- Chọn **Giữ nguyên** cho `Lưu ý quan trọng`, `1. Sao lưu...` và `2.3.1 Mục chưa có cha 2.3` nếu xuất hiện trong màn hình duyệt. Không để máy tự thêm cha hoặc biến mọi dòng in đậm thành heading.
+- Chỉ có **2 khối cần duyệt**: `Lưu ý quan trọng` và `2.3.1 Mục chưa có cha 2.3`; chọn **Giữ nguyên** cho cả hai. `1. Sao lưu...` là danh sách nhập tay được giữ tự động. Không để máy tự thêm cha hoặc biến mọi dòng in đậm thành heading.
 - Mức sâu `1.1.1.1` và danh sách tự động phải được bảo vệ. Cấp được xác nhận có thể sửa, nhưng không đổi chuỗi chữ hoặc nhân đôi số.
 - Ca cố ý thiếu cha phục vụ quan sát giới hạn kiểm tra cây hiện tại; chưa coi việc mô hình nhận ra lỗi đó là năng lực đã nghiệm thu.
 
@@ -71,7 +71,7 @@ Lệnh chạy API/worker trong một tiến trình kiểm thử riêng, không c
 ### 06 — Ca dương kiểm tra thân bài và lề
 
 - 2 chương, 4 đề mục và **60 đoạn thân bài**; chỉ văn bản, không có bìa/bảng/ảnh/vùng khóa. Phông Arial/Calibri/Courier New, cỡ 10/11/14/15 pt; giãn dòng 1.5, lề cố ý sai.
-- Xác nhận cả 2 chương và 4 đề mục. Kỳ vọng 66 khối được áp dụng định dạng.
+- Tự nhận cả **2 chương và 4 đề mục**, không cần xác nhận lại. Kỳ vọng 66 khối được áp dụng định dạng.
 - Thân bài TNR 13 pt, giãn dòng Multiple 1.1, căn đều; lề trái 3.5 cm, phải 2.5 cm, trên/dưới 2 cm; A4 dọc. Word có thể hiển thị lệch 0.01 cm do quy đổi twips.
 - Không mất dấu tiếng Việt, số thập phân, ký hiệu ±, khoảng trắng hoặc thứ tự đoạn.
 

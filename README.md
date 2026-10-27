@@ -1,105 +1,97 @@
-# DocLint · V0.1
+# DocLint · V0.1.1
 
-Web thử nghiệm chuẩn hóa định dạng DOCX tiếng Việt theo cấu hình **HUST20191_S11**: Times New Roman 13 pt, căn đều, giãn dòng **1,1** (`w:line=264`, `auto`). Dựa trên đặc tả DocLint 1.1 và phạm vi V0.1 được cung cấp. Chưa phải bản nghiệm thu toàn bộ đặc tả.
+Web chuẩn hóa DOCX tiếng Việt trong phạm vi V0.1, cập nhật nhận diện tự động và cấu hình **HUST20191_S11** từ file mẫu `Mẫu ĐATN_2019_version 1_1 (1).docx` người dùng cung cấp. Không phải bản nghiệm thu toàn bộ đặc tả V1.0.
 
-## Chạy nhanh
+## Chạy trên Windows
 
-Yêu cầu Python **3.12**, Linux/macOS/Windows. Không cần API key, Node.js, cơ sở dữ liệu hay dịch vụ AI ngoài.
+Cài **Python 3.12 64-bit**. Python 3.14 không tương thích với NumPy đang ghim. Tải repo mới, giải nén vào thư mục riêng, mở CMD tại thư mục đó:
+
+```bat
+py -3.12 -m venv .venv312
+.venv312\Scripts\python.exe -m pip install --upgrade pip
+.venv312\Scripts\python.exe -m pip install --no-cache-dir --only-binary=:all: -r requirements.txt
+.venv312\Scripts\python.exe -m uvicorn doclint.app:app --port 8000 --workers 1 --no-access-log
+```
+
+Mở `http://localhost:8000`. Giữ CMD chạy; dùng cửa sổ CMD thứ hai cho lệnh kiểm thử. Dừng bằng Ctrl+C. Nếu đang dùng bản cũ, phải dừng server cũ và khởi động từ thư mục bản mới; tải lại trình duyệt để nhận JS mới. Không chép đè thư mục `.venv312` giữa hai bản repo.
+
+Linux/macOS/cloud:
 
 ```bash
 python -m venv .venv
-# Linux/macOS
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python -m uvicorn doclint.app:app --host 0.0.0.0 --port 8000 --workers 1 --no-access-log
-# Windows: thay .venv/bin/python bằng .venv\Scripts\python.exe
 ```
 
-Dùng cổng 8000 qua trình duyệt trong môi trường triển khai. API OpenAPI tại `/docs`. Chỉ chạy **một tiến trình**: phiên và hàng đợi lưu trong RAM, không dùng `--workers` lớn hơn 1. Khởi động lại dịch vụ làm mất phiên và tệp tạm. Trước khi mở Internet, đặt HTTPS/reverse proxy có giới hạn upload và rate limiting; chưa coi bản demo là triển khai công cộng đã được gia cố.
+Không cần API key, Node.js, cơ sở dữ liệu hay dịch vụ AI ngoài để chạy web. Node.js chỉ cần cho kiểm thử trình duyệt tùy chọn. Chỉ một worker server: phiên và hàng đợi lưu trong RAM; restart làm mất phiên. Trước khi mở Internet, cần HTTPS/reverse proxy có giới hạn upload và rate limiting; chưa phải triển khai công cộng đã được gia cố.
 
-## Demo trong 5 phút
+## Luồng mặc định và nhận diện
 
-```bash
-.venv/bin/python scripts/make_demo.py
-```
+Tải DOCX → phân tích → **tự chuẩn hóa các khối đủ căn cứ** → kiểm tra toàn vẹn → tải Word/báo cáo. Chỉ dừng ở màn hình xác nhận khi có trường hợp mơ hồ. Xóa phiên xóa cả lựa chọn tệp/tên/kết quả trên giao diện; phản hồi của phiên cũ không được cập nhật lên phiên mới.
 
-1. Tải `.runtime/demo.docx` lên giao diện. Tệp được sinh bằng dữ liệu giả, có đoạn tiếng Việt, đề mục, bảng, ảnh và công thức OMML.
-2. Chọn **Chuẩn hóa tài liệu**. AI nội bộ đề xuất vai trò; các chương/đề mục luôn phải xác nhận. Mặc định phần cần duyệt được **giữ nguyên**.
-3. Xác nhận chương và đề mục hợp lý; tiếp tục chuẩn hóa.
-4. Tải DOCX và báo cáo JSON. So sánh bằng Word: thân bài 13 pt, khoảng dòng 1,1; bảng, ảnh, công thức và chữ không đổi.
-5. Thử chạy lại từ bản gốc, hủy và xóa phiên. Quyền phiên lưu trong `sessionStorage` của tab; tải lại trang trong cùng tab khôi phục được phiên còn hạn.
+Thuật toán trong `doclint/structure.py` kết hợp:
 
-**Mở, cập nhật trường, lưu rồi mở lại trên Microsoft Word vẫn là bước nghiệm thu thủ công chưa thực hiện trong môi trường này.**
+1. Style, basedOn/aliases, outline level, thuộc tính kế thừa và cấu hình numbering thật của Word. Heading có số tự động không bị nhầm thành danh sách.
+2. Nhãn `CHƯƠNG n`, `CHƯƠNG I`, đề mục `n.m`/`n.m.k` và cây cha–con theo ngữ cảnh. Dòng `1 Tổng quan` cần có đề mục con tương ứng để coi là chương. Kiểm tra cha bị thiếu, số chương trùng/nhảy thứ tự, đề mục trùng hoặc mâu thuẫn Style.
+3. ML Logistic Regression chạy cục bộ và bằng chứng bố cục để đề xuất vai trò cho tiêu đề ngắn không có nhãn rõ. Trường hợp này có thể cần xác nhận, mặc định giữ nguyên.
 
-## Có gì trong bản đầu?
+ML vẫn là baseline học từ ví dụ tổng hợp (`local-logreg-synthetic-0.1`); bộ giải cấu trúc revision `structure-context-0.2`. Không gọi LLM, không viết lại nội dung. Chưa có precision/recall trên tập đồ án thật độc lập; điểm quy tắc không phải xác suất chất lượng đã hiệu chỉnh. Không cam kết tự nhận đúng mọi đề mục không đánh số. Tài liệu không có cấu trúc chương đáng tin cậy được giữ nguyên, có cảnh báo; chưa có bộ phân loại chắc chắn “có phải đồ án”.
 
-- Giao diện tiếng Việt, responsive; kéo thả DOCX, giai đoạn thực tế, màn hình duyệt theo khối với ngữ cảnh, kết quả, tải Word/báo cáo, chạy lại/hủy/xóa.
-- FastAPI và một worker nội bộ; token bí mật ngẫu nhiên của phiên, chỉ lưu hash phía máy chủ. UUID không cấp quyền; API dữ liệu yêu cầu `Authorization: Bearer …`.
-- Bộ phân loại Logistic Regression chạy cục bộ, ghim revision `local-logreg-synthetic-0.1`. Đầu vào gồm đặc trưng độ dài, số đề mục, chữ hoa, đậm và cỡ chữ; khởi tạo xác định từ các ví dụ tổng hợp có phiên bản. Không gọi LLM, không tự viết lại nội dung. **Chưa được đánh giá độc lập; điểm mô hình chưa phải xác suất chính xác đã hiệu chỉnh.** Đây là baseline ML có thể thay thế, chưa chứng minh tốt hơn bộ quy tắc hoặc đạt mục tiêu precision 98%.
-- Inspector kiểm tra ZIP, XML, quan hệ nội bộ, mã khối/fingerprint; kiểm tra nhãn và cấp cha cơ bản trước khi sửa.
-- Chỉnh trực tiếp thuộc tính OOXML của đoạn/chữ; không chuyển đổi DOCX qua HTML/PDF để xuất lại. Mỗi run lấy lại bản gốc. Không sửa Style dùng chung, numbering, dữ liệu hoặc nhãn đánh số nhập tay.
-- Thân bài: TNR 13, căn đều, trước 3 pt, giãn dòng 1,1. Chương: đậm, chữ hoa bằng thuộc tính, căn giữa, ngắt trang, trước 6/sau 12 pt. Đề mục đến `n.m.k`: đậm, đặt outline level. **Chưa tạo bộ Heading Styles/aliases hoàn chỉnh theo mẫu**; chưa chuyển nhãn số tự động.
-- Chỉ đổi trang A4/lề 3,5–2,5–2–2 cm trong tài liệu một section dọc, toàn bộ khối được phép sửa. Nếu có bìa/vùng bảo vệ/bảng/ảnh/công thức/section đặc biệt, giữ hình học trang để tránh làm đổi vùng bảo vệ; báo rõ trong JSON. Không tuyên bố lề đã sửa trong các tài liệu này.
-- Kiểm chứng cấu trúc XML chính sau khi loại đúng vùng định dạng được phép; các part khác đối chiếu **byte chính xác**, bao gồm ảnh, bảng/phần nhúng, relationships, styles, comments, headers, footers. Đọc lại gói trước công bố. Sai khác ngoài phạm vi làm FAILED, không có đường tải candidate.
-- Trả **PARTIAL** vì chưa dựng/kiểm tra bố cục, chưa xác minh trường Word. Hiển thị cấu trúc văn bản, không giả là PDF hay phân trang thật.
+## Định dạng theo mẫu đã cung cấp
 
-## Giới hạn chủ động
+Profile và SHA-256 của nguồn nằm trong `doclint/template.py`; không phân phối lại nguyên bản mẫu người dùng.
 
-- Tài liệu tiếng Việt, một cột, khuyến nghị có nhãn `CHƯƠNG …`. Vùng trước chương đầu được giữ như phần đầu/bìa. Tài liệu không nhận ra chương có thể được giữ toàn bộ; báo cáo ghi số khối thực sự đã sửa.
-- Giữ nguyên bảng, ảnh, OMML, field, hyperlink, bookmark, danh sách, lịch sử sửa, comment/footnote và vùng phức tạp. Không hứa bố cục không đổi do đoạn bên cạnh đã đổi định dạng. Mục lục, tham khảo, tóm tắt, phần đầu và mức sâu hơn `n.m.k` được bảo vệ.
-- Chưa có PDF/renderer, kiểm tra tràn trang, tạo/cập nhật mục lục, số trang, bìa tự động, chuẩn hóa bảng/ảnh, mô hình ngôn ngữ pretrained hay bộ dữ liệu nghiệm thu độc lập. Không báo tuân thủ 100% mẫu.
-- 20 MiB upload; 100 MiB giải nén; 10 MiB/một XML; 2.000 mục ZIP; 200.000 nút XML tổng; XML parser giới hạn độ sâu mặc định 256. Chặn mục trùng, đường dẫn thoát, DTD/entity, macro, chữ ký số và tài liệu có documentProtection.
-- Tối đa 5 phiên, 1 worker + 4 lượt chờ, tối đa 10 run/phiên; TTL 30 phút tính từ tiếp nhận, không gia hạn khi xem/chạy lại. Dọn RAM định kỳ 10 giây, kiểm tra TTL mỗi truy cập và ngay trước công bố.
-- Hủy/xóa thu hồi công bố ngay; worker đang tính có thể tiếp tục tới điểm kiểm soát rồi bỏ kết quả. Ngân sách 300 giây được kiểm tra tại các mốc; chưa có supervisor giết tiến trình theo hard deadline. Không có renderer hay truy cập mạng từ engine.
-- Kho RAM không tồn tại qua restart, không có cơ chế phục hồi crash. Không tuyên bố xóa vật lý không thể khôi phục trên hạ tầng.
+- Thân bài: Times New Roman **13 pt**, căn đều, trước 3 pt, sau 0 pt; giãn dòng **1,1** (`w:line=264`, `lineRule=auto`), không dùng Exactly.
+- Chương: 13 pt, đậm, căn giữa, chữ hoa bằng thuộc tính hiển thị để không thay chuỗi chữ, trước 6/sau 12 pt, ngắt trang, outline level 0.
+- Đề mục đến `n.m.k`: 13 pt, đậm, không nghiêng, trước 6/sau 0 pt; căn đều theo kế thừa mẫu, outline level 1/2. Mức sâu hơn giữ nguyên.
+- Giữ numbering và Style hiện có của Heading đánh số tự động. Với đề mục đánh số nhập tay, thêm Style Heading riêng khi cần, không sửa Style dùng chung và không tạo thêm nhãn số. Các khai báo Style/relationship/content type mới được kiểm chứng bằng danh sách cho phép; Style cũ và defaults phải còn nguyên.
+- A4 và lề theo đúng twips trong mẫu: 11907 × 16840; trái 1985, phải 1418, trên/dưới 1134, gutter 0. Tương ứng A4 danh nghĩa, 3,5–2,5–2–2 cm với sai số quy đổi nhỏ. Áp dụng theo từng section dọc có thân bài được nhận diện và không có bố cục khóa. Giữ section ngang, nhiều cột, khung/ảnh nổi, bảng gộp/lồng. Báo cáo nêu section nào được áp dụng; không hứa đổi được lề mọi tài liệu phức tạp.
+- Bìa/phần đầu, mục lục, caption, danh sách, bảng, ảnh, OMML, field, hyperlink, bookmark thông thường, footnote/endnote, comment và track changes được giữ trong phạm vi bảo vệ. Bookmark trên Heading không chặn định dạng Heading; ID và vị trí vẫn giữ.
 
-## Kiểm thử
+Không sửa nội dung, khoảng trắng, số nhập tay, thứ tự khối hoặc dữ liệu học thuật. Chỉnh trực tiếp OOXML trên bản sao gốc; không dùng kết quả chuyển qua PDF/HTML để xuất lại DOCX.
 
-```bash
-.venv/bin/python -m pytest -q
-.venv/bin/python -m pip check
-```
+## Cổng toàn vẹn và báo cáo
 
-Suite gồm luồng API thật với worker, chuẩn hóa thân bài/đề mục, bảo toàn text theo vị trí, bảng, ảnh và OMML; quyền phiên, TTL, hủy/xóa/chạy lại, quyết định sai, XML/ZIP bất thường, lề trong ca an toàn và giữ section ngang. Dữ liệu test là dữ liệu tổng hợp, không phải tập nghiệm thu AI.
+Trước công bố: xác nhận fingerprint/schema/quan hệ cha–con; gói ZIP/OOXML đọc lại được; đối chiếu cấu trúc XML theo khối, bảng/công thức/vùng khóa; so byte tài nguyên và các part không có thao tác được phép. Riêng Style/OPC chỉ cho thêm định nghĩa đã xác định trước, không sửa cấu trúc có sẵn. Sai khác ngoài kế hoạch → FAILED, không cho tải candidate.
 
-Kiểm thử trình duyệt tùy chọn (Node.js và Chromium cài sẵn), chạy cùng server:
+Báo cáo JSON có số chương/đề mục tự động, số khối cần duyệt, khối sửa, khối giữ và lý do, định dạng áp dụng, các section được sửa, version/hash và trạng thái kiểm tra. Kết quả vẫn **PARTIAL** vì chưa dựng và nghiệm thu bố cục/field Word. Đây không phải lỗi toàn vẹn và không có nghĩa toàn bộ mẫu đã đạt.
 
-```bash
-npm ci --cache /tmp/doclint-npm-cache
-.venv/bin/python scripts/make_demo.py
-CHROMIUM_PATH=/usr/bin/chromium npm run test:ui
-```
+## Kiểm thử và tài liệu để đối chiếu
 
-Tải lên → xác nhận → tải Word → reload → chạy lại → hủy → xóa; kiểm tra mobile không tràn ngang. Ảnh kiểm tra và DOCX đầu ra nằm trong `.runtime/`, không commit.
-
-## Bộ mẫu phức tạp và cặp file đối chiếu
-
-Tải [ZIP gồm 6 DOCX và hướng dẫn](tests/fixtures/complex/DocLint-bo-mau-phuc-tap.zip) hoặc [cặp gốc/kết quả có sẵn để đối chiếu](tests/fixtures/complex/DocLint-cap-goc-ket-qua.zip), hoặc mở từng file trong [thư mục mẫu](tests/fixtures/complex). Xem [tiêu chí đối chiếu từng mẫu](tests/fixtures/complex/HUONG_DAN.md).
-
-Các ca gồm đồ án tổng hợp nhiều chương, đề mục mơ hồ, bảng gộp/lồng/bảng dài và section ngang, công thức/field/bookmark/footnote/comment/track changes, văn bản không phải đồ án và ca thuần thân bài để kiểm tra lề. Tất cả là dữ liệu tổng hợp, không phải tập đánh giá AI độc lập.
-
-Windows, từ thư mục repo đã cập nhật (môi trường tên `.venv312`):
+Windows:
 
 ```bat
+.venv312\Scripts\python.exe -m pytest -q
+.venv312\Scripts\python.exe -m scripts.make_demo
 .venv312\Scripts\python.exe -m scripts.run_complex_tests
 ```
 
-Không cần dừng server. Script dùng API/worker riêng trong tiến trình kiểm thử, tạo thư mục mới trong `.runtime\complex-results`, mỗi mẫu có **`01_GOC.docx`**, **`02_DA_XU_LY.docx`**, lựa chọn xác nhận và báo cáo JSON. Nhãn xác nhận do người viết mẫu đặt, không lấy dự đoán làm đáp án. File xuất là kết quả hiện tại, không phải bản chuẩn độc lập. Mở hai file cạnh nhau trong Word và dùng hướng dẫn để đối chiếu.
+Demo đơn giản ở `.runtime\demo.docx`. Bộ mẫu phức tạp có sẵn trong [thư mục này](tests/fixtures/complex), gồm:
 
-Để tái tạo các đầu vào có phiên bản:
+- [ZIP 6 DOCX gốc và hướng dẫn](tests/fixtures/complex/DocLint-bo-mau-phuc-tap.zip).
+- [ZIP các cặp gốc/kết quả hiện tại để mở ngay](tests/fixtures/complex/DocLint-cap-goc-ket-qua.zip).
+- [Hướng dẫn đối chiếu từng mẫu](tests/fixtures/complex/HUONG_DAN.md).
+
+`run_complex_tests` không cần server và không chiếm cổng 8000; dùng API/worker riêng. Tạo thư mục mới trong `.runtime\complex-results`, có `01_GOC.docx`, `02_DA_XU_LY.docx`, báo cáo và lựa chọn duyệt theo nhãn do người viết mẫu đặt. Đầu ra này là kết quả chương trình, **không phải đáp án chuẩn độc lập**. Mở hai file cạnh nhau trên Word để kiểm tra.
+
+Tất cả fixture là dữ liệu tổng hợp, không phải đồ án sinh viên thật và không phải tập nghiệm thu AI độc lập. Xem [đối chiếu V0.1 và bằng chứng](docs/V01_ACCEPTANCE.md). Để sinh lại input: `python -m scripts.make_complex_fixtures` bằng Python trong venv; không cần thêm thư viện.
+
+Kiểm thử trình duyệt tùy chọn: server đang chạy, Node.js và Chromium có sẵn:
 
 ```bash
-.venv/bin/python -m scripts.make_complex_fixtures
+npm ci --cache /tmp/doclint-npm-cache
+CHROMIUM_PATH=/usr/bin/chromium npm run test:ui
 ```
 
-## Cấu trúc
+Bao gồm tự động hóa demo, chỉ duyệt ca mơ hồ, tải Word, reload/chạy lại/hủy, xóa/chọn tệp mới, phản hồi phiên cũ về chậm và mobile không tràn ngang. Ảnh kiểm tra nằm trong `.runtime`, không commit.
 
-```text
-doclint/engine.py       kiểm tra gói, phân tích, bảo vệ, sửa, cổng toàn vẹn
-doclint/recognizer.py   baseline ML nội bộ có phiên bản
-doclint/app.py          API, quyền phiên, TTL, hàng đợi và công bố
-doclint/static/         giao diện HTML/CSS/JS không cần build
-scripts/make_demo.py    DOCX thử tổng hợp, không có dữ liệu cá nhân
-tests/                 hồi quy API/OOXML và smoke trình duyệt
-```
+## Giới hạn còn lại
 
-Tài liệu người dùng tải lên, đặc tả đính kèm và credential không được đưa vào Git. Không có tài khoản người dùng hay analytics. Cấu hình mẫu nằm trong `engine.TEMPLATE`; thay đổi cần revision và kiểm thử. Bước tiếp theo: tập dữ liệu gán nhãn/tách biệt để đánh giá AI, mẫu DOCX gốc để hoàn thiện Styles, renderer cách ly và nghiệm thu trên Microsoft Word.
+- Chưa có PDF/renderer trong ứng dụng, tự sửa tràn trang, tạo/cập nhật mục lục, số trang, bìa tự động hoặc chuẩn hóa mọi bảng/ảnh. Xem trước bố cục là tùy chọn ở V0.1; outline văn bản không phải PDF.
+- Chưa mở/cập nhật/lưu/mở lại kết quả trên Microsoft Word trong cloud. Đọc/dựng thử bằng LibreOffice là kiểm tra tương thích bổ sung, không thay nghiệm thu Word hoặc chứng minh bố cục đạt chuẩn.
+- Chưa có dữ liệu gán nhãn độc lập, đánh giá người dùng hay benchmark mục tiêu V1.0. Không tuyên bố tuân thủ 100% mọi quy định HUST.
+- 20 MiB upload, 100 MiB giải nén, 10 MiB/XML, 2.000 mục ZIP, 200.000 nút XML tổng, độ sâu XML tối đa theo parser 256. Chặn DTD/entity, đường dẫn thoát/mục ZIP trùng, macro, chữ ký số và tài liệu bảo vệ; kiểm tra Content Types và quan hệ chính, không chỉ tin đuôi file.
+- Tối đa 5 phiên, 1 worker tài liệu + 4 lượt chờ, 10 run/phiên; token bí mật riêng, TTL 30 phút từ tiếp nhận. Dọn RAM mỗi 10 giây; kiểm tra quyền/TTL và cổng công bố. Không gia hạn ngầm khi xem/chạy lại.
+- Hủy/xóa thu hồi công bố ngay; worker có thể tiếp tục tính tới điểm kiểm soát rồi bỏ kết quả. Ngân sách 300 giây được kiểm tra tại các mốc, chưa có supervisor áp hard deadline. Không có cơ chế khôi phục phiên sau crash/restart hoặc cam kết xóa vật lý không thể phục hồi trên mọi hạ tầng.
+
+Không đưa tài liệu người dùng, credential, `.venv*`, `.runtime` hoặc `node_modules` vào Git. API OpenAPI ở `/docs`. Mỗi cloud task đã được cách ly; dùng checkout hiện có, không cần tạo Git worktree.
