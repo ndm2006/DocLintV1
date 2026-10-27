@@ -63,6 +63,14 @@ def test_all_title_families_are_detected_and_numbered_instructions_are_not_title
     issue=a['template_heading_issues'][0];assert issue['code']=='LIST_TITLE_MISMATCH' and issue['detected']=='list_tables_title'
     out,r=edit(data,a,{})
     _,original=read_package(data);_,after=read_package(out)
+    # Only reported cover-case edits may change source text; all other text stays exact.
+    for change in r['topic_case_changes']:
+        assert change['before'].casefold()==change['after'].casefold()
+        node=original.find('w:body',NS)[int(change['block_id'][1:])]
+        assert ''.join(node.xpath('.//w:t/text()',namespaces=NS))==change['before']
+        offset=0
+        for text in node.findall('.//w:t',NS):
+            length=len(text.text or '');text.text=change['after'][offset:offset+length];offset+=length
     assert original.xpath('//w:t/text()',namespaces=NS)==after.xpath('//w:t/text()',namespaces=NS)
     for c in r['changes']:
         node=locate(after.find('w:body',NS),c['body_index'] if 'body_index' in c else int(c['block_id'][1:]),c.get('path',[]))

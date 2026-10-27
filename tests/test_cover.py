@@ -39,6 +39,14 @@ def test_composite_cover_without_subtitle_formats_topic_and_author_as_template()
             assert run.find('w:rPr/w:rFonts',NS).get(tag('ascii'))==font
             assert run.find('w:rPr/w:sz',NS).get(tag('val'))==size
     old,root=read_package(source)
+    # Only reported cover-case edits may change source text; all other text stays exact.
+    for change in r['topic_case_changes']:
+        assert change['before'].casefold()==change['after'].casefold()
+        node=root.find('w:body',NS)[int(change['block_id'][1:])]
+        assert ''.join(node.xpath('.//w:t/text()',namespaces=NS))==change['before']
+        offset=0
+        for text in node.findall('.//w:t',NS):
+            length=len(text.text or '');text.text=change['after'][offset:offset+length];offset+=length
     assert root.xpath('//w:t/text()',namespaces=NS)==body.getparent().xpath('//w:t/text()',namespaces=NS)
     for name,value in old.items():
         if name.startswith('word/media/') or 'header' in name or 'footer' in name:assert parts[name]==value

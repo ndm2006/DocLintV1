@@ -1,3 +1,4 @@
+from .topic_case import apply as apply_topic_case
 import copy
 import hashlib
 import io
@@ -227,6 +228,9 @@ def edit(data,analysis,decisions):
             change,warning=fit_table(body[index],available)
             if change:table_changes.append({'block_id':f'b{index}',**change})
             if warning:table_warnings.append(f'Bảng b{index}: '+warning)
+    topic_changes,topic_warnings=apply_topic_case(root,analysis,allowed)
+    for change in changes:
+        change["after_sha256"]=fingerprint(canonical(locate(body,change["body_index"],change.get("path",[]))))
     page_changed=bool(page_sections)
     parts['word/document.xml']=ET.tostring(root,xml_declaration=True,encoding='UTF-8',standalone=True)
     out=io.BytesIO()
@@ -238,12 +242,12 @@ def edit(data,analysis,decisions):
                     'status':'PARTIAL','integrity':'PASS','changes':changes,'page_geometry_applied':page_changed,
                     'page_sections_applied':page_sections,'page_operations':page_operations,'table_geometry_changes':table_changes,
                     'styles_added':style_additions,'heading_styles_added':{k:v for k,v in style_additions.items() if isinstance(v,int)},
-                    'front_page_breaks':[f'b{i}' for i in sorted(front_page_breaks)],
+                    'front_page_breaks':[f'b{i}' for i in sorted(front_page_breaks)],'topic_case_changes':topic_changes,
                     'template_heading_issues':analysis['template_heading_issues'],
                     'front_matter':analysis['front_matter'],'document_type':analysis['document_type'],
                     'recognition':analysis['statistics'],'recognizer_revision':analysis['recognizer_revision'],
                     'checks':{'content_structure':'PASS','other_package_parts':'PASS','shared_styles':'PASS','protected_regions':'PASS','layout':'NOT_CHECKED','word_fields':'NOT_CHECKED'},
-                    'warnings':analysis['warnings']+table_warnings+([] if page_changed else ['Không đổi hình học trang: không có thân bài nhận diện được hoặc section có bố cục đặc biệt.']),
+                    'warnings':analysis['warnings']+table_warnings+topic_warnings+([] if page_changed else ['Không đổi hình học trang: không có thân bài nhận diện được hoặc section có bố cục đặc biệt.']),
                     'kept_blocks':len(analysis['blocks'])-len(changes),
                     'kept':[{'block_id':b['id'],'reason':b['reason'] if b['protected'] else 'Người dùng chọn giữ nguyên hoặc chưa xác nhận.'} for b in analysis['blocks'] if b['index'] not in allowed|front_page_breaks and (b['index'],tuple(tuple(p) for p in b.get('path',[]))) not in allowed_nested]}
 
@@ -251,6 +255,7 @@ def edit(data,analysis,decisions):
 def validate_integrity(source,candidate,allowed,page_changed=False,*,style_additions=None,page_sections=None,table_indices=None,page_break_indices=None,allowed_nested=None):
     """Verify serialized output against source, with an explicit formatting allowlist."""
     original,before=read_package(source); checked,after=read_package(candidate)
+    apply_topic_case(before,inspect(source),allowed)
     try:
         permitted=validate_style_parts(original,checked,style_additions or {},parse)
     except (ValueError,KeyError) as error:

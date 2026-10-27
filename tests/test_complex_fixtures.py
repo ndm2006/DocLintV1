@@ -40,6 +40,14 @@ def test_complex_package_preserves_authored_invariants(case):
     candidate, after = read_package(output)
     assert report['status'] == 'PARTIAL'
     assert report['checks']['layout'] == 'NOT_CHECKED'
+    # Only reported cover-case edits may change source text; all other text stays exact.
+    for change in report['topic_case_changes']:
+        assert change['before'].casefold()==change['after'].casefold()
+        node=before.find('w:body',NS)[int(change['block_id'][1:])]
+        assert ''.join(node.xpath('.//w:t/text()',namespaces=NS))==change['before']
+        offset=0
+        for text in node.findall('.//w:t',NS):
+            length=len(text.text or '');text.text=change['after'][offset:offset+length];offset+=length
     assert before.xpath('//w:t/text()', namespaces=NS) == after.xpath('//w:t/text()', namespaces=NS)
     assert set(candidate)-set(original) <= {'word/styles.xml','word/_rels/document.xml.rels'}
     for name, data in original.items():
