@@ -98,13 +98,14 @@ def inspect(data):
         if chapter: started=True; special=False
         if re.match(r'^(tài liệu tham khảo|phụ lục|mục lục|danh mục|lời cảm|tóm tắt|abstract|kết luận)\b',text,re.I): special=True
         complex_node=bool(node.xpath('.//w:drawing|.//w:pict|.//w:object|.//w:fldChar|.//w:fldSimple|.//w:instrText|.//w:hyperlink|.//w:sdt|.//w:ins|.//w:del|.//w:sectPr|.//w:numPr|.//w:footnoteReference|.//w:endnoteReference|.//w:commentReference|.//w:framePr|.//w:bookmarkStart|.//w:sym|.//w:customXml|.//w:altChunk',namespaces=NS))
-        complex_node=complex_node or any('officedocument/2006/math' in str(x.tag) for x in node.iter())
+        complex_node=complex_node or any('officedocument/2006/math' in str(x.tag).lower() for x in node.iter())
         bold=bool(node.xpath('.//w:b[not(@w:val="0")]',namespaces=NS))
         size_node=node.find('.//w:sz',NS)
         try:size=float(size_node.get(tag('val')))/2 if size_node is not None else 13
         except (ValueError,TypeError):size=13
         role,conf=predict(text,bold,size)
-        level=1 if role=='chapter' else min(4,len(re.match(r'^(\d+(?:\.\d+)+)',text).group(1).split('.'))) if role=='heading' and re.match(r'^\d+(?:\.\d+)+',text) else 2
+        numbered_heading=re.match(r'^(\d+(?:\.\d+)+)(?:[.)]?\s|$)',text)
+        level=min(4,len(numbered_heading.group(1).split('.'))) if numbered_heading else 1 if role=='chapter' else 2
         protected=multicolumn or complex_node or style_protected(style_id) or special or not started or style_id.lower().startswith(('toc','caption')) or level>3
         if protected: role='keep'
         needs_review=not protected and (role in {'heading','chapter'} or conf<0.85 or (bold and len(text)<120))

@@ -1,0 +1,1384 @@
+{
+  "version": 1,
+  "origin": "Hand-authored synthetic test content, not a real thesis or independent AI evaluation set.",
+  "word_validation": "Not yet validated by Microsoft Word.",
+  "cases": [
+    {
+      "file": "01_do_an_tong_hop.docx",
+      "title": "Đồ án tổng hợp: bìa, mục lục, 3 chương, bảng, ảnh và công thức",
+      "sha256": "dbc063028679a4ee35eb830d0ce4df291750cfcffe009cef39f5263972563e99",
+      "labels": [
+        {
+          "id": "b0",
+          "text": "TRƯỜNG ĐẠI HỌC KIỂM THỬ",
+          "role": "keep",
+          "protected": true,
+          "note": "Bìa giả: giữ cỡ chữ và nội dung, không ép 13 pt."
+        },
+        {
+          "id": "b1",
+          "text": "ĐỒ ÁN TỐT NGHIỆP — TÀI LIỆU GIẢ LẬP",
+          "role": "keep",
+          "protected": true,
+          "note": "Bìa giả: giữ cỡ chữ và nội dung, không ép 13 pt."
+        },
+        {
+          "id": "b2",
+          "text": "HỆ THỐNG QUẢN LÝ MƯỢN THIẾT BỊ",
+          "role": "keep",
+          "protected": true,
+          "note": "Bìa giả: giữ cỡ chữ và nội dung, không ép 13 pt."
+        },
+        {
+          "id": "b3",
+          "text": "Sinh viên: Người kiểm thử A · Mã: TEST-001",
+          "role": "keep",
+          "protected": true,
+          "note": "Bìa giả: giữ cỡ chữ và nội dung, không ép 13 pt."
+        },
+        {
+          "id": "b4",
+          "text": "LỜI CẢM ƠN",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b5",
+          "text": "Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b6",
+          "text": "TÓM TẮT",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b7",
+          "text": "Tài liệu này mô phỏng đồ án thực tế để kiểm tra định dạng, không chứa thông tin cá nhân.",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b8",
+          "text": "MỤC LỤC [chưa cập nhật trường]",
+          "role": "keep",
+          "protected": true,
+          "note": "Giữ field và bộ nhớ đệm; chưa xác minh cập nhật trên Word."
+        },
+        {
+          "id": "b9",
+          "text": "CHƯƠNG 1. TỔNG QUAN",
+          "role": "chapter",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b10",
+          "text": "1.1 Bối cảnh và phạm vi",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b11",
+          "text": "[1.1-1] Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b12",
+          "text": "[1.1-2] Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b13",
+          "text": "[1.1-3] Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b14",
+          "text": "[1.1-4] Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b15",
+          "text": "[1.1-5] Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b16",
+          "text": "[1.1-6] Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b17",
+          "text": "1.2 Phương pháp thực hiện",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b18",
+          "text": "[1.2-1] Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b19",
+          "text": "[1.2-2] Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b20",
+          "text": "[1.2-3] Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b21",
+          "text": "[1.2-4] Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b22",
+          "text": "[1.2-5] Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b23",
+          "text": "[1.2-6] Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b24",
+          "text": "1.3 Phân tích kết quả",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b25",
+          "text": "[1.3-1] Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b26",
+          "text": "[1.3-2] Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b27",
+          "text": "[1.3-3] Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b28",
+          "text": "[1.3-4] Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b29",
+          "text": "[1.3-5] Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b30",
+          "text": "[1.3-6] Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b31",
+          "text": "Bảng 1.1. Dữ liệu mượn thiết bị",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b33",
+          "text": "CHƯƠNG 2. PHÂN TÍCH VÀ THIẾT KẾ",
+          "role": "chapter",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b34",
+          "text": "2.1 Bối cảnh và phạm vi",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b35",
+          "text": "[2.1-1] Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b36",
+          "text": "[2.1-2] Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b37",
+          "text": "[2.1-3] Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b38",
+          "text": "[2.1-4] Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b39",
+          "text": "[2.1-5] Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b40",
+          "text": "[2.1-6] Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b41",
+          "text": "2.2 Phương pháp thực hiện",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b42",
+          "text": "[2.2-1] Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b43",
+          "text": "[2.2-2] Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b44",
+          "text": "[2.2-3] Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b45",
+          "text": "[2.2-4] Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b46",
+          "text": "[2.2-5] Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b47",
+          "text": "[2.2-6] Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b48",
+          "text": "2.3 Phân tích kết quả",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b49",
+          "text": "[2.3-1] Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b50",
+          "text": "[2.3-2] Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b51",
+          "text": "[2.3-3] Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b52",
+          "text": "[2.3-4] Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b53",
+          "text": "[2.3-5] Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b54",
+          "text": "[2.3-6] Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b55",
+          "text": "Sơ đồ: tiếp nhận → kiểm chứng → công bố. ",
+          "role": "keep",
+          "protected": true,
+          "note": "Ảnh inline trộn chữ: giữ toàn bộ đoạn, kích thước và dữ liệu ảnh."
+        },
+        {
+          "id": "b56",
+          "text": "Hình 2.1. Luồng xử lý giả lập",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b57",
+          "text": "Sai số được tính theo công thức: ",
+          "role": "keep",
+          "protected": true,
+          "note": "Đoạn có chữ + OMML phải được bảo vệ, không đổi công thức thành chữ/ảnh."
+        },
+        {
+          "id": "b58",
+          "text": "CHƯƠNG 3. THỰC NGHIỆM VÀ ĐÁNH GIÁ",
+          "role": "chapter",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b59",
+          "text": "3.1 Bối cảnh và phạm vi",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b60",
+          "text": "[3.1-1] Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b61",
+          "text": "[3.1-2] Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b62",
+          "text": "[3.1-3] Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b63",
+          "text": "[3.1-4] Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b64",
+          "text": "[3.1-5] Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b65",
+          "text": "[3.1-6] Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b66",
+          "text": "3.2 Phương pháp thực hiện",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b67",
+          "text": "[3.2-1] Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b68",
+          "text": "[3.2-2] Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b69",
+          "text": "[3.2-3] Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b70",
+          "text": "[3.2-4] Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b71",
+          "text": "[3.2-5] Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b72",
+          "text": "[3.2-6] Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b73",
+          "text": "3.3 Phân tích kết quả",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b74",
+          "text": "[3.3-1] Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b75",
+          "text": "[3.3-2] Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b76",
+          "text": "[3.3-3] Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b77",
+          "text": "[3.3-4] Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b78",
+          "text": "[3.3-5] Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b79",
+          "text": "[3.3-6] Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b80",
+          "text": "TÀI LIỆU THAM KHẢO",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b81",
+          "text": "[1] Tài liệu mô phỏng do nhóm kiểm thử tạo; không phải nguồn học thuật thực tế.",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        }
+      ],
+      "expected_status": "PARTIAL",
+      "landscape": false
+    },
+    {
+      "file": "02_de_muc_mo_ho.docx",
+      "title": "Đề mục mơ hồ, danh sách, cấp sâu và cấp cha còn thiếu",
+      "sha256": "54d940c336bf0580f14aa16f1130c586f3883478b8192bd75dfe27917c3bfd89",
+      "labels": [
+        {
+          "id": "b0",
+          "text": "CHƯƠNG 1. NHẬN DIỆN CẤU TRÚC",
+          "role": "chapter",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b1",
+          "text": "1.1 Yêu cầu hệ thống",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b2",
+          "text": "1.1.1 Yêu cầu chức năng",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b3",
+          "text": "1.1.1.1 Chi tiết vượt cấp tự động",
+          "role": "keep",
+          "protected": true,
+          "note": "Mức sâu phải giữ, không tự hạ cấp hoặc xóa."
+        },
+        {
+          "id": "b4",
+          "text": "Lưu ý quan trọng",
+          "role": "keep",
+          "protected": false,
+          "note": "Dòng in đậm không mặc nhiên là đề mục; chọn Giữ nguyên khi được hỏi."
+        },
+        {
+          "id": "b5",
+          "text": "1. Sao lưu dữ liệu trước khi thao tác.",
+          "role": "keep",
+          "protected": false,
+          "note": "Số nhập tay của danh sách, không phải chương."
+        },
+        {
+          "id": "b6",
+          "text": "Đăng ký tài khoản kiểm thử.",
+          "role": "keep",
+          "protected": true,
+          "note": "Danh sách đánh số tự động phải giữ numbering."
+        },
+        {
+          "id": "b7",
+          "text": "Chọn thiết bị cần mượn.",
+          "role": "keep",
+          "protected": true,
+          "note": "Danh sách đánh số tự động phải giữ numbering."
+        },
+        {
+          "id": "b8",
+          "text": "Xác nhận thời gian hoàn trả.",
+          "role": "keep",
+          "protected": true,
+          "note": "Danh sách đánh số tự động phải giữ numbering."
+        },
+        {
+          "id": "b9",
+          "text": "Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b10",
+          "text": "CHƯƠNG 2. TÌNH HUỐNG NGOẠI LỆ",
+          "role": "chapter",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b11",
+          "text": "2.3.1 Mục chưa có cha 2.3",
+          "role": "keep",
+          "protected": false,
+          "note": "Cố ý thiếu cha: chọn Giữ nguyên, không tự thêm 2.3."
+        },
+        {
+          "id": "b12",
+          "text": "2.1 Phạm vi được xác nhận",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b13",
+          "text": "Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        }
+      ],
+      "expected_status": "PARTIAL",
+      "landscape": false
+    },
+    {
+      "file": "03_bang_gop_section_ngang.docx",
+      "title": "Bảng gộp, bảng lồng, bảng dài và section ngang",
+      "sha256": "a2f89ac7bbe4a34e0adac6f509cf9dd7707285faf6031e42bf7e53d45d0a877d",
+      "labels": [
+        {
+          "id": "b0",
+          "text": "CHƯƠNG 1. DỮ LIỆU VÀ BỐ CỤC",
+          "role": "chapter",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b1",
+          "text": "1.1 Bảng gộp và bảng lồng",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b2",
+          "text": "Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b4",
+          "text": "Sơ đồ: tiếp nhận → kiểm chứng → công bố. ",
+          "role": "keep",
+          "protected": true,
+          "note": "Ảnh inline trộn chữ: giữ toàn bộ đoạn, kích thước và dữ liệu ảnh."
+        },
+        {
+          "id": "b5",
+          "text": "Ranh giới section: trang dọc chuyển sang trang ngang.",
+          "role": "keep",
+          "protected": true,
+          "note": "Giữ ngắt section, không xóa hoặc ép tất cả trang về dọc."
+        },
+        {
+          "id": "b6",
+          "text": "CHƯƠNG 2. BẢNG THỐNG KÊ TRANG NGANG",
+          "role": "chapter",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b7",
+          "text": "2.1 Bảng dài có hàng tiêu đề lặp",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b9",
+          "text": "Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        }
+      ],
+      "expected_status": "PARTIAL",
+      "landscape": true
+    },
+    {
+      "file": "04_tham_chieu_cong_thuc.docx",
+      "title": "OMML, bookmark, hyperlink, footnote, endnote, comment và track changes",
+      "sha256": "735dd846560cb250186eb0b871dfbda0840bfc877a99b7cb19c20c39ac2b46dc",
+      "labels": [
+        {
+          "id": "b0",
+          "text": "CHƯƠNG 1. ĐỐI TƯỢNG HỌC THUẬT",
+          "role": "chapter",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b1",
+          "text": "1.1 Bảo toàn đối tượng",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b2",
+          "text": "Sai số được tính theo công thức: ",
+          "role": "keep",
+          "protected": true,
+          "note": "Đoạn có chữ + OMML phải được bảo vệ, không đổi công thức thành chữ/ảnh."
+        },
+        {
+          "id": "b3",
+          "text": "Sơ đồ: tiếp nhận → kiểm chứng → công bố. ",
+          "role": "keep",
+          "protected": true,
+          "note": "Ảnh inline trộn chữ: giữ toàn bộ đoạn, kích thước và dữ liệu ảnh."
+        },
+        {
+          "id": "b4",
+          "text": "Vị trí tham chiếu gốc: REF_TEST_01",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b5",
+          "text": "Tham chiếu tới vị trí gốc:  [chưa cập nhật trường]",
+          "role": "keep",
+          "protected": true,
+          "note": "Giữ field và bộ nhớ đệm; chưa xác minh cập nhật trên Word."
+        },
+        {
+          "id": "b6",
+          "text": "Liên kết tham khảo: example.org — dữ liệu thử",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b7",
+          "text": "Đoạn có footnote cần bảo toàn.",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b8",
+          "text": "Đoạn có endnote cần bảo toàn.",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b9",
+          "text": "Đoạn có bình luận cần giữ nguyên.",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b10",
+          "text": "Lịch sử chỉnh sửa: phần thêm chưa chấp nhận",
+          "role": "keep",
+          "protected": true,
+          "note": ""
+        },
+        {
+          "id": "b11",
+          "text": "Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        }
+      ],
+      "expected_status": "PARTIAL",
+      "landscape": false
+    },
+    {
+      "file": "05_khong_phai_do_an.docx",
+      "title": "Báo cáo công việc không có chương — không được coi là đồ án hợp lệ",
+      "sha256": "c77d01319244140f587abed52c6a929d875e59031a95a742d8eb6b3dda054c37",
+      "labels": [
+        {
+          "id": "b0",
+          "text": "BÁO CÁO CÔNG VIỆC TUẦN",
+          "role": "keep",
+          "protected": true,
+          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+        },
+        {
+          "id": "b1",
+          "text": "Đơn vị: Bộ phận kiểm thử giả lập",
+          "role": "keep",
+          "protected": true,
+          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+        },
+        {
+          "id": "b2",
+          "text": "Hạng mục đã hoàn thành",
+          "role": "keep",
+          "protected": true,
+          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+        },
+        {
+          "id": "b3",
+          "text": "1. Kiểm tra hệ thống.",
+          "role": "keep",
+          "protected": true,
+          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+        },
+        {
+          "id": "b4",
+          "text": "2. Tổng hợp phản hồi.",
+          "role": "keep",
+          "protected": true,
+          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+        },
+        {
+          "id": "b5",
+          "text": "Hạng mục còn tồn đọng",
+          "role": "keep",
+          "protected": true,
+          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+        },
+        {
+          "id": "b6",
+          "text": "Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "keep",
+          "protected": true,
+          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+        },
+        {
+          "id": "b8",
+          "text": "Sơ đồ: tiếp nhận → kiểm chứng → công bố. ",
+          "role": "keep",
+          "protected": true,
+          "note": "Ảnh inline trộn chữ: giữ toàn bộ đoạn, kích thước và dữ liệu ảnh."
+        }
+      ],
+      "expected_status": "PARTIAL",
+      "landscape": false
+    },
+    {
+      "file": "06_than_bai_sai_dinh_dang.docx",
+      "title": "Ca dương: 2 chương, 60 đoạn, không có vùng khóa để kiểm tra cả lề",
+      "sha256": "4462a9293e0531643cef1c7348b97af6cb921f64f9a0b94668bf780f26a82e39",
+      "labels": [
+        {
+          "id": "b0",
+          "text": "CHƯƠNG 1. KIỂM TRA ĐỊNH DẠNG",
+          "role": "chapter",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b1",
+          "text": "1.1 Phương pháp đánh giá",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b2",
+          "text": "Đoạn 1-1-1. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b3",
+          "text": "Đoạn 1-1-2. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b4",
+          "text": "Đoạn 1-1-3. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b5",
+          "text": "Đoạn 1-1-4. Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b6",
+          "text": "Đoạn 1-1-5. Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b7",
+          "text": "Đoạn 1-1-6. Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b8",
+          "text": "Đoạn 1-1-7. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b9",
+          "text": "Đoạn 1-1-8. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b10",
+          "text": "Đoạn 1-1-9. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b11",
+          "text": "Đoạn 1-1-10. Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b12",
+          "text": "Đoạn 1-1-11. Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b13",
+          "text": "Đoạn 1-1-12. Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b14",
+          "text": "Đoạn 1-1-13. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b15",
+          "text": "Đoạn 1-1-14. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b16",
+          "text": "Đoạn 1-1-15. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b17",
+          "text": "1.2 Phương pháp đánh giá",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b18",
+          "text": "Đoạn 1-2-1. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b19",
+          "text": "Đoạn 1-2-2. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b20",
+          "text": "Đoạn 1-2-3. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b21",
+          "text": "Đoạn 1-2-4. Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b22",
+          "text": "Đoạn 1-2-5. Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b23",
+          "text": "Đoạn 1-2-6. Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b24",
+          "text": "Đoạn 1-2-7. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b25",
+          "text": "Đoạn 1-2-8. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b26",
+          "text": "Đoạn 1-2-9. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b27",
+          "text": "Đoạn 1-2-10. Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b28",
+          "text": "Đoạn 1-2-11. Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b29",
+          "text": "Đoạn 1-2-12. Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b30",
+          "text": "Đoạn 1-2-13. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b31",
+          "text": "Đoạn 1-2-14. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b32",
+          "text": "Đoạn 1-2-15. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b33",
+          "text": "CHƯƠNG 2. KIỂM TRA ĐỊNH DẠNG",
+          "role": "chapter",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b34",
+          "text": "2.1 Phương pháp đánh giá",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b35",
+          "text": "Đoạn 2-1-1. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b36",
+          "text": "Đoạn 2-1-2. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b37",
+          "text": "Đoạn 2-1-3. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b38",
+          "text": "Đoạn 2-1-4. Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b39",
+          "text": "Đoạn 2-1-5. Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b40",
+          "text": "Đoạn 2-1-6. Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b41",
+          "text": "Đoạn 2-1-7. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b42",
+          "text": "Đoạn 2-1-8. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b43",
+          "text": "Đoạn 2-1-9. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b44",
+          "text": "Đoạn 2-1-10. Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b45",
+          "text": "Đoạn 2-1-11. Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b46",
+          "text": "Đoạn 2-1-12. Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b47",
+          "text": "Đoạn 2-1-13. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b48",
+          "text": "Đoạn 2-1-14. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b49",
+          "text": "Đoạn 2-1-15. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b50",
+          "text": "2.2 Phương pháp đánh giá",
+          "role": "heading",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b51",
+          "text": "Đoạn 2-2-1. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b52",
+          "text": "Đoạn 2-2-2. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b53",
+          "text": "Đoạn 2-2-3. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b54",
+          "text": "Đoạn 2-2-4. Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b55",
+          "text": "Đoạn 2-2-5. Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b56",
+          "text": "Đoạn 2-2-6. Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b57",
+          "text": "Đoạn 2-2-7. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b58",
+          "text": "Đoạn 2-2-8. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b59",
+          "text": "Đoạn 2-2-9. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b60",
+          "text": "Đoạn 2-2-10. Tính toàn vẹn được kiểm tra theo từng vị trí: đoạn văn, ô bảng, đối tượng hình ảnh và biểu thức toán học. Việc nối tất cả chữ thành một chuỗi không đủ để phát hiện dữ liệu đã chuyển nhầm ô.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b61",
+          "text": "Đoạn 2-2-11. Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b62",
+          "text": "Đoạn 2-2-12. Giới hạn của phương pháp phải được trình bày cùng kết quả. Các số liệu 125,50; 0,05 và 98% dưới đây là dữ liệu thử tổng hợp, không phải kết quả đánh giá mô hình hoặc cam kết chất lượng sản phẩm.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b63",
+          "text": "Đoạn 2-2-13. Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b64",
+          "text": "Đoạn 2-2-14. Trong khảo sát ban đầu, nhóm xác định ba nhóm thao tác thường xuyên gồm đăng ký, phê duyệt và trả thiết bị. Những thao tác này có ràng buộc khác nhau nên cần tách biệt yêu cầu nghiệp vụ với chi tiết triển khai.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        },
+        {
+          "id": "b65",
+          "text": "Đoạn 2-2-15. Các phép đo chỉ có ý nghĩa khi giữ nguyên điều kiện thử nghiệm. Độ trễ được ghi theo mili giây, dung lượng theo MiB và thời điểm theo múi giờ đã công bố; không thay đổi đơn vị để làm đẹp kết quả.",
+          "role": "body",
+          "protected": false,
+          "note": ""
+        }
+      ],
+      "expected_status": "PARTIAL",
+      "landscape": false
+    }
+  ]
+}

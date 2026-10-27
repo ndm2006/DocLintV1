@@ -71,6 +71,26 @@ CHROMIUM_PATH=/usr/bin/chromium npm run test:ui
 
 Tải lên → xác nhận → tải Word → reload → chạy lại → hủy → xóa; kiểm tra mobile không tràn ngang. Ảnh kiểm tra và DOCX đầu ra nằm trong `.runtime/`, không commit.
 
+## Bộ mẫu phức tạp và cặp file đối chiếu
+
+Tải [ZIP gồm 6 DOCX và hướng dẫn](tests/fixtures/complex/DocLint-bo-mau-phuc-tap.zip) hoặc [cặp gốc/kết quả có sẵn để đối chiếu](tests/fixtures/complex/DocLint-cap-goc-ket-qua.zip), hoặc mở từng file trong [thư mục mẫu](tests/fixtures/complex). Xem [tiêu chí đối chiếu từng mẫu](tests/fixtures/complex/HUONG_DAN.md).
+
+Các ca gồm đồ án tổng hợp nhiều chương, đề mục mơ hồ, bảng gộp/lồng/bảng dài và section ngang, công thức/field/bookmark/footnote/comment/track changes, văn bản không phải đồ án và ca thuần thân bài để kiểm tra lề. Tất cả là dữ liệu tổng hợp, không phải tập đánh giá AI độc lập.
+
+Windows, từ thư mục repo đã cập nhật (môi trường tên `.venv312`):
+
+```bat
+.venv312\Scripts\python.exe -m scripts.run_complex_tests
+```
+
+Không cần dừng server. Script dùng API/worker riêng trong tiến trình kiểm thử, tạo thư mục mới trong `.runtime\complex-results`, mỗi mẫu có **`01_GOC.docx`**, **`02_DA_XU_LY.docx`**, lựa chọn xác nhận và báo cáo JSON. Nhãn xác nhận do người viết mẫu đặt, không lấy dự đoán làm đáp án. File xuất là kết quả hiện tại, không phải bản chuẩn độc lập. Mở hai file cạnh nhau trong Word và dùng hướng dẫn để đối chiếu.
+
+Để tái tạo các đầu vào có phiên bản:
+
+```bash
+.venv/bin/python -m scripts.make_complex_fixtures
+```
+
 ## Cấu trúc
 
 ```text
