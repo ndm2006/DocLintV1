@@ -49,7 +49,16 @@ def run_all(destination):
             (folder/'01_GOC.docx').write_bytes(source)
             session = None
             try:
-                session = require(client.post('/api/v1/sessions', files={'file': (case['file'], source)}), 202).json()
+                response=client.post('/api/v1/sessions',files={'file':(case['file'],source)})
+                if case['expected_status']=='REJECTED':
+                    rejection=require(response,422).json()
+                    if rejection['code']!=case['expected_error']:raise RuntimeError('Unexpected rejection code: '+str(rejection))
+                    dump(folder/'02_TU_CHOI.json',rejection)
+                    dump(folder/'05_KY_VONG_THU_CONG.json',case)
+                    summaries.append({'file':case['file'],'result':'PASS','state':'REJECTED','code':rejection['code']})
+                    print(case['file'],'PASS (REJECTED as expected)')
+                    continue
+                session=require(response,202).json()
                 headers = {'Authorization': 'Bearer '+session['access_token']}
                 rid = session['run_id']
                 run = await_run(client, rid, headers)
@@ -80,7 +89,7 @@ def run_all(destination):
             print(case['file'], summaries[-1]['result'])
     dump(destination/'KET_QUA.json', summaries)
     (destination/'DOC_TOI_TRUOC.txt').write_text(
-        'Mỗi thư mục có 01_GOC.docx và 02_DA_XU_LY.docx để mở cạnh nhau trong Microsoft Word.\n'
+        'Mẫu hợp lệ có 01_GOC.docx và 02_DA_XU_LY.docx; mẫu không phải đồ án có 02_TU_CHOI.json và không xuất Word.\n'
         'File 02 là kết quả của chương trình hiện tại, KHÔNG phải bản chuẩn độc lập.\n'
         'Đọc tests/fixtures/complex/HUONG_DAN.md để biết tiêu chí đối chiếu từng mẫu.\n'
         'Các lựa chọn duyệt được lấy từ nhãn do người viết mẫu đặt, không lấy từ dự đoán mô hình.\n'

@@ -5,9 +5,9 @@
 ## Cách lấy và mở mẫu
 
 - Giải nén `DocLint-bo-mau-phuc-tap.zip`: có 6 DOCX gốc, hướng dẫn này và `manifest.json`.
-- Nếu muốn đối chiếu ngay, tải `DocLint-cap-goc-ket-qua.zip`: mỗi thư mục có sẵn `01_GOC.docx` và `02_DA_XU_LY.docx`. Đây là ảnh chụp kết quả của engine lúc tạo gói, KHÔNG phải đáp án chuẩn độc lập; đọc báo cáo JSON và tiêu chí bên dưới. Gói này không thay cho việc chạy lại trên mã mới.
+- Nếu muốn đối chiếu ngay, tải `DocLint-cap-goc-ket-qua.zip`: mẫu hợp lệ có `01_GOC.docx` và `02_DA_XU_LY.docx`; mẫu 05 chỉ có `01_GOC.docx` và `02_TU_CHOI.json`, không xuất Word. Đây là ảnh chụp kết quả của engine lúc tạo gói, KHÔNG phải đáp án chuẩn độc lập; đọc báo cáo JSON và tiêu chí bên dưới. Gói này không thay cho việc chạy lại trên mã mới.
 - Có thể mở ngay DOCX trong Word rồi tải lên web. DOCX không chứa macro.
-- Nếu đang dùng bản mã nguồn tải trước lần cập nhật này, hãy tải bản ZIP repo mới từ GitHub → Code → Download ZIP, giải nén vào **thư mục mới**, rồi cài môi trường Python 3.12 theo README. V0.1.1 đã bổ sung nhận diện tự động theo Style/numbering/cây cha–con và sửa lỗi xóa/chọn tệp. Cần chạy bản mã mới để thấy hành vi này.
+- Nếu đang dùng bản mã nguồn tải trước lần cập nhật này, hãy tải bản ZIP repo mới từ GitHub → Code → Download ZIP, giải nén vào **thư mục mới**, rồi cài môi trường Python 3.12 theo README. V0.1.2 bổ sung lề trang dọc/ngang ngay cả khi có bảng gộp; định dạng lời cảm ơn/tóm tắt và từ chối tài liệu không phù hợp trước khi tạo phiên. Cần chạy bản mã mới để thấy hành vi này.
 - Không lưu đè file gốc khi mở Word. Word có thể cập nhật field hoặc chuyển đổi nội bộ khi lưu; hãy so sánh hai bản trước khi tự lưu lại.
 
 ## Tạo sẵn cặp gốc / kết quả — Windows
@@ -25,7 +25,8 @@ Lệnh chạy API/worker trong một tiến trình kiểm thử riêng, không c
 | Tệp | Ý nghĩa |
 |---|---|
 | `01_GOC.docx` | Bản đầu vào, chưa sửa |
-| `02_DA_XU_LY.docx` | Kết quả của chương trình hiện tại |
+| `02_DA_XU_LY.docx` | Kết quả của mẫu hợp lệ |
+| `02_TU_CHOI.json` | Chỉ có với mẫu bị từ chối: mã/thông báo, không có Word đã sửa |
 | `03_LUA_CHON_XAC_NHAN.json` | Các vai trò đã xác nhận theo nhãn được viết cùng mẫu, nếu có màn hình duyệt |
 | `04_BAO_CAO.json` | Thao tác thực tế, toàn vẹn và phần chưa kiểm tra |
 | `05_KY_VONG_THU_CONG.json` | Nhãn/vùng giữ nguyên do người tạo mẫu xác định |
@@ -39,7 +40,7 @@ Lệnh chạy API/worker trong một tiến trình kiểm thử riêng, không c
 - Bìa giả, lời cảm ơn, tóm tắt, mục lục dạng field, 3 chương, 9 đề mục, 54 đoạn thân bài; phông/cỡ chữ cố ý lộn xộn, một bảng dữ liệu, ảnh sơ đồ, công thức phân số OMML, header/footer.
 - Kỳ vọng tự nhận **3 chương, 9 đề mục**, không cần màn hình duyệt. Có thể đối chiếu các nhãn được viết thủ công trong manifest.
 - Thân bài được sửa: TNR 13 pt, căn đều, Multiple 1.1, trước 3 pt. Chương đậm/căn giữa/ngắt trang; các số nhập tay không được nhân đôi.
-- Bìa phải giữ cỡ lớn; mục lục/field, ảnh, công thức, bảng, header/footer và dữ liệu trong chúng giữ nguyên.
+- Tiêu đề trường và loại đồ án trên bìa được chuẩn hóa về ArnoPro 15/25 pt theo mẫu; thông tin sinh viên/tên đề tài chưa đủ căn cứ được giữ. Lời cảm ơn/tóm tắt có **4 khối được định dạng riêng**: tiêu đề TNR13 đậm/căn giữa, trước 24/48 pt; thân nội dung TNR13/căn đều/1,1 dòng. Lời cảm ơn ngắn được cảnh báo chứ không tự viết thêm. Hai phần cùng trang khi vừa, mục lục được bắt đầu ở trang kế tiếp, giữ nguyên nội dung field. Tiêu đề mục lục/tài liệu tham khảo và caption được định dạng riêng; mã field/bộ nhớ đệm, ảnh, công thức, header/footer, chữ trong bảng và ô gộp phải giữ. Bảng quá rộng chỉ được thu thuộc tính chiều rộng.
 - Lề section dọc đơn giản được chuẩn hóa theo mẫu; các đối tượng vẫn giữ nguyên dữ liệu/XML. Việc thay lề có thể đổi xuống dòng/phân trang, không được báo bố cục hoặc mục lục đã được xác minh.
 
 ### 02 — Đề mục mơ hồ
@@ -53,7 +54,7 @@ Lệnh chạy API/worker trong một tiến trình kiểm thử riêng, không c
 
 - Bảng có gộp ngang, gộp dọc và bảng lồng; ảnh trộn chữ; section dọc → ngang; bảng dài **46 hàng**, hàng đầu được đánh dấu lặp tiêu đề; header/footer có field số trang.
 - Số hàng/cột, nội dung các ô, ô gộp, bảng lồng và ảnh phải giữ nguyên. Không được ép bảng trọn một trang hoặc tự giảm chữ để vừa.
-- Giữ ngắt section, hướng ngang và hình học trang. Phân trang, ngắt hàng và hiển thị header/footer cần kiểm tra trong Word; chưa có kiểm chứng renderer tự động.
+- Cả **2 section phải có lề trái 3,5 cm, phải 2,5 cm, trên/dưới 2 cm**. Giữ ngắt section và hướng ngang, dùng khổ A4 theo đúng hướng. Bảng dọc 9000 twips vượt vùng chữ phải thu còn 8504 twips; số hàng/cột, gộp ô và bảng lồng giữ nguyên. Bảng ngang còn vừa vùng chữ không bị phóng rộng. Phân trang, ngắt hàng và hiển thị header/footer cần kiểm tra trong Word; chưa có kiểm chứng renderer tự động.
 
 ### 04 — Đối tượng học thuật
 
@@ -65,8 +66,8 @@ Lệnh chạy API/worker trong một tiến trình kiểm thử riêng, không c
 ### 05 — Không phải đồ án
 
 - Báo cáo công việc có danh sách, bảng và ảnh, **không có chương**.
-- Hành vi V0.1: tiếp nhận DOCX và trả PARTIAL với **0 khối sửa**, không tự từ chối theo loại tài liệu. Đây là giới hạn được ghi nhận, không phải một ca đạt nhận diện “không phải đồ án”.
-- Tất cả nội dung/định dạng trong document.xml phải giữ nguyên về cấu trúc XML; không yêu cầu toàn bộ file ZIP có cùng hash vì engine đóng gói lại.
+- V0.1.2 phải **từ chối trước khi tạo session/run**, HTTP 422, mã `NOT_A_THESIS`. Thông báo yêu cầu tải file đồ án khác; không có nút tải Word hoặc kết quả “0 khối sửa”.
+- Cổng dùng tiêu đề/loại văn bản kết hợp cây chương–mục, không dùng tên file và không chấp nhận chỉ vì xuất hiện chữ “đồ án”. Script lưu `02_TU_CHOI.json` cho mẫu này.
 
 ### 06 — Ca dương kiểm tra thân bài và lề
 
@@ -79,7 +80,7 @@ Lệnh chạy API/worker trong một tiến trình kiểm thử riêng, không c
 
 1. Mở `01_GOC.docx` và `02_DA_XU_LY.docx`; View → View Side by Side.
 2. Chọn cùng một đoạn thân bài, kiểm tra font/cỡ chữ và Paragraph → Line spacing → Multiple 1.1.
-3. Kiểm tra Layout → Margins chỉ với mẫu 06; đối chiếu hướng trang/section ở mẫu 03.
+3. Kiểm tra Layout → Margins ở từng section, đặc biệt cả dọc và ngang của mẫu 03; đối chiếu cả định dạng phần đầu của mẫu 01.
 4. Kiểm tra bảng gộp, ảnh, công thức và ghi chú ở mẫu 03/04.
 5. Có thể dùng Review → Compare để thấy khác biệt định dạng. Đây là hỗ trợ quan sát, không thay thế đối chiếu nội dung/đối tượng.
 6. Nếu Word báo Repair hoặc thiếu đối tượng, ghi mẫu và bước tái hiện. **Các mẫu được kiểm tra gói OOXML và đọc thử bằng LibreOffice khi khả dụng; chưa nghiệm thu trực tiếp trên Microsoft Word.**
@@ -91,4 +92,4 @@ Lệnh chạy API/worker trong một tiến trình kiểm thử riêng, không c
 .venv312\Scripts\python.exe -m pytest -q
 ```
 
-Generator và manifest xác định vai trò thủ công, không lấy nhãn từ model. Bộ hồi quy kiểm tra reproducibility, văn bản theo thứ tự, XML bảng/công thức, các part phụ và từng đoạn được ghi phải giữ. Không dùng các mẫu này vừa huấn luyện vừa báo cáo độ chính xác độc lập.
+Generator và manifest xác định vai trò thủ công, không lấy nhãn từ model. Bộ hồi quy kiểm tra reproducibility, văn bản theo thứ tự, text/gộp ô/bảng lồng và XML công thức, các part phụ và từng đoạn được ghi phải giữ. Không dùng các mẫu này vừa huấn luyện vừa báo cáo độ chính xác độc lập.

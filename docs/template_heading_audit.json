@@ -1,0 +1,1690 @@
+{
+  "template": {
+    "filename": "Mẫu ĐATN_2019_version 1_1 (1).docx",
+    "sha256": "5003fc2fab89b7fc1bead02e9d004607610cf8984e32230e12a0c903470917d5",
+    "note": "Extracted docDefaults, Heading1–4 inheritance, section geometry, cover/front matter, lists, references, appendix and caption formatting; original document is not redistributed."
+  },
+  "app_version": "0.1.2",
+  "expected_titles": 51,
+  "recognized_titles": 51,
+  "formats_matching_source": 51,
+  "integrity": "PASS",
+  "issues": [
+    {
+      "block_id": "b44",
+      "code": "LIST_TITLE_MISMATCH",
+      "detected": "list_tables_title",
+      "message": "Tên danh mục không khớp các mục bên dưới. Nhận diện danh mục bảng/hình theo nội dung; giữ nguyên chữ tiêu đề để người dùng kiểm tra."
+    }
+  ],
+  "note": "Source text and field codes are immutable. Second figure-list label actually precedes table entries. Heading4 is defined in the source but has no nonempty occurrence; covered by synthetic tests. Page starts are additional normalization policy. This is a template inventory, not independent precision/recall.",
+  "titles": [
+    {
+      "block_id": "b0",
+      "body_index": 0,
+      "path": [],
+      "text": "TRƯỜNG ĐẠI HỌC BÁCH KHOA HÀ NỘI",
+      "source_style": "Subtitle",
+      "expected_role": "cover_institution",
+      "expected_level": null,
+      "recognized_role": "cover_institution",
+      "recognized": true,
+      "source_format": {
+        "font": "ArnoPro",
+        "size_pt": 15.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "ArnoPro",
+        "size_pt": 15.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b7",
+      "body_index": 7,
+      "path": [],
+      "text": "ĐỒ ÁN TỐT NGHIỆP",
+      "source_style": "Subtitle",
+      "expected_role": "cover_title",
+      "expected_level": null,
+      "recognized_role": "cover_title",
+      "recognized": true,
+      "source_format": {
+        "font": "ArnoPro",
+        "size_pt": 25.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "ArnoPro",
+        "size_pt": 25.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b8",
+      "body_index": 8,
+      "path": [],
+      "text": "Thiết kế hệ thống tự động điều chỉnh",
+      "source_style": "Subtitle",
+      "expected_role": "cover_subject",
+      "expected_level": null,
+      "recognized_role": "cover_subject",
+      "recognized": true,
+      "source_format": {
+        "font": "ArnoPro",
+        "size_pt": 23.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 480,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "ArnoPro",
+        "size_pt": 23.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 480,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b9",
+      "body_index": 9,
+      "path": [],
+      "text": "nhiệt độ trong thiết bị sấy hoa quả",
+      "source_style": "Subtitle",
+      "expected_role": "cover_subject_continuation",
+      "expected_level": null,
+      "recognized_role": "cover_subject_continuation",
+      "recognized": true,
+      "source_format": {
+        "font": "ArnoPro",
+        "size_pt": 23.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 0,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "ArnoPro",
+        "size_pt": 23.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 0,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b20",
+      "body_index": 20,
+      "path": [],
+      "text": "ĐỀ TÀI TỐT NGHIỆP",
+      "source_style": "",
+      "expected_role": "assignment_title",
+      "expected_level": null,
+      "recognized_role": "assignment_title",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 480,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 480,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b26",
+      "body_index": 26,
+      "path": [],
+      "text": "Lời cảm ơn",
+      "source_style": "",
+      "expected_role": "acknowledgement_title",
+      "expected_level": null,
+      "recognized_role": "acknowledgement_title",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 480,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 480,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b31",
+      "body_index": 31,
+      "path": [],
+      "text": "Tóm tắt nội dung đồ án",
+      "source_style": "",
+      "expected_role": "abstract_title",
+      "expected_level": null,
+      "recognized_role": "abstract_title",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 960,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 960,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b34",
+      "body_index": 34,
+      "path": [],
+      "text": "MỤC LỤC",
+      "source_style": "",
+      "expected_role": "toc_title",
+      "expected_level": null,
+      "recognized_role": "toc_title",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b36",
+      "body_index": 36,
+      "path": [],
+      "text": "DANH MỤC HÌNH VẼ",
+      "source_style": "",
+      "expected_role": "list_figures_title",
+      "expected_level": null,
+      "recognized_role": "list_figures_title",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 60,
+        "after": 160,
+        "line": 259
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 60,
+        "after": 160,
+        "line": 259
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b44",
+      "body_index": 44,
+      "path": [],
+      "text": "DANH MỤC HÌNH VẼ",
+      "source_style": "",
+      "expected_role": "list_tables_title",
+      "expected_level": null,
+      "recognized_role": "list_tables_title",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 60,
+        "after": 160,
+        "line": 259
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 60,
+        "after": 160,
+        "line": 259
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b50",
+      "body_index": 50,
+      "path": [],
+      "text": "CÁC QUI ĐỊNH CHUNG",
+      "source_style": "Heading1",
+      "expected_role": "chapter",
+      "expected_level": null,
+      "recognized_role": "chapter",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 120,
+        "after": 240,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 120,
+        "after": 240,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b51",
+      "body_index": 51,
+      "path": [],
+      "text": "Giới thiệu chung",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b64",
+      "body_index": 64,
+      "path": [],
+      "text": "Sử dụng các định dạng văn bản theo qui định",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b65",
+      "body_index": 65,
+      "path": [],
+      "text": "Qui định về căn lề văn bản",
+      "source_style": "Heading3",
+      "expected_role": "heading",
+      "expected_level": 3,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b72",
+      "body_index": 72,
+      "path": [],
+      "text": "Tạo lề cho văn bản in 2 mặt",
+      "source_style": "Heading3",
+      "expected_role": "heading",
+      "expected_level": 3,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b78",
+      "body_index": 78,
+      "path": [],
+      "text": "Tạo chương mới",
+      "source_style": "Heading3",
+      "expected_role": "heading",
+      "expected_level": 3,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b83",
+      "body_index": 83,
+      "path": [],
+      "text": "Tạo tiêu đề các cấp",
+      "source_style": "Heading3",
+      "expected_role": "heading",
+      "expected_level": 3,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b87",
+      "body_index": 87,
+      "path": [],
+      "text": "Định dạng phần nội dung các chương, mục",
+      "source_style": "Heading3",
+      "expected_role": "heading",
+      "expected_level": 3,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b91",
+      "body_index": 91,
+      "path": [],
+      "text": "Hình vẽ - Đồ thị",
+      "source_style": "Heading3",
+      "expected_role": "heading",
+      "expected_level": 3,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b106",
+      "body_index": 106,
+      "path": [],
+      "text": "Bảng biểu",
+      "source_style": "Heading3",
+      "expected_role": "heading",
+      "expected_level": 3,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b116",
+      "body_index": 116,
+      "path": [],
+      "text": "Bảng 1.1 Thống kê các thiết bị và giá thành",
+      "source_style": "Caption",
+      "expected_role": "table_caption",
+      "expected_level": null,
+      "recognized_role": "table_caption",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b119",
+      "body_index": 119,
+      "path": [],
+      "text": "Phương trình",
+      "source_style": "Heading3",
+      "expected_role": "heading",
+      "expected_level": 3,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b132.tr0.tc2.p0",
+      "body_index": 132,
+      "path": [
+        [
+          "tr",
+          0
+        ],
+        [
+          "tc",
+          2
+        ],
+        [
+          "p",
+          0
+        ]
+      ],
+      "text": "PT 1.1",
+      "source_style": "Caption",
+      "expected_role": "equation_caption",
+      "expected_level": null,
+      "recognized_role": "equation_caption",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "both",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "both",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b148.tr0.tc2.p0",
+      "body_index": 148,
+      "path": [
+        [
+          "tr",
+          0
+        ],
+        [
+          "tc",
+          2
+        ],
+        [
+          "p",
+          0
+        ]
+      ],
+      "text": "PT 1.2",
+      "source_style": "Caption",
+      "expected_role": "equation_caption",
+      "expected_level": null,
+      "recognized_role": "equation_caption",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "both",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "both",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b150",
+      "body_index": 150,
+      "path": [],
+      "text": "Tạo tham chiếu chéo giữa các đoạn văn bản",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b158",
+      "body_index": 158,
+      "path": [],
+      "text": "Tạo danh mục tài liệu tham khảo",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b193",
+      "body_index": 193,
+      "path": [],
+      "text": "Cập nhật lại các chú thích và tham chiếu",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b200",
+      "body_index": 200,
+      "path": [],
+      "text": "Tạo danh mục hình vẽ",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b210",
+      "body_index": 210,
+      "path": [],
+      "text": "Tạo danh mục bảng biểu",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b214",
+      "body_index": 214,
+      "path": [],
+      "text": "Tạo trang mục lục",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b221",
+      "body_index": 221,
+      "path": [],
+      "text": "Qui cách đóng quyển",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b235",
+      "body_index": 235,
+      "path": [],
+      "text": "SỬ DỤNG CÁC BIỂU ĐỒ",
+      "source_style": "Heading1",
+      "expected_role": "chapter",
+      "expected_level": null,
+      "recognized_role": "chapter",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 120,
+        "after": 240,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 120,
+        "after": 240,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b236",
+      "body_index": 236,
+      "path": [],
+      "text": "Giới thiệu về biểu diễn bằng đồ thị",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b245",
+      "body_index": 245,
+      "path": [],
+      "text": "Đồ thị kiểu bánh",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b255",
+      "body_index": 255,
+      "path": [],
+      "text": "Hình 2.1 Đồ thị kiểu bánh",
+      "source_style": "Caption",
+      "expected_role": "figure_caption",
+      "expected_level": null,
+      "recognized_role": "figure_caption",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b256",
+      "body_index": 256,
+      "path": [],
+      "text": "Đồ thị kiểu thanh ngang",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b265",
+      "body_index": 265,
+      "path": [],
+      "text": "Hình 2.2 Đồ thị kiểu thanh ngang",
+      "source_style": "Caption",
+      "expected_role": "figure_caption",
+      "expected_level": null,
+      "recognized_role": "figure_caption",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b266",
+      "body_index": 266,
+      "path": [],
+      "text": "Đồ thị kiểu cột đứng",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b275",
+      "body_index": 275,
+      "path": [],
+      "text": "Hình 2.3 Đồ thị kiểu cột đứng",
+      "source_style": "Caption",
+      "expected_role": "figure_caption",
+      "expected_level": null,
+      "recognized_role": "figure_caption",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b276",
+      "body_index": 276,
+      "path": [],
+      "text": "Đồ thị kiểu đường",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b285",
+      "body_index": 285,
+      "path": [],
+      "text": "Hình 2.4 Đồ thị kiểu đường",
+      "source_style": "Caption",
+      "expected_role": "figure_caption",
+      "expected_level": null,
+      "recognized_role": "figure_caption",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b286",
+      "body_index": 286,
+      "path": [],
+      "text": "Đồ thị kiểu diện tích",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b295",
+      "body_index": 295,
+      "path": [],
+      "text": "Hình 2.5 Đồ thị kiểu diện tích",
+      "source_style": "Caption",
+      "expected_role": "figure_caption",
+      "expected_level": null,
+      "recognized_role": "figure_caption",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": false,
+        "italic": true,
+        "alignment": "center",
+        "before": 60,
+        "after": 200,
+        "line": 240
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b298",
+      "body_index": 298,
+      "path": [],
+      "text": "KẾT LUẬN",
+      "source_style": "Heading1",
+      "expected_role": "chapter",
+      "expected_level": null,
+      "recognized_role": "chapter",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 120,
+        "after": 240,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 120,
+        "after": 240,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b299",
+      "body_index": 299,
+      "path": [],
+      "text": "Kết luận",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b302",
+      "body_index": 302,
+      "path": [],
+      "text": "Hướng phát triển của đồ án trong tương lai",
+      "source_style": "Heading2",
+      "expected_role": "heading",
+      "expected_level": 2,
+      "recognized_role": "heading",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 120,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b306.sdtContent0.p0",
+      "body_index": 306,
+      "path": [
+        [
+          "sdtContent",
+          0
+        ],
+        [
+          "p",
+          0
+        ]
+      ],
+      "text": "TÀI LIỆU THAM KHẢO",
+      "source_style": "Heading1",
+      "expected_role": "references_title",
+      "expected_level": null,
+      "recognized_role": "references_title",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 0,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 0,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b308",
+      "body_index": 308,
+      "path": [],
+      "text": "PHỤ LỤC",
+      "source_style": "Heading1",
+      "expected_role": "appendix_title",
+      "expected_level": null,
+      "recognized_role": "appendix_title",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 120,
+        "after": 240,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "center",
+        "before": 120,
+        "after": 240,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b309",
+      "body_index": 309,
+      "path": [],
+      "text": "Chi tiết số liệu thí nghiệm",
+      "source_style": "ListParagraph",
+      "expected_role": "appendix_item_title",
+      "expected_level": null,
+      "recognized_role": "appendix_item_title",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b311",
+      "body_index": 311,
+      "path": [],
+      "text": "Chi tiết các bước tính toán",
+      "source_style": "ListParagraph",
+      "expected_role": "appendix_item_title",
+      "expected_level": null,
+      "recognized_role": "appendix_item_title",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    },
+    {
+      "block_id": "b313",
+      "body_index": 313,
+      "path": [],
+      "text": "Chi tiết sơ đồ mô phỏng",
+      "source_style": "ListParagraph",
+      "expected_role": "appendix_item_title",
+      "expected_level": null,
+      "recognized_role": "appendix_item_title",
+      "recognized": true,
+      "source_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "output_format": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": false,
+        "alignment": "both",
+        "before": 60,
+        "after": 0,
+        "line": 264
+      },
+      "format_matches_source": true
+    }
+  ]
+}

@@ -11,65 +11,65 @@
         {
           "id": "b0",
           "text": "TRƯỜNG ĐẠI HỌC KIỂM THỬ",
-          "role": "keep",
-          "protected": true,
-          "note": "Bìa giả: giữ cỡ chữ và nội dung, không ép 13 pt."
+          "role": "cover_institution",
+          "protected": false,
+          "note": "Tiêu đề trường/loại đồ án theo mẫu; thông tin bìa chưa đủ căn cứ vẫn giữ."
         },
         {
           "id": "b1",
           "text": "ĐỒ ÁN TỐT NGHIỆP — TÀI LIỆU GIẢ LẬP",
-          "role": "keep",
-          "protected": true,
-          "note": "Bìa giả: giữ cỡ chữ và nội dung, không ép 13 pt."
+          "role": "cover_title",
+          "protected": false,
+          "note": "Tiêu đề trường/loại đồ án theo mẫu; thông tin bìa chưa đủ căn cứ vẫn giữ."
         },
         {
           "id": "b2",
           "text": "HỆ THỐNG QUẢN LÝ MƯỢN THIẾT BỊ",
           "role": "keep",
           "protected": true,
-          "note": "Bìa giả: giữ cỡ chữ và nội dung, không ép 13 pt."
+          "note": "Tiêu đề trường/loại đồ án theo mẫu; thông tin bìa chưa đủ căn cứ vẫn giữ."
         },
         {
           "id": "b3",
           "text": "Sinh viên: Người kiểm thử A · Mã: TEST-001",
           "role": "keep",
           "protected": true,
-          "note": "Bìa giả: giữ cỡ chữ và nội dung, không ép 13 pt."
+          "note": "Tiêu đề trường/loại đồ án theo mẫu; thông tin bìa chưa đủ căn cứ vẫn giữ."
         },
         {
           "id": "b4",
           "text": "LỜI CẢM ƠN",
-          "role": "keep",
-          "protected": true,
-          "note": ""
+          "role": "acknowledgement_title",
+          "protected": false,
+          "note": "TNR 13, đậm, căn giữa, trước 24 pt theo mẫu."
         },
         {
           "id": "b5",
           "text": "Hệ thống quản lý mượn thiết bị được xây dựng để theo dõi vòng đời của thiết bị trong phòng thực hành. Mỗi yêu cầu phải ghi nhận người mượn, thời điểm tiếp nhận và trạng thái bàn giao; dữ liệu trong tài liệu này hoàn toàn giả lập.",
-          "role": "keep",
-          "protected": true,
+          "role": "acknowledgement",
+          "protected": false,
           "note": ""
         },
         {
           "id": "b6",
           "text": "TÓM TẮT",
-          "role": "keep",
-          "protected": true,
-          "note": ""
+          "role": "abstract_title",
+          "protected": false,
+          "note": "TNR 13, đậm, căn giữa, trước 48 pt theo mẫu."
         },
         {
           "id": "b7",
           "text": "Tài liệu này mô phỏng đồ án thực tế để kiểm tra định dạng, không chứa thông tin cá nhân.",
-          "role": "keep",
-          "protected": true,
+          "role": "abstract",
+          "protected": false,
           "note": ""
         },
         {
           "id": "b8",
           "text": "MỤC LỤC [chưa cập nhật trường]",
-          "role": "keep",
-          "protected": true,
-          "note": "Giữ field và bộ nhớ đệm; chưa xác minh cập nhật trên Word."
+          "role": "toc_title",
+          "protected": false,
+          "note": "Định dạng tiêu đề nếu nhận hỗ trợ; giữ nguyên field và bộ nhớ đệm."
         },
         {
           "id": "b9",
@@ -228,8 +228,8 @@
         {
           "id": "b31",
           "text": "Bảng 1.1. Dữ liệu mượn thiết bị",
-          "role": "keep",
-          "protected": true,
+          "role": "table_caption",
+          "protected": false,
           "note": ""
         },
         {
@@ -396,8 +396,8 @@
         {
           "id": "b56",
           "text": "Hình 2.1. Luồng xử lý giả lập",
-          "role": "keep",
-          "protected": true,
+          "role": "figure_caption",
+          "protected": false,
           "note": ""
         },
         {
@@ -564,8 +564,8 @@
         {
           "id": "b80",
           "text": "TÀI LIỆU THAM KHẢO",
-          "role": "keep",
-          "protected": true,
+          "role": "references_title",
+          "protected": false,
           "note": ""
         },
         {
@@ -796,7 +796,7 @@
           "text": "Tham chiếu tới vị trí gốc:  [chưa cập nhật trường]",
           "role": "keep",
           "protected": true,
-          "note": "Giữ field và bộ nhớ đệm; chưa xác minh cập nhật trên Word."
+          "note": "Định dạng tiêu đề nếu nhận hỗ trợ; giữ nguyên field và bộ nhớ đệm."
         },
         {
           "id": "b6",
@@ -854,49 +854,49 @@
           "text": "BÁO CÁO CÔNG VIỆC TUẦN",
           "role": "keep",
           "protected": true,
-          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+          "note": "Không đủ cấu trúc đồ án: API phải từ chối trước khi tạo phiên/run."
         },
         {
           "id": "b1",
           "text": "Đơn vị: Bộ phận kiểm thử giả lập",
           "role": "keep",
           "protected": true,
-          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+          "note": "Không đủ cấu trúc đồ án: API phải từ chối trước khi tạo phiên/run."
         },
         {
           "id": "b2",
           "text": "Hạng mục đã hoàn thành",
           "role": "keep",
           "protected": true,
-          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+          "note": "Không đủ cấu trúc đồ án: API phải từ chối trước khi tạo phiên/run."
         },
         {
           "id": "b3",
           "text": "1. Kiểm tra hệ thống.",
           "role": "keep",
           "protected": true,
-          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+          "note": "Không đủ cấu trúc đồ án: API phải từ chối trước khi tạo phiên/run."
         },
         {
           "id": "b4",
           "text": "2. Tổng hợp phản hồi.",
           "role": "keep",
           "protected": true,
-          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+          "note": "Không đủ cấu trúc đồ án: API phải từ chối trước khi tạo phiên/run."
         },
         {
           "id": "b5",
           "text": "Hạng mục còn tồn đọng",
           "role": "keep",
           "protected": true,
-          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+          "note": "Không đủ cấu trúc đồ án: API phải từ chối trước khi tạo phiên/run."
         },
         {
           "id": "b6",
           "text": "Trường hợp không đủ căn cứ để suy luận cấu trúc, hệ thống cần giữ nội dung gốc và yêu cầu xác nhận. Một dòng ngắn được in đậm có thể là đề mục, nhưng cũng có thể chỉ là ghi chú của tác giả.",
           "role": "keep",
           "protected": true,
-          "note": "Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu."
+          "note": "Không đủ cấu trúc đồ án: API phải từ chối trước khi tạo phiên/run."
         },
         {
           "id": "b8",
@@ -906,8 +906,9 @@
           "note": "Ảnh inline trộn chữ: giữ toàn bộ đoạn, kích thước và dữ liệu ảnh."
         }
       ],
-      "expected_status": "PARTIAL",
-      "landscape": false
+      "expected_status": "REJECTED",
+      "landscape": false,
+      "expected_error": "NOT_A_THESIS"
     },
     {
       "file": "06_than_bai_sai_dinh_dang.docx",

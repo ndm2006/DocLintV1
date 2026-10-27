@@ -142,7 +142,10 @@ def test_protected_and_landscape():
     parts['word/document.xml']=E.tostring(root);data=repack(parts);a=inspect(data)
     result,r=edit(data,a,{})
     _,after=read_package(result)
-    assert canonical(root.find('.//w:sectPr',NS))==canonical(after.find('.//w:sectPr',NS))
+    section=after.find('.//w:sectPr',NS)
+    assert section.find('w:pgSz',NS).get(tag('orient'))=='landscape'
+    assert section.find('w:pgMar',NS).get(tag('left'))=='1985'
+    assert section.find('w:pgMar',NS).get(tag('right'))=='1418'
 
 def test_web_and_capabilities(client):
     assert client.get('/').status_code==200

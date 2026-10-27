@@ -210,7 +210,7 @@ class Fixture:
         el('m:t', el('m:r', math)).text = ' = ε'
 
     def field(self, text, instruction, style=None):
-        p = self.paragraph(text, 'keep', protected=True, style=style, note='Giữ field và bộ nhớ đệm; chưa xác minh cập nhật trên Word.')
+        p = self.paragraph(text,'toc_title' if text=='MỤC LỤC' else 'keep',protected=text!='MỤC LỤC',style=style,note='Định dạng tiêu đề nếu nhận hỗ trợ; giữ nguyên field và bộ nhớ đệm.')
         field = el('w:fldSimple', p, instr=instruction)
         self.run(field, ' [chưa cập nhật trường]')
         return p
@@ -269,11 +269,12 @@ PARAGRAPHS = [
 def thesis():
     f = Fixture('01_do_an_tong_hop', 'Đồ án tổng hợp: bìa, mục lục, 3 chương, bảng, ảnh và công thức')
     for text in ['TRƯỜNG ĐẠI HỌC KIỂM THỬ', 'ĐỒ ÁN TỐT NGHIỆP — TÀI LIỆU GIẢ LẬP', 'HỆ THỐNG QUẢN LÝ MƯỢN THIẾT BỊ', 'Sinh viên: Người kiểm thử A · Mã: TEST-001']:
-        f.paragraph(text, 'keep', protected=True, size=18, bold=True, note='Bìa giả: giữ cỡ chữ và nội dung, không ép 13 pt.')
-    f.paragraph('LỜI CẢM ƠN', 'keep', protected=True)
-    f.paragraph(PARAGRAPHS[0], 'keep', protected=True)
-    f.paragraph('TÓM TẮT', 'keep', protected=True)
-    f.paragraph('Tài liệu này mô phỏng đồ án thực tế để kiểm tra định dạng, không chứa thông tin cá nhân.', 'keep', protected=True)
+        role='cover_institution' if text.startswith('TRƯỜNG ') else 'cover_title' if text.startswith('ĐỒ ÁN ') else 'keep'
+        f.paragraph(text,role,protected=role=='keep',size=18,bold=True,note='Tiêu đề trường/loại đồ án theo mẫu; thông tin bìa chưa đủ căn cứ vẫn giữ.')
+    f.paragraph('LỜI CẢM ƠN', 'acknowledgement_title', note='TNR 13, đậm, căn giữa, trước 24 pt theo mẫu.')
+    f.paragraph(PARAGRAPHS[0], 'acknowledgement')
+    f.paragraph('TÓM TẮT', 'abstract_title', note='TNR 13, đậm, căn giữa, trước 48 pt theo mẫu.')
+    f.paragraph('Tài liệu này mô phỏng đồ án thực tế để kiểm tra định dạng, không chứa thông tin cá nhân.', 'abstract')
     f.field('MỤC LỤC', ' TOC \\o "1-3" \\h \\z \\u ', style='TOC1')
     for chapter, title in enumerate(['TỔNG QUAN', 'PHÂN TÍCH VÀ THIẾT KẾ', 'THỰC NGHIỆM VÀ ĐÁNH GIÁ'], 1):
         f.chapter(chapter, title)
@@ -282,11 +283,11 @@ def thesis():
             for index, text in enumerate(PARAGRAPHS):
                 f.paragraph(f'[{chapter}.{section}-{index+1}] {text}', size=[10, 11, 14, 15][index % 4], font=['Arial', 'Calibri', 'Courier New'][index % 3])
         if chapter == 1:
-            f.paragraph('Bảng 1.1. Dữ liệu mượn thiết bị', 'keep', protected=True, style='Caption')
+            f.paragraph('Bảng 1.1. Dữ liệu mượn thiết bị', 'table_caption', style='Caption')
             f.table(9)
         if chapter == 2:
-            f.image(); f.paragraph('Hình 2.1. Luồng xử lý giả lập', 'keep', protected=True, style='Caption'); f.math()
-    f.paragraph('TÀI LIỆU THAM KHẢO', 'keep', protected=True)
+            f.image(); f.paragraph('Hình 2.1. Luồng xử lý giả lập', 'figure_caption', style='Caption'); f.math()
+    f.paragraph('TÀI LIỆU THAM KHẢO', 'references_title')
     f.paragraph('[1] Tài liệu mô phỏng do nhóm kiểm thử tạo; không phải nguồn học thuật thực tế.', 'keep', protected=True)
     f.header_footer()
     return f.finish()
@@ -368,9 +369,11 @@ def non_thesis():
     f = Fixture('05_khong_phai_do_an', 'Báo cáo công việc không có chương — không được coi là đồ án hợp lệ')
     for text in ['BÁO CÁO CÔNG VIỆC TUẦN', 'Đơn vị: Bộ phận kiểm thử giả lập', 'Hạng mục đã hoàn thành',
                  '1. Kiểm tra hệ thống.', '2. Tổng hợp phản hồi.', 'Hạng mục còn tồn đọng', PARAGRAPHS[4]]:
-        f.paragraph(text, 'keep', protected=True, note='Không có chương: bản hiện tại giữ nguyên, không tự từ chối theo loại tài liệu.')
+        f.paragraph(text, 'keep', protected=True, note='Không đủ cấu trúc đồ án: API phải từ chối trước khi tạo phiên/run.')
     f.table(7); f.image()
-    return f.finish()
+    data,metadata=f.finish()
+    metadata.update({'expected_status':'REJECTED','expected_error':'NOT_A_THESIS'})
+    return data,metadata
 
 
 def body_only():

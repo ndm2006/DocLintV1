@@ -15,6 +15,8 @@ CHAPTER = re.compile(r'^chương\s+(\d+|[IVXLCDM]+)(?=[\s.:–—-]|$)', re.I)
 NUMBERED = re.compile(r'^(\d+(?:\.\d+)+)\.?\s+\S')
 SINGLE = re.compile(r'^(\d{1,2})[.)]?\s+(.+)')
 FRONT = re.compile(r'^(?:lời cảm ơn|lời cam đoan|tóm tắt(?: nội dung đồ án)?|abstract|mục lục|danh mục(?: hình vẽ| bảng biểu| hình| bảng)?|tài liệu tham khảo|phụ lục)(?:\s*[:–—-].*)?$', re.I)
+FRONT_TITLES = {'lời cảm ơn':'acknowledgement','tóm tắt':'abstract','tóm tắt đồ án':'abstract','tóm tắt nội dung đồ án':'abstract','tóm tắt nội dung đồ án tốt nghiệp':'abstract','abstract':'abstract'}
+SIGNOFF = re.compile(r'^(?:sinh viên thực hiện|người thực hiện|giáo viên hướng dẫn)(?=\s*(?:$|ký|:))|^ký(?: và)? ghi rõ họ tên\b',re.I)
 CAPTION = re.compile(r'^(?:hình|bảng|biểu đồ|sơ đồ|phương trình)\s+\d+(?:[.\-]\d+)*\b', re.I)
 
 
@@ -163,7 +165,7 @@ def analyze(parts, root, parser):
         rich = rich or field_open
         rich = rich or node.find('w:pPr/w:sectPr', NS) is not None or (node.find('w:bookmarkStart', NS) is not None and not (level or chapter or path))
         numbered_list = context.list_numbering(node) and level is None
-        protected = index in multicolumn_positions or rich or numbered_list or bool(CAPTION.match(clean)) or bool(re.search(r'toc|caption|tableof|code', sid, re.I)) or (structural_level is not None and structural_level > 3)
+        protected = index in multicolumn_positions or rich or numbered_list or bool(CAPTION.match(clean)) or bool(re.search(r'toc|caption|tableof|code', sid, re.I)) or (structural_level is not None and structural_level > 3 and level != 4)
         if context.property(node, 'w:framePr') is not None:
             protected = True
         # A section break can be retained while changing safe paragraph formatting.
@@ -185,6 +187,7 @@ def analyze(parts, root, parser):
     numbered_parents = {}
     result = []
     warnings = []
+    front_region=None;front_title=None;front_groups=[];ack_on_page=False
     for position, row in enumerate(rows):
         text = row['clean']
         path = row['number_path']
@@ -195,6 +198,17 @@ def analyze(parts, root, parser):
         is_chapter = bool((explicit and len(text)<=160 and len(text.split())<=22) or level == 1 or bare_chapter)
         # Appendix/references are retained even if someone assigned Heading 1 to them.
         front = bool(FRONT.match(text)) and not row['numbered_list']
+        front_kind=FRONT_TITLES.get(text.casefold().rstrip(':').strip()) if not started else None
+        starts_front_page=False
+        boundary_page=bool(front_groups and not started and not front_kind and len(text)<100 and re.match(r'^(?:mục lục|danh mục(?: hình| bảng))\b',text,re.I))
+        if front_kind:
+            starts_front_page=front_kind=='acknowledgement' or not ack_on_page
+            front_region=front_kind;front_title=row['id']
+            front_groups.append({'kind':front_kind,'title_block_id':front_title,'block_ids':[],'word_count':0})
+            if front_kind=='acknowledgement':ack_on_page=True
+        elif front or is_chapter or SIGNOFF.match(text) or re.search(r'toc|tableof',row['style_id'],re.I) or (len(text)<100 and re.match(r'^(?:mục lục|danh mục(?: hình| bảng)|tài liệu tham khảo|phụ lục)\b',text,re.I)):
+            front_region=None;front_title=None
+            if front or is_chapter:ack_on_page=False
         if front:
             special = True
         if is_chapter and not front and not row['protected']:
@@ -218,7 +232,7 @@ def analyze(parts, root, parser):
                     review=True;confidence=0.55;reason='Số chương trùng, nhảy thứ tự hoặc mâu thuẫn Style; cần xác nhận.'
                     uncertain_parents.add(row['id'])
                 seen_chapters.add(chapter_number)
-            elif path or row['style_level'] in (2, 3):
+            elif path or row['style_level'] in (2, 3, 4):
                 level = len(path) if path else row['style_level']
                 role, source, confidence = 'heading', 'numbered_context' if path else 'word_style', 0.98
                 parent_id = numbered_parents.get(path[:-1]) if path else parents.get(level-1)
@@ -256,19 +270,39 @@ def analyze(parts, root, parser):
         protected = row['protected'] or not started or special
         if protected:
             role, review = 'keep', False
+        if front_kind or front_region:
+            # Only safe text is formatted; signatures, fields, rich objects and lists stay locked.
+            if not row['protected']:
+                role=front_kind+'_title' if front_kind else front_region
+                level=0;review=False;protected=False;confidence=0.99;source='front_matter_context'
+                parent_id=None if front_kind else front_title
+                reason='Tiêu đề phần đầu theo mẫu HUST.' if front_kind else 'Nội dung lời cảm ơn/tóm tắt theo tiêu đề và ranh giới phần.'
+            if not front_kind:
+                front_groups[-1]['block_ids'].append(row['id'])
+                front_groups[-1]['word_count']+=len(text.split())
         result.append({'id': row['id'], 'index': row['index'], 'text': row['text'], 'role': role,
                        'level': level or 0, 'confidence': confidence, 'needs_review': review,
                        'protected': protected, 'reason': reason, 'source': source,
                        'parent_block_id': parent_id, 'number_path': numbering_path,
+                       'front_section':front_region,'starts_front_page':starts_front_page,'front_boundary_page':boundary_page,
                        'style_id': row['style_id'], 'has_numbering': context.list_numbering(body[row['index']])})
+    for group in front_groups:
+        count=group['word_count'];kind=group['kind']
+        group['count_method']='Số đơn vị phân cách bởi khoảng trắng; quy ước kỹ thuật, không tự coi là chuẩn đếm chính thức.'
+        group['status']='PASS' if (100<=count<=150 if kind=='acknowledgement' else count<=300) else 'WARNING'
+        group['layout']='NOT_CHECKED'
+        if group['status']=='WARNING':
+            warnings.append(('Lời cảm ơn' if kind=='acknowledgement' else 'Tóm tắt')+f' tại {group["title_block_id"]}: {count} đơn vị theo khoảng trắng; '+('khuyến nghị 100–150.' if kind=='acknowledgement' else 'giới hạn 300.'))
+    if front_groups:warnings.append('Đã định dạng phần lời cảm ơn/tóm tắt an toàn; chưa xác minh hai phần nằm trong một trang, không tự rút gọn nội dung hoặc giảm cỡ chữ.')
     if not started:
         warnings.append('Không tìm thấy cấu trúc chương đáng tin cậy: không tự nhận đây là đồ án, giữ nguyên tài liệu.')
     warnings.extend(['Bảng, ảnh, công thức và vùng phức tạp được bảo toàn; không tự sửa dữ liệu học thuật.',
                      'Chưa dựng PDF hoặc xác minh phân trang, mục lục và trường trên Microsoft Word.',
                      'Nhận diện kết hợp cấu trúc Word, quy tắc quan hệ và ML nội bộ; chưa có số đo trên tập đồ án độc lập.'])
     return {'blocks': result, 'model_revision': REVISION,
-            'recognizer_revision': 'structure-context-0.2', 'warnings': warnings,
+            'recognizer_revision': 'structure-context-0.3', 'front_matter':front_groups, 'warnings': warnings,
             'statistics': {'blocks': len(result), 'auto_chapters': sum(b['role']=='chapter' and not b['needs_review'] for b in result),
                            'auto_headings': sum(b['role']=='heading' and not b['needs_review'] for b in result),
                            'review_blocks': sum(b['needs_review'] for b in result),
-                           'protected_blocks': sum(b['protected'] for b in result)}}
+                           'protected_blocks': sum(b['protected'] for b in result),
+                           'front_matter_blocks':sum(b['role'] in {'acknowledgement_title','acknowledgement','abstract_title','abstract'} and not b['protected'] for b in result)}}

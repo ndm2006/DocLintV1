@@ -46,10 +46,33 @@ const path=require('node:path');
  await page.locator('#cancel').click();await page.locator('#failed').waitFor({state:'visible'});
  page.once('dialog',dialog=>dialog.accept());await page.locator('#delete').click();
  await page.locator('#upload-view').waitFor({state:'visible'});
+ // Unsuitable input must stay on upload with a clear message and require a new selection.
+ await page.locator('#file').setInputFiles(path.join(__dirname,'fixtures/complex/05_khong_phai_do_an.docx'));
+ const rejected=page.waitForResponse(r=>r.url().endsWith('/api/v1/sessions')&&r.request().method()==='POST');
+ await page.locator('#start').click();assert.equal((await rejected).status(),422);
+ await page.locator('#error').waitFor({state:'visible'});
+ assert((await page.locator('#error').innerText()).includes('Vui lòng tải lên một file đồ án khác'));
+ assert(await page.locator('#run-view').isHidden());assert(await page.locator('#start').isDisabled());
+ assert.equal(await page.locator('#file-title').innerText(),'Kéo thả tài liệu vào đây');
+ assert.equal(await page.evaluate(()=>sessionStorage.getItem('doclint-session')),null);
+ await page.screenshot({path:'.runtime/ui-rejected-v012.png',fullPage:true});
+ // Verify front-matter recognition and both landscape/portrait margin plans via real downloads.
+ for (const [name,kind] of [['01_do_an_tong_hop.docx','front'],['03_bang_gop_section_ngang.docx','tables']]) {
+  await page.locator('#file').setInputFiles(path.join(__dirname,'fixtures/complex',name));
+  await page.locator('#start').click();await page.locator('#results').waitFor({state:'visible'});
+  const jsonDownload=page.waitForEvent('download');await page.locator('#report').click();
+  const jsonFile=await jsonDownload;const jsonPath=path.join(__dirname,'../.runtime/browser-'+kind+'-v012.json');
+  await jsonFile.saveAs(jsonPath);const report=JSON.parse(require('node:fs').readFileSync(jsonPath,'utf8'));
+  if(kind==='front') {assert.equal(report.recognition.front_matter_blocks,4);assert.equal(report.front_matter.length,2);assert((await page.locator('#front-matter-summary').innerText()).includes('Lời cảm ơn'));assert((await page.locator('#front-matter-summary').innerText()).includes('Tóm tắt'))}
+  else {assert.deepEqual(report.page_sections_applied,[0,1]);assert.equal(report.table_geometry_changes[0].after_width_twips,8504)}
+  const wordDownload=page.waitForEvent('download');await page.locator('#download').click();
+  await(await wordDownload).saveAs('.runtime/browser-'+kind+'-v012.docx');
+  page.once('dialog',dialog=>dialog.accept());await page.locator('#delete').click();await page.locator('#upload-view').waitFor({state:'visible'});
+ }
  await page.setViewportSize({width:390,height:844});
  await page.screenshot({path:'.runtime/ui-mobile.png',fullPage:true});
  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
  assert.deepEqual(errors,[]);
- console.log('Browser PASS: automatic headings, selective review, delete/reset/new filename, stale response isolation, download, restore, rerun, cancel, mobile.');
+ console.log('Browser PASS: automatic headings, selective review, delete/reset/new filename, stale response isolation, download, restore, rerun, cancel, unsuitable rejection, front formatting, merged/landscape margins, mobile.');
  } finally {await browser.close()}
 })().catch(e=>{console.error(e);process.exit(1)});

@@ -23,21 +23,27 @@ def style_definition(sid, level):
         node = E.SubElement(parent, Q+name)
         for key, value in attrs.items(): node.set(Q+key, str(value))
         return node
-    child(root, 'name', val=f'heading {level}' if sid == f'Heading{level}' else f'DocLint Heading {level}')
-    alias='CHUONG' if level==1 else f'Cap {level-1}'
-    child(root, 'aliases', val=alias if sid==f'Heading{level}' else 'DocLint '+alias)
+    front=isinstance(level,str)
+    title=front and level.endswith('_title')
+    if front:
+        child(root,'name',val='DocLint '+PROFILE['paragraphs'][level].get('label',level))
+    else:
+        child(root, 'name', val=f'heading {level}' if sid == f'Heading{level}' else f'DocLint Heading {level}')
+        alias='CHUONG' if level==1 else f'Cap {level-1}'
+        child(root, 'aliases', val=alias if sid==f'Heading{level}' else 'DocLint '+alias)
     child(root, 'qFormat')
     props = child(root, 'pPr')
-    child(props, 'keepNext', val=1)
-    if level == 1: child(props, 'pageBreakBefore', val=1)
-    rules = PROFILE['paragraphs']['chapter' if level == 1 else 'heading']
+    child(props, 'keepNext', val=1 if not front or title else 0)
+    if not front and level == 1: child(props, 'pageBreakBefore', val=1)
+    if front and not PROFILE['paragraphs'][level].get('preserve_numbering'):child(child(props,'numPr'),'numId',val=0)
+    rules = PROFILE['paragraphs'][level if front else 'chapter' if level == 1 else 'heading4' if level==4 else 'heading']
     child(props, 'spacing', **{k:rules[k] for k in ('before', 'after', 'line', 'lineRule')})
-    child(props, 'jc', val=rules['alignment']); child(props, 'outlineLvl', val=level-1)
+    child(props, 'jc', val=rules['alignment']); child(props, 'outlineLvl', val=rules.get('outline',9) if front else level-1)
     runs = child(root, 'rPr')
-    child(runs, 'rFonts', ascii=PROFILE['font'], hAnsi=PROFILE['font'], eastAsia=PROFILE['font'], cs=PROFILE['font'])
-    child(runs, 'b', val=1); child(runs, 'i', val=0)
-    if level == 1: child(runs, 'caps', val=1)
-    child(runs, 'color', val='000000'); child(runs, 'sz', val=26); child(runs, 'szCs', val=26)
+    child(runs, 'rFonts', ascii=rules.get('font',PROFILE['font']), hAnsi=rules.get('font',PROFILE['font']), eastAsia=rules.get('font',PROFILE['font']), cs=rules.get('font',PROFILE['font']))
+    child(runs, 'b', val=int(rules.get('bold',not front or title))); child(runs, 'i', val=int(rules.get('italic',False)))
+    if not front and level == 1: child(runs, 'caps', val=1)
+    child(runs, 'color', val=rules.get('color','000000')); child(runs, 'sz', val=int(rules.get('size_pt',13)*2)); child(runs, 'szCs', val=int(rules.get('size_pt',13)*2))
     return root
 
 
@@ -46,21 +52,28 @@ def serialize(node):
 
 
 def ensure_heading_styles(parts, levels, parser):
-    if not levels: return {}, {}
+    return ensure_styles(parts,[(n,f'Heading{n}',f'DocLintHeading{n}') for n in sorted(set(levels))],parser)
+
+
+def ensure_front_styles(parts, roles, parser):
+    names={role:'DocLint'+''.join(word.title() for word in role.split('_')) for role in roles}
+    return ensure_styles(parts,[(role,names[role],names[role]) for role in sorted(set(roles))],parser)
+
+
+def ensure_styles(parts, specs, parser):
+    if not specs:return {},{}
     root = parser(parts['word/styles.xml']) if 'word/styles.xml' in parts else E.Element(Q+'styles', nsmap={'w': W})
     existing = {node.get(Q+'styleId'):node for node in root.findall('w:style', NS)}
     selected, added = {}, {}
-    for level in sorted(set(levels)):
-        # Never bind a manually numbered heading to an existing auto-numbering style.
-        standard=f'Heading{level}'
-        sid=standard if standard not in existing or signature(existing[standard]) == signature(style_definition(standard,level)) else f'DocLintHeading{level}'
-        suffix = 1
-        while sid in existing and signature(existing[sid]) != signature(style_definition(sid, level)):
-            suffix += 1; sid = f'DocLintHeading{level}_{suffix}'
+    for key,preferred,fallback in specs:
+        sid=preferred if preferred not in existing or signature(existing[preferred])==signature(style_definition(preferred,key)) else fallback
+        suffix=1
+        while sid in existing and signature(existing[sid])!=signature(style_definition(sid,key)):
+            suffix+=1;sid=f'{fallback}_{suffix}'
         if sid not in existing:
-            root.append(style_definition(sid, level)); added[sid] = level
-        selected[level] = sid
-    if not added: return selected, {}
+            node=style_definition(sid,key);root.append(node);existing[sid]=node;added[sid]=key
+        selected[key]=sid
+    if not added:return selected,{}
     parts['word/styles.xml'] = serialize(root)
     relname = 'word/_rels/document.xml.rels'
     rels = parser(parts[relname]) if relname in parts else E.Element('{'+REL+'}Relationships', nsmap={None:REL})

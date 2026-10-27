@@ -6,7 +6,8 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 REVISION = 'local-logreg-synthetic-0.1'
-ROLES = {'body', 'chapter', 'heading', 'keep'}
+from .template import SPECIAL_ROLES
+ROLES = {'body', 'chapter', 'heading', 'keep'} | SPECIAL_ROLES
 
 def features(text, bold=False, size=13):
     t = text.strip()

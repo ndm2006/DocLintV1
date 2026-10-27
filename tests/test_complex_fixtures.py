@@ -1,4 +1,5 @@
 """Hand-authored labels and independent structural assertions for complex DOCX."""
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -29,6 +30,10 @@ def test_complex_package_preserves_authored_invariants(case):
         assert by_id[bid]['text'] == label['text']
         if label['protected']:
             assert by_id[bid]['protected'], (bid, label['text'])
+    if case['expected_status']=='REJECTED':
+        assert not analysis['document_type']['accepted']
+        assert analysis['document_type']['code']==case['expected_error']
+        return
     decisions = {bid: labels[bid]['role'] for bid, block in by_id.items() if block['needs_review']}
     output, report = edit(source, analysis, decisions)
     original, before = read_package(source)
@@ -40,13 +45,36 @@ def test_complex_package_preserves_authored_invariants(case):
     for name, data in original.items():
         if name not in {'word/document.xml','word/styles.xml','word/_rels/document.xml.rels','[Content_Types].xml'}:
             assert data == candidate[name], name
-    for path in ['.//w:tbl', './/{http://schemas.openxmlformats.org/officeDocument/2006/math}oMath']:
-        assert [canonical(n) for n in before.findall(path, NS)] == [canonical(n) for n in after.findall(path, NS)]
+    # Table cell content and merges remain immutable; only reported explicit widths may change.
+    changed_tables={c['block_id'] for c in report['table_geometry_changes']}
+    def immutable_table(node,strip):
+        node=copy.deepcopy(node)
+        if strip:
+            for path in ('w:tblPr/w:tblW','w:tblPr/w:tblInd','w:tr/w:tc/w:tcPr/w:tcW'):
+                for prop in node.findall(path,NS):prop.getparent().remove(prop)
+            for col in node.findall('w:tblGrid/w:gridCol',NS):col.attrib.pop(tag('w'),None)
+        return canonical(node)
+    for index,node in enumerate(before.find('w:body',NS)):
+        if node.tag==tag('tbl'):
+            assert immutable_table(node,f'b{index}' in changed_tables)==immutable_table(after.find('w:body',NS)[index],f'b{index}' in changed_tables)
+    math_path='.//{http://schemas.openxmlformats.org/officeDocument/2006/math}oMath'
+    assert [canonical(n) for n in before.findall(math_path)]==[canonical(n) for n in after.findall(math_path)]
     before_body, after_body = before.find('w:body', NS), after.find('w:body', NS)
     for bid, label in labels.items():
         if label['protected'] or label['role'] == 'keep':
             index = int(bid[1:])
-            assert canonical(before_body[index]) == canonical(after_body[index]), bid
+            old=copy.deepcopy(before_body[index]);new=copy.deepcopy(after_body[index])
+            if bid in report['front_page_breaks']:
+                for paragraph in (old,new):
+                    props=paragraph.find('w:pPr',NS)
+                    if props is not None:
+                        for prop in props.findall('w:pageBreakBefore',NS):props.remove(prop)
+                        if not len(props) and not props.attrib:paragraph.remove(props)
+            if old.find('w:pPr/w:sectPr',NS) is not None:
+                for paragraph in (old,new):
+                    for path in ('w:pPr/w:sectPr/w:pgSz','w:pPr/w:sectPr/w:pgMar'):
+                        for prop in paragraph.findall(path,NS):prop.getparent().remove(prop)
+            assert canonical(old)==canonical(new),bid
     if case['file'].startswith('05_'):
         assert report['changes'] == []  # This is not evidence of document-type rejection.
     elif case['file'].startswith('06_'):
@@ -59,14 +87,17 @@ def test_complex_package_preserves_authored_invariants(case):
                 assert p.find('w:r/w:rPr/w:sz', NS).get(tag('val')) == '26'
         assert after.find('.//w:pgMar', NS).get(tag('left')) == '1985'
     elif case['file'].startswith('03_'):
-        assert not report['page_geometry_applied']
-        assert [canonical(n) for n in before.findall('.//w:sectPr', NS)] == [canonical(n) for n in after.findall('.//w:sectPr', NS)]
+        assert report['page_sections_applied']==[0,1]
+        for old,new in zip(before.findall('.//w:sectPr',NS),after.findall('.//w:sectPr',NS)):
+            assert old.find('w:pgSz',NS).get(tag('orient'))==new.find('w:pgSz',NS).get(tag('orient'))
+            assert new.find('w:pgMar',NS).get(tag('left'))=='1985'
+            assert new.find('w:pgMar',NS).get(tag('right'))=='1418'
     elif not case['file'].startswith('05_'):
         assert report['page_geometry_applied']
     # Original shared styles stay intact; only isolated, approved style definitions append.
     old_styles=E.fromstring(original['word/styles.xml'])
     new_styles=E.fromstring(candidate['word/styles.xml'])
-    additions=report['heading_styles_added']
+    additions=report['styles_added']
     for child in list(new_styles):
         if child.get(tag('styleId')) in additions:new_styles.remove(child)
     assert canonical(old_styles)==canonical(new_styles)

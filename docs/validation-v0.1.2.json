@@ -1,0 +1,260 @@
+{
+  "app_version": "0.1.2",
+  "recognizer_revision": "structure-context-0.3",
+  "scope": "Authored synthetic fixtures and pinned original template inventory; not independent thesis precision/recall or Microsoft Word certification.",
+  "verification": {
+    "pytest_passed": 74,
+    "pytest_failed": 0,
+    "browser": "PASS",
+    "accepted_fixture_runs": 5,
+    "expected_rejections": 1,
+    "template_titles_recognized": 51,
+    "template_formats_matching_source": 51,
+    "libreoffice": "Three final outputs rendered successfully: original template (32 pages), browser front matter (10 pages; acknowledgement/abstract page 2, TOC page 3), merged/landscape (5 pages). Word validation remains manual."
+  },
+  "fixtures": [
+    {
+      "file": "01_do_an_tong_hop.docx",
+      "input_sha256": "dbc063028679a4ee35eb830d0ce4df291750cfcffe009cef39f5263972563e99",
+      "document_type": {
+        "accepted": true,
+        "code": "THESIS_COMPATIBLE",
+        "message": "Tài liệu có cấu trúc chương và nội dung phù hợp để chuẩn hóa theo mẫu đồ án.",
+        "signals": {
+          "thesis_title": true,
+          "other_document_title": false,
+          "chapters": 3,
+          "headings": 9,
+          "body_paragraphs": 54
+        },
+        "method": "Dấu hiệu tiêu đề kết hợp cấu trúc; không dùng tên file, không khẳng định phân loại ngữ nghĩa tuyệt đối."
+      },
+      "blocks": 81,
+      "auto_chapters": 3,
+      "auto_headings": 9,
+      "review_blocks": 0,
+      "protected_blocks": 5,
+      "front_matter_blocks": 4,
+      "template_title_blocks": 8,
+      "result": "PARTIAL",
+      "integrity": "PASS",
+      "changed_blocks": 76,
+      "front_matter": [
+        {
+          "kind": "acknowledgement",
+          "title_block_id": "b4",
+          "block_ids": [
+            "b5"
+          ],
+          "word_count": 49,
+          "count_method": "Số đơn vị phân cách bởi khoảng trắng; quy ước kỹ thuật, không tự coi là chuẩn đếm chính thức.",
+          "status": "WARNING",
+          "layout": "NOT_CHECKED"
+        },
+        {
+          "kind": "abstract",
+          "title_block_id": "b6",
+          "block_ids": [
+            "b7"
+          ],
+          "word_count": 20,
+          "count_method": "Số đơn vị phân cách bởi khoảng trắng; quy ước kỹ thuật, không tự coi là chuẩn đếm chính thức.",
+          "status": "PASS",
+          "layout": "NOT_CHECKED"
+        }
+      ],
+      "front_page_breaks": [],
+      "page_sections_applied": [
+        0
+      ],
+      "table_geometry_changes": [
+        {
+          "block_id": "b32",
+          "before_width_twips": 9000,
+          "after_width_twips": 8504,
+          "available_width_twips": 8504
+        }
+      ]
+    },
+    {
+      "file": "02_de_muc_mo_ho.docx",
+      "input_sha256": "54d940c336bf0580f14aa16f1130c586f3883478b8192bd75dfe27917c3bfd89",
+      "document_type": {
+        "accepted": true,
+        "code": "THESIS_COMPATIBLE",
+        "message": "Tài liệu có cấu trúc chương và nội dung phù hợp để chuẩn hóa theo mẫu đồ án.",
+        "signals": {
+          "thesis_title": false,
+          "other_document_title": false,
+          "chapters": 2,
+          "headings": 5,
+          "body_paragraphs": 2
+        },
+        "method": "Dấu hiệu tiêu đề kết hợp cấu trúc; không dùng tên file, không khẳng định phân loại ngữ nghĩa tuyệt đối."
+      },
+      "blocks": 14,
+      "auto_chapters": 2,
+      "auto_headings": 3,
+      "review_blocks": 2,
+      "protected_blocks": 4,
+      "front_matter_blocks": 0,
+      "template_title_blocks": 0,
+      "result": "PARTIAL",
+      "integrity": "PASS",
+      "changed_blocks": 7,
+      "front_matter": [],
+      "front_page_breaks": [],
+      "page_sections_applied": [
+        0
+      ],
+      "table_geometry_changes": []
+    },
+    {
+      "file": "03_bang_gop_section_ngang.docx",
+      "input_sha256": "a2f89ac7bbe4a34e0adac6f509cf9dd7707285faf6031e42bf7e53d45d0a877d",
+      "document_type": {
+        "accepted": true,
+        "code": "THESIS_COMPATIBLE",
+        "message": "Tài liệu có cấu trúc chương và nội dung phù hợp để chuẩn hóa theo mẫu đồ án.",
+        "signals": {
+          "thesis_title": false,
+          "other_document_title": false,
+          "chapters": 2,
+          "headings": 2,
+          "body_paragraphs": 2
+        },
+        "method": "Dấu hiệu tiêu đề kết hợp cấu trúc; không dùng tên file, không khẳng định phân loại ngữ nghĩa tuyệt đối."
+      },
+      "blocks": 8,
+      "auto_chapters": 2,
+      "auto_headings": 2,
+      "review_blocks": 0,
+      "protected_blocks": 2,
+      "front_matter_blocks": 0,
+      "template_title_blocks": 0,
+      "result": "PARTIAL",
+      "integrity": "PASS",
+      "changed_blocks": 6,
+      "front_matter": [],
+      "front_page_breaks": [],
+      "page_sections_applied": [
+        0,
+        1
+      ],
+      "table_geometry_changes": [
+        {
+          "block_id": "b3",
+          "before_width_twips": 9000,
+          "after_width_twips": 8504,
+          "available_width_twips": 8504
+        }
+      ]
+    },
+    {
+      "file": "04_tham_chieu_cong_thuc.docx",
+      "input_sha256": "735dd846560cb250186eb0b871dfbda0840bfc877a99b7cb19c20c39ac2b46dc",
+      "document_type": {
+        "accepted": true,
+        "code": "THESIS_COMPATIBLE",
+        "message": "Tài liệu có cấu trúc chương và nội dung phù hợp để chuẩn hóa theo mẫu đồ án.",
+        "signals": {
+          "thesis_title": false,
+          "other_document_title": false,
+          "chapters": 1,
+          "headings": 1,
+          "body_paragraphs": 1
+        },
+        "method": "Dấu hiệu tiêu đề kết hợp cấu trúc; không dùng tên file, không khẳng định phân loại ngữ nghĩa tuyệt đối."
+      },
+      "blocks": 12,
+      "auto_chapters": 1,
+      "auto_headings": 1,
+      "review_blocks": 0,
+      "protected_blocks": 9,
+      "front_matter_blocks": 0,
+      "template_title_blocks": 0,
+      "result": "PARTIAL",
+      "integrity": "PASS",
+      "changed_blocks": 3,
+      "front_matter": [],
+      "front_page_breaks": [],
+      "page_sections_applied": [
+        0
+      ],
+      "table_geometry_changes": []
+    },
+    {
+      "file": "05_khong_phai_do_an.docx",
+      "input_sha256": "c77d01319244140f587abed52c6a929d875e59031a95a742d8eb6b3dda054c37",
+      "document_type": {
+        "accepted": false,
+        "code": "NOT_A_THESIS",
+        "message": "Tài liệu không phù hợp với đồ án tốt nghiệp trong phạm vi hỗ trợ: chưa có đủ cấu trúc chương–đề mục hoặc là loại văn bản khác. Vui lòng tải lên một file đồ án khác.",
+        "signals": {
+          "thesis_title": false,
+          "other_document_title": true,
+          "chapters": 0,
+          "headings": 0,
+          "body_paragraphs": 0
+        },
+        "method": "Dấu hiệu tiêu đề kết hợp cấu trúc; không dùng tên file, không khẳng định phân loại ngữ nghĩa tuyệt đối."
+      },
+      "blocks": 8,
+      "auto_chapters": 0,
+      "auto_headings": 0,
+      "review_blocks": 0,
+      "protected_blocks": 8,
+      "front_matter_blocks": 0,
+      "template_title_blocks": 0,
+      "result": "REJECTED",
+      "expected_error": "NOT_A_THESIS",
+      "session_created": false,
+      "worker_started": false
+    },
+    {
+      "file": "06_than_bai_sai_dinh_dang.docx",
+      "input_sha256": "4462a9293e0531643cef1c7348b97af6cb921f64f9a0b94668bf780f26a82e39",
+      "document_type": {
+        "accepted": true,
+        "code": "THESIS_COMPATIBLE",
+        "message": "Tài liệu có cấu trúc chương và nội dung phù hợp để chuẩn hóa theo mẫu đồ án.",
+        "signals": {
+          "thesis_title": false,
+          "other_document_title": false,
+          "chapters": 2,
+          "headings": 4,
+          "body_paragraphs": 60
+        },
+        "method": "Dấu hiệu tiêu đề kết hợp cấu trúc; không dùng tên file, không khẳng định phân loại ngữ nghĩa tuyệt đối."
+      },
+      "blocks": 66,
+      "auto_chapters": 2,
+      "auto_headings": 4,
+      "review_blocks": 0,
+      "protected_blocks": 0,
+      "front_matter_blocks": 0,
+      "template_title_blocks": 0,
+      "result": "PARTIAL",
+      "integrity": "PASS",
+      "changed_blocks": 66,
+      "front_matter": [],
+      "front_page_breaks": [],
+      "page_sections_applied": [
+        0
+      ],
+      "table_geometry_changes": []
+    }
+  ],
+  "implementation_sha256": {
+    "doclint/__init__.py": "09f907ced9465643c4cb3ca0213b82df76c790d559251d8258e5478664081610",
+    "doclint/app.py": "ab80eeb1c103f12264665b6734a3430376b6b115bdfeb72c8c2451654eb55b46",
+    "doclint/eligibility.py": "960d1fd4d3b171615b86b9ddefddba3ed0df96fee371ee10fb1818ef942f2bc6",
+    "doclint/engine.py": "73395096bc9ea4bd9762e5f0a1cfa905f5f2919d2e530cd534267634b8f6ff5c",
+    "doclint/recognizer.py": "52d24edc5730e0d8c4de449b9e1d0f3bb50080898d24df4e515a267f22375514",
+    "doclint/structure.py": "baf37f18c46d4d8b3ad41f2d7fa9319c93a30b7b6b760d428ee70dce7ec92547",
+    "doclint/styles.py": "7520403d24fd819183e31a6645e340af48735ce7340440b7b2fd7bc22723c6fd",
+    "doclint/table_geometry.py": "e0089da60395d9729297ac595e524026db2949fba588980be6a8eabfcde95f6e",
+    "doclint/template.py": "163c20b64f0eee4562916095be084108738f66a4e0dfeb10865b9bffe4ec244a",
+    "doclint/template_headings.py": "61de0e3ec7dc2b71019ae0a1ab21d0d0f0bfc3920cd81b4cfd8418237d5f0e50"
+  }
+}

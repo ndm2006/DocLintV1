@@ -105,7 +105,7 @@ def test_styles_gate_rejects_changes_outside_append_only_plan(target):
         node=E.fromstring(parts['[Content_Types].xml']);node[0].set('ContentType','unexpected/type');parts['[Content_Types].xml']=E.tostring(node)
     allowed={int(c['block_id'][1:]) for c in r['changes']}
     with pytest.raises(DocumentError) as exc:
-        validate_integrity(source,repack(parts),allowed,r['page_geometry_applied'],style_additions=r['heading_styles_added'],page_sections=r['page_sections_applied'])
+        validate_integrity(source,repack(parts),allowed,r['page_geometry_applied'],style_additions=r['styles_added'],page_sections=r['page_sections_applied'],table_indices={int(c['block_id'][1:]) for c in r['table_geometry_changes']})
     assert exc.value.code=='INTEGRITY_FAILED'
 
 
