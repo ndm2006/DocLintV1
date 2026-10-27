@@ -10,6 +10,7 @@ from .structure import analyze, WordContext
 from .template import PROFILE, SPECIAL_ROLES
 from .template_headings import enrich, block_id, locate
 from .eligibility import assess
+from .topic_indexes import apply as apply_topic_indexes, recognition_view
 from .table_geometry import fit_table, without_geometry
 from .styles import ensure_heading_styles, ensure_front_styles, validate_style_parts
 
@@ -87,7 +88,7 @@ def canonical(el): return ET.tostring(el,method='c14n')
 def fingerprint(data): return hashlib.sha256(data).hexdigest()
 def inspect(data):
     parts,root=read_package(data)
-    analysis=enrich(analyze(parts,root,parse),parts,root,parse,WordContext(parts,parse))
+    analysis=enrich(analyze(parts,recognition_view(root),parse),parts,root,parse,WordContext(parts,parse))
     analysis['document_type']=assess(analysis['blocks'])
     analysis.update({'fingerprint':fingerprint(data), 'tables':len(root.findall('.//w:tbl',NS)),
                      'images':sum(n.startswith('word/media/') for n in parts)})
@@ -228,29 +229,36 @@ def edit(data,analysis,decisions):
             if change:table_changes.append({'block_id':f'b{index}',**change})
             if warning:table_warnings.append(f'Bảng b{index}: '+warning)
     page_changed=bool(page_sections)
+    derived=apply_topic_indexes(root,analysis,decisions,parts)
+    for change in changes:
+        if 'body_index' in change:
+            change['output_body_index']=derived['source_positions'][change['body_index']]
+            change['after_sha256']=fingerprint(canonical(locate(body,change['output_body_index'],change.get('path',[]))))
     parts['word/document.xml']=ET.tostring(root,xml_declaration=True,encoding='UTF-8',standalone=True)
     out=io.BytesIO()
     with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as z:
         for n,b in parts.items(): z.writestr(n,b)
     result=out.getvalue()
-    validate_integrity(data,result,allowed,page_changed,style_additions=style_additions,page_sections=page_sections,table_indices={int(c['block_id'][1:]) for c in table_changes},page_break_indices=front_page_breaks,allowed_nested=allowed_nested)
+    validate_integrity(data,result,allowed,page_changed,style_additions=style_additions,page_sections=page_sections,table_indices={int(c['block_id'][1:]) for c in table_changes},page_break_indices=front_page_breaks,allowed_nested=allowed_nested,decisions=decisions)
     return result, {'template':TEMPLATE,'model_revision':REVISION,'source_sha256':fingerprint(data),'output_sha256':fingerprint(result),
                     'status':'PARTIAL','integrity':'PASS','changes':changes,'page_geometry_applied':page_changed,
                     'page_sections_applied':page_sections,'page_operations':page_operations,'table_geometry_changes':table_changes,
                     'styles_added':style_additions,'heading_styles_added':{k:v for k,v in style_additions.items() if isinstance(v,int)},
-                    'front_page_breaks':[f'b{i}' for i in sorted(front_page_breaks)],
+                    'front_page_breaks':[f'b{i}' for i in sorted(front_page_breaks)],'derived':derived,
                     'template_heading_issues':analysis['template_heading_issues'],
                     'front_matter':analysis['front_matter'],'document_type':analysis['document_type'],
                     'recognition':analysis['statistics'],'recognizer_revision':analysis['recognizer_revision'],
                     'checks':{'content_structure':'PASS','other_package_parts':'PASS','shared_styles':'PASS','protected_regions':'PASS','layout':'NOT_CHECKED','word_fields':'NOT_CHECKED'},
-                    'warnings':analysis['warnings']+table_warnings+([] if page_changed else ['Không đổi hình học trang: không có thân bài nhận diện được hoặc section có bố cục đặc biệt.']),
+                    'warnings':analysis['warnings']+table_warnings+derived['warnings']+(['Mục lục/danh mục dùng trường Word tự động. Mở Word, Ctrl+A → F9 → cập nhật toàn bộ mục lục để tính số trang; dấu ? chưa phải số trang đã tính.'] if derived['indexes'].get('created') else [])+([] if page_changed else ['Không đổi hình học trang: không có thân bài nhận diện được hoặc section có bố cục đặc biệt.']),
                     'kept_blocks':len(analysis['blocks'])-len(changes),
                     'kept':[{'block_id':b['id'],'reason':b['reason'] if b['protected'] else 'Người dùng chọn giữ nguyên hoặc chưa xác nhận.'} for b in analysis['blocks'] if b['index'] not in allowed|front_page_breaks and (b['index'],tuple(tuple(p) for p in b.get('path',[]))) not in allowed_nested]}
 
 
-def validate_integrity(source,candidate,allowed,page_changed=False,*,style_additions=None,page_sections=None,table_indices=None,page_break_indices=None,allowed_nested=None):
+def validate_integrity(source,candidate,allowed,page_changed=False,*,style_additions=None,page_sections=None,table_indices=None,page_break_indices=None,allowed_nested=None,decisions=None):
     """Verify serialized output against source, with an explicit formatting allowlist."""
     original,before=read_package(source); checked,after=read_package(candidate)
+    expected=apply_topic_indexes(before,inspect(source),decisions or {},original)
+    positions=expected['source_positions']
     try:
         permitted=validate_style_parts(original,checked,style_additions or {},parse)
     except (ValueError,KeyError) as error:
@@ -260,17 +268,19 @@ def validate_integrity(source,candidate,allowed,page_changed=False,*,style_addit
     def stripped(tree):
         tree=copy.deepcopy(tree); body=tree.find('w:body',NS)
         for index,path in allowed_nested or set():
-            try:paragraph=locate(body,index,path)
+            try:paragraph=locate(body,positions[index],path)
             except (IndexError,AttributeError):raise DocumentError('Vị trí tiêu đề lồng không còn hợp lệ.','INTEGRITY_FAILED')
             if paragraph.tag!=tag('p'):raise DocumentError('Tiêu đề lồng đã thay cấu trúc.','INTEGRITY_FAILED')
             for relative in ('w:pPr','w:r/w:rPr'):
                 for n in paragraph.findall(relative,NS):n.getparent().remove(n)
         for i in allowed:
+            i=positions[i]
             if i>=len(body) or body[i].tag!=tag('p'):
                 raise DocumentError('Cấu trúc khối đã thay đổi.','INTEGRITY_FAILED')
             for path in ('w:pPr','w:r/w:rPr'):
                 for n in body[i].findall(path,NS): n.getparent().remove(n)
         for index in page_break_indices or set():
+            index=positions[index]
             if index>=len(body) or body[index].tag!=tag('p'):
                 raise DocumentError('Ngắt trang ngoài kế hoạch.','INTEGRITY_FAILED')
             props=body[index].find('w:pPr',NS)
@@ -278,6 +288,7 @@ def validate_integrity(source,candidate,allowed,page_changed=False,*,style_addit
                 for prop in props.findall('w:pageBreakBefore',NS):props.remove(prop)
                 if not len(props) and not props.attrib:body[index].remove(props)
         for index in table_indices or set():
+            index=positions[index]
             if index>=len(body) or body[index].tag!=tag('tbl'):
                 raise DocumentError('Bảng thay đổi ngoài kế hoạch.','INTEGRITY_FAILED')
             original_table=body[index];original_table.getparent().replace(original_table,without_geometry(original_table))

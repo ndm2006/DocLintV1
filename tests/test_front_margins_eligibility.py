@@ -1,3 +1,4 @@
+from tests.output_projection import source_body,assert_source_text,without_index_anchors
 """Regressions for user-reported margins, front matter and unsuitable inputs."""
 import copy
 from pathlib import Path
@@ -30,7 +31,7 @@ def test_all_merged_table_sections_get_standard_margins_without_losing_landscape
     assert sum(int(n.get(tag('w'))) for n in table.findall('w:tblGrid/w:gridCol',NS))==8504
     for row in table.findall('w:tr',NS):
         assert sum(int(n.get(tag('w'))) for n in row.findall('w:tc/w:tcPr/w:tcW',NS))==8504
-    assert before.xpath('//w:t/text()',namespaces=NS)==after.xpath('//w:t/text()',namespaces=NS)
+    assert_source_text(before,after,r)
     for path in ('.//w:gridSpan','.//w:vMerge'):
         assert [E.tostring(n) for n in before.findall(path,NS)]==[E.tostring(n) for n in after.findall(path,NS)]
     assert [E.tostring(n) for n in before.findall('.//w:tc/w:tbl',NS)]==[E.tostring(n) for n in after.findall('.//w:tc/w:tbl',NS)]
@@ -54,9 +55,10 @@ def test_front_matter_uses_source_template_format_not_chapter_format():
             if bold:assert run.find('w:rPr/w:b',NS).get(tag('val'))==bold
     assert body[4].find('w:pPr/w:pageBreakBefore',NS).get(tag('val'))=='1'
     assert body[6].find('w:pPr/w:pageBreakBefore',NS).get(tag('val'))=='0'
-    # Cover formatting is tested separately; the TOC field must remain unchanged.
+    # An empty TOC placeholder is populated without duplicating its source title.
     _,before=read_package(source);original=before.find('w:body',NS)
-    assert E.tostring(original[8].find('w:fldSimple',NS))==E.tostring(body[8].find('w:fldSimple',NS))
+    assert body[8].find('w:fldSimple',NS) is None
+    assert len(r['derived']['indexes']['created'])==3
     assert body[8].find('w:pPr/w:pageBreakBefore',NS).get(tag('val'))=='1'
     assert [g['block_ids'] for g in r['front_matter']]==[['b5'],['b7']]
     assert r['front_matter'][0]['status']=='WARNING'  # The synthetic acknowledgement is short.
@@ -144,7 +146,7 @@ def test_repeating_front_and_table_formatting_is_idempotent(name):
     assert not r['styles_added'] and not r['table_geometry_changes']
 
 
-def test_toc_title_format_permission_keeps_field_instruction_immutable():
+def test_generated_toc_field_cannot_be_modified_outside_plan():
     source=fixture('01_do_an_tong_hop.docx');a=inspect(source);out,r=edit(source,a,{})
     allowed={int(c['block_id'][1:]) for c in r['changes'] if c.get('operation')!='page_break_before'}
     kwargs={'style_additions':r['styles_added'],'page_sections':r['page_sections_applied'],
@@ -152,6 +154,6 @@ def test_toc_title_format_permission_keeps_field_instruction_immutable():
             'page_break_indices':{int(b[1:]) for b in r['front_page_breaks']}}
     validate_integrity(source,out,allowed,True,**kwargs)
     parts,root=read_package(out);paragraph=root.find('w:body',NS)[8]
-    paragraph.find('w:fldSimple',NS).set(tag('instr'),' REF changed ')
+    root.find('.//w:instrText',NS).text=' REF changed '
     parts['word/document.xml']=E.tostring(root)
     with pytest.raises(DocumentError):validate_integrity(source,zip_bytes(parts),allowed,True,**kwargs)

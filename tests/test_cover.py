@@ -1,3 +1,4 @@
+from tests.output_projection import source_body,assert_source_text,without_index_anchors
 """Cover regressions: unstyled topic/author, grouping, boundaries and preservation."""
 from lxml import etree as E
 import pytest
@@ -39,7 +40,7 @@ def test_composite_cover_without_subtitle_formats_topic_and_author_as_template()
             assert run.find('w:rPr/w:rFonts',NS).get(tag('ascii'))==font
             assert run.find('w:rPr/w:sz',NS).get(tag('val'))==size
     old,root=read_package(source)
-    assert root.xpath('//w:t/text()',namespaces=NS)==body.getparent().xpath('//w:t/text()',namespaces=NS)
+    assert_source_text(root,body.getparent(),r)
     for name,value in old.items():
         if name.startswith('word/media/') or 'header' in name or 'footer' in name:assert parts[name]==value
     assert r['integrity']=='PASS'

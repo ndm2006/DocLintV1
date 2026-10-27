@@ -1,3 +1,4 @@
+from tests.output_projection import source_body,assert_source_text,without_index_anchors
 """Independent small authored documents to exercise the resolver and integrity gates."""
 import copy
 from lxml import etree as E
@@ -50,8 +51,8 @@ def test_styles_with_inherited_auto_numbering_are_not_lists_or_duplicated():
     old,root=read_package(source);new,edited=read_package(result)
     assert old['word/styles.xml']==new['word/styles.xml']
     assert not r['heading_styles_added']
-    assert edited.find('w:body',NS)[0].find('w:pPr/w:pStyle',NS).get(tag('val'))=='Heading1'
-    assert root.xpath('//w:t/text()',namespaces=NS)==edited.xpath('//w:t/text()',namespaces=NS)
+    assert source_body(edited,r)[0].find('w:pPr/w:pStyle',NS).get(tag('val'))=='Heading1'
+    assert_source_text(root,edited,r)
 
 
 def test_custom_heading_alias_and_inherited_outline():

@@ -1,3 +1,4 @@
+from tests.output_projection import source_body,assert_source_text,without_index_anchors
 import copy
 import io
 import time
@@ -48,12 +49,12 @@ def test_end_to_end(client):
     result=client.get('/api/v1/runs/'+s['run_id']+'/artifacts/docx',headers=h)
     assert result.status_code==200
     original,root=read_package(demo_bytes()); output,edited=read_package(result.content)
-    assert root.xpath('//w:t/text()',namespaces=NS)==edited.xpath('//w:t/text()',namespaces=NS)
+    assert_source_text(root,edited,r)
     assert canonical(root.find('.//w:tbl',NS))==canonical(edited.find('.//w:tbl',NS))
     assert canonical(root.find('.//{http://schemas.openxmlformats.org/officeDocument/2006/math}oMath'))==canonical(edited.find('.//{http://schemas.openxmlformats.org/officeDocument/2006/math}oMath'))
     for n in original:
         if n not in {'word/document.xml','[Content_Types].xml','word/_rels/document.xml.rels'}: assert original[n]==output[n]
-    body=edited.find('w:body',NS)
+    body=source_body(edited,r)
     assert body[2].find('w:pPr/w:spacing',NS).get(tag('line'))=='264'
     assert body[2].find('w:r/w:rPr/w:sz',NS).get(tag('val'))=='26'
     assert body[2].find('w:r/w:rPr/w:rFonts',NS).get(tag('ascii'))=='Times New Roman'

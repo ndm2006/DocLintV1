@@ -1,5 +1,7 @@
 # DocLint · V0.1.2
 
+Bản sửa giới hạn trên 0.1.3: [tên đề tài kiểu câu và tự thêm mục lục/danh mục còn thiếu](docs/TOPIC_AND_INDEXES.md).
+
 Web chuẩn hóa DOCX tiếng Việt trong phạm vi V0.1, cập nhật nhận diện tự động và cấu hình **HUST20191_S11** từ file mẫu `Mẫu ĐATN_2019_version 1_1 (1).docx` người dùng cung cấp. Không phải bản nghiệm thu toàn bộ đặc tả V1.0.
 
 ## Chạy trên Windows

@@ -1,0 +1,65 @@
+{
+  "base_commit": "2f5b52ab5f670c4c97813cc8a9f637f41bf6c0af",
+  "pytest": {
+    "passed": 101,
+    "failed": 0
+  },
+  "chromium_smoke": "PASS",
+  "actual_http_upload_download": 4,
+  "template_headings": {
+    "recognized": 51,
+    "matched_format": 51
+  },
+  "word_schema_validator": {
+    "library": "DocumentFormat.OpenXml 3.3.0",
+    "target": "Office2013",
+    "results": [
+      {
+        "file": "01_from_original.docx",
+        "errors": 0
+      },
+      {
+        "file": "02_from_previous_output.docx",
+        "errors": 0
+      },
+      {
+        "file": "01_from_original_repeat.docx",
+        "errors": 0
+      },
+      {
+        "file": "02_from_previous_output_repeat.docx",
+        "errors": 0
+      }
+    ]
+  },
+  "expected_topic": "Hệ thống quản lý mượn thiết bị",
+  "expected_indexes": [
+    "toc",
+    "figures",
+    "tables"
+  ],
+  "render_check": {
+    "pages": 12,
+    "toc_pages": [
+      3
+    ],
+    "figure_list_pages": [
+      4
+    ],
+    "table_list_pages": [
+      5
+    ],
+    "renderer": "LibreOffice, thiếu ArnoPro; không thay thế nghiệm thu Word"
+  },
+  "microsoft_word_open_save": "NOT_RUN",
+  "arno_pro_server": "MISSING",
+  "outputs": {
+    "01_from_original.docx": "e5c118f4ae4edb96e3fe9419a39302ee259738a142589df29931d2a98733c307",
+    "02_from_previous_output.docx": "e8bafac6297f7970db4bff997ad5366f3196a3b676e37a9e3b45cd946f569f76"
+  },
+  "reuploaded_output_parts_identical": true,
+  "complex_fixtures": {
+    "passed": 6,
+    "includes_expected_rejection": 1
+  }
+}

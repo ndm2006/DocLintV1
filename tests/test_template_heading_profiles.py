@@ -1,3 +1,4 @@
+from tests.output_projection import source_body,assert_source_text,without_index_anchors
 """Synthetic controls for every title family present/defined in the HUST template."""
 import copy
 from lxml import etree as E
@@ -63,9 +64,9 @@ def test_all_title_families_are_detected_and_numbered_instructions_are_not_title
     issue=a['template_heading_issues'][0];assert issue['code']=='LIST_TITLE_MISMATCH' and issue['detected']=='list_tables_title'
     out,r=edit(data,a,{})
     _,original=read_package(data);_,after=read_package(out)
-    assert original.xpath('//w:t/text()',namespaces=NS)==after.xpath('//w:t/text()',namespaces=NS)
+    assert_source_text(original,after,r)
     for c in r['changes']:
-        node=locate(after.find('w:body',NS),c['body_index'] if 'body_index' in c else int(c['block_id'][1:]),c.get('path',[]))
+        node=locate(source_body(after,r),c['body_index'] if 'body_index' in c else int(c['block_id'][1:]),c.get('path',[]))
         if c['role']=='cover_title':assert node.find('w:r/w:rPr/w:sz',NS).get(tag('val'))=='50';assert node.find('w:r/w:rPr/w:rFonts',NS).get(tag('ascii'))=='ArnoPro'
         if c['role'] in {'figure_caption','table_caption','equation_caption'}:
             assert node.find('w:r/w:rPr/w:sz',NS).get(tag('val'))=='24'
@@ -84,9 +85,9 @@ def test_nested_reference_and_equation_caption_do_not_authorize_other_cell_or_sd
     for kind in ['reference_body','caption_field']:
         parts,root=read_package(out)
         if kind=='reference_body':
-            p=root.find('.//w:sdtContent',NS).findall('w:p',NS)[1];p.find('.//w:t',NS).text='Corrupted source'
+            p=next(p for p in root.findall('.//w:p',NS) if ''.join(p.xpath('.//w:t/text()',namespaces=NS)).startswith('[1] Tác giả thử nghiệm'));p.find('.//w:t',NS).text='Corrupted source'
         else:
-            caption=next(b for b in a['blocks'] if b['role']=='equation_caption');p=locate(root.find('w:body',NS),caption['index'],caption['path']);p.find('.//w:t',NS).text='PT 9.9'
+            caption=next(b for b in a['blocks'] if b['role']=='equation_caption');p=locate(source_body(root,r),caption['index'],caption['path']);p.find('.//w:t',NS).text='PT 9.9'
         parts['word/document.xml']=E.tostring(root)
         with pytest.raises(DocumentError):validate_integrity(data,zip_bytes(parts),allowed,True,**kwargs)
 

@@ -1,3 +1,4 @@
+from tests.output_projection import source_body,assert_source_text,without_index_anchors
 """Hand-authored labels and independent structural assertions for complex DOCX."""
 import copy
 import hashlib
@@ -40,7 +41,7 @@ def test_complex_package_preserves_authored_invariants(case):
     candidate, after = read_package(output)
     assert report['status'] == 'PARTIAL'
     assert report['checks']['layout'] == 'NOT_CHECKED'
-    assert before.xpath('//w:t/text()', namespaces=NS) == after.xpath('//w:t/text()', namespaces=NS)
+    assert_source_text(before,after,report)
     assert set(candidate)-set(original) <= {'word/styles.xml','word/_rels/document.xml.rels'}
     for name, data in original.items():
         if name not in {'word/document.xml','word/styles.xml','word/_rels/document.xml.rels','[Content_Types].xml'}:
@@ -56,14 +57,14 @@ def test_complex_package_preserves_authored_invariants(case):
         return canonical(node)
     for index,node in enumerate(before.find('w:body',NS)):
         if node.tag==tag('tbl'):
-            assert immutable_table(node,f'b{index}' in changed_tables)==immutable_table(after.find('w:body',NS)[index],f'b{index}' in changed_tables)
+            assert immutable_table(node,f'b{index}' in changed_tables)==immutable_table(source_body(after,report)[index],f'b{index}' in changed_tables)
     math_path='.//{http://schemas.openxmlformats.org/officeDocument/2006/math}oMath'
     assert [canonical(n) for n in before.findall(math_path)]==[canonical(n) for n in after.findall(math_path)]
-    before_body, after_body = before.find('w:body', NS), after.find('w:body', NS)
+    before_body, after_body = before.find('w:body', NS), source_body(after,report)
     for bid, label in labels.items():
         if label['protected'] or label['role'] == 'keep':
             index = int(bid[1:])
-            old=copy.deepcopy(before_body[index]);new=copy.deepcopy(after_body[index])
+            old=copy.deepcopy(before_body[index]);new=without_index_anchors(after_body[index])
             if bid in report['front_page_breaks']:
                 for paragraph in (old,new):
                     props=paragraph.find('w:pPr',NS)

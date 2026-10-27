@@ -51,6 +51,8 @@ def enrich(analysis,parts,root,parser,context):
     compact_cover=any(cover_roles.get(i)=='cover_title' for i in cover_before)
     issues=[];appendix=False
     for index,top in enumerate(body):
+        generated=top.find('w:sdtPr/w:tag',NS)
+        if generated is not None and generated.get(Q+'val','').startswith('DocLint.Generated.'):continue
         # Only semantically identifiable titles/captions inside SDTs or tables become nested blocks.
         candidates=[top] if top.tag==Q+'p' else top.findall('.//w:p',NS)
         for node in candidates:
